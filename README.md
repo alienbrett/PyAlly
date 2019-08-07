@@ -1,2 +1,4 @@
 # PyAlly
-Ally Invest API Module for Python3
+Use Python3 to control Ally Invest brokerage API
+
+`import ally`
