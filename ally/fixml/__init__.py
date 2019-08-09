@@ -2,7 +2,6 @@
 """            FIXML                """
 #################################################
 import xml.etree.cElementTree as ET
-
 from .. import order
 
 all=['FIXML']

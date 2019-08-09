@@ -11,13 +11,14 @@ all = ['fixml.FIXML', 'order.Long', 'Ally']
 from requests_oauthlib import OAuth1Session, OAuth1
 import requests
 import json
+import xml.dom.minidom
+import datetime
+
 import matplotlib
 matplotlib.use('Agg') 
-
 import matplotlib.pyplot
-
-
 matplotlib.use('Agg') 
+
 ############################################################################
 class Ally:
     endpoints={
@@ -160,15 +161,37 @@ class Ally:
         
         return self.holdings_graph
     ############################################################################
-    def submit_order (self, order, account = None, verbose=False, testXML=False, dry_run=True):
+    def get_quote (self, symbols, fields=None):
+        url = self.endpoints['base'] + 'market/ext/quotes' + ('.json' if json else '')
+        req_params = {
+            'symbols':symbols
+        }
+        if fields != None:
+            req_params['fids'] = fields
+            
+        auth = OAuth1(self.params['client_key'],
+                      self.params['client_secret'],
+                      self.params['resource_owner_key'],
+                      self.params['resource_owner_secret'],
+                      signature_type='auth_header'
+                     )
+        
+        results = requests.post(url, data=req_params, auth=auth).json()
+        return results['response']['quotes']['quote']
+    
+    ############################################################################
+    def submit_order (self, order, preview=True, account = None, verbose=False):
         
         if account == None:
             account = self.params['account']
             
-        url = self.endpoints['base'] + 'accounts/' + str(account) + '/orders/preview' + ('.json' if json else '')
-        print(url)
+        url = self.endpoints['base'] + 'accounts/' + str(account) + '/orders'\
+            + ('/preview' if preview else '') + ('.json' if json else '')
+        data = fixml.FIXML(order,account)
         
-        data = fixml.FIXML(order,account,testXML)
+#         if verbose:
+#             dom = xml.dom.minidom.parseString(data)
+#             data = dom.toprettyxml(data)
         
         auth = OAuth1(self.params['client_key'],
                       self.params['client_secret'],
@@ -180,15 +203,51 @@ class Ally:
         req = requests.Request('POST',url, data=data, auth=auth)
         prepped = req.prepare()
         
-        if dry_run:
-            results = {}
-        else:
-            results = {'response':s.send(prepped)}
+        results = {'response':s.send(prepped)}
         results['request'] = fixml.pretty_print_POST(prepped)
         
         if verbose:
             print(results['request'])
-        if json:
+            
+        if json and not preview:
             results['response'] = results['response'].json()
             
         return results
+    ############################################################################
+    def option_format(symbol, exp_date, strike, direction):
+        direction = 'C' if 'C' in direction.upper() else'P'
+        def format_strike (strike):
+            x = str(int(strike)) + "000"
+            return "0" * (8-len(x)) + x
+        return str(symbol).upper() +\
+            datetime.datetime.strptime(exp_date,"%Y-%m-%d").strftime("%y%m%d") +\
+            direction + format_strike(strike)
+    ############################################################################
+    def account_history(self, account=None, type='all', range="all"):
+        # type must be in "all, bookkeeping, trade"
+        # range must be in "all, today, current_week, current_month, last_month"
+        if account == None:
+            account = self.params['account']
+            
+        url = self.endpoints['base'] + 'accounts/' + str(account) + '/history'\
+            + ('.json' if json else '')
+        
+        auth = OAuth1(self.params['client_key'],
+                      self.params['client_secret'],
+                      self.params['resource_owner_key'],
+                      self.params['resource_owner_secret'],
+                      signature_type='auth_header'
+                     )
+        data = {
+            'range':range,
+            'transactions':type
+        }
+        s = requests.Session()
+        req = requests.Request('GET',url,params=data,auth=auth)
+        prepped = req.prepare()
+        
+        results = {'response':s.send(prepped).json()}
+        results['request'] = fixml.pretty_print_POST(prepped)
+        
+        return results['response']['response']['transactions']['transaction']
+            
