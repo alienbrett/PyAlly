@@ -19,18 +19,13 @@ side = {
 }
 
 ############################
-# I stole this function off Stackexchange or something. Thanks Anon!
-def pretty_print_POST(req):
-    return '{}\n{}\n{}\n\n{}'.format(
-        '-----------START-----------',
-        req.method + ' ' + req.url,
-        '\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
-        req.body,
-    )
-############################
 # Format an order according to the FIXML specifications
 # https://www.ally.com/api/invest/documentation/fixml/ for more info
 def FIXML(order, account):
+    
+    # Safety first!
+    if not order.valid:
+        return ""
     
     if order.price == None:
         # Market

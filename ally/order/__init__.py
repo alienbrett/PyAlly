@@ -2,6 +2,7 @@
 """            ORDER                """
 #################################################
 import datetime
+from .. import utils
 
 all = ['Long']
 
@@ -20,6 +21,11 @@ class Order:
     }
     ##############################
     def __init__(self, sym, qty, price=None, timespan='GTC', new_position=True,sectype='CS'):
+        
+        # Safety first!
+        self.valid = utils.check(sym)
+        if not self.valid:
+            return
         
         # boilerplate
         self.date['creation'] = datetime.datetime.now()

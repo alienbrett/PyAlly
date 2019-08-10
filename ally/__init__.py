@@ -4,8 +4,9 @@
 
 from . import fixml
 from . import order
+from . import utils
 
-all = ['fixml.FIXML', 'order.Long', 'Ally']
+all = ['fixml.FIXML', 'order.Long', 'Ally', 'utils']
 
 
 from requests_oauthlib   import OAuth1Session, OAuth1
@@ -231,11 +232,15 @@ class Ally:
     # Return JSON of quote
     def get_quote (self, symbols, fields=None):
         
+        # Ensure correctly-typed input
+        if not utils.check(symbols):
+            return {}
+        
         # Useful later
         symbols = symbols.upper()
         
         # Assemble URL
-        url = self.endpoints['base'] + 'market/ext/quotes' + ('.json' if json else '')
+        url = self.endpoints['base'] + 'market/ext/quotes.json'
         
         # Create request paramters according to how we need them
         req_params = { 'symbols':symbols }
@@ -253,14 +258,22 @@ class Ally:
         
         # Add symbols to output
         # ...why tf doesn't Ally include this in the quote? they usually send way too much
-        for i,sym in enumerate(symbols.split(',')):
-            results[i]['symbol'] = sym
+        sym_list = symbols.split(',')
+        if len(sym_list) > 1:
+            for i,sym in enumerate(sym_list):
+                results[i]['symbol'] = sym
+        else:
+            results['symbol'] = sym_list[0]
             
             
         return results
     
     ############################################################################
     def submit_order (self, order, preview=True, account = None, verbose=False):
+        
+        # utils.check input
+        if order == None:
+            return {}
         
         # Imply account
         if account == None:
@@ -286,7 +299,7 @@ class Ally:
         
         # Submit request to put order in as soon as possible
         results            = {'response':session.send(req)}
-        results['request'] = fixml.pretty_print_POST(req)
+        results['request'] = utils.pretty_print_POST(req)
         
         # Optionally print request
         if verbose:
@@ -294,23 +307,12 @@ class Ally:
         
         return results
     ############################################################################
-    # Convert option information into OCC-name format
-    def option_format(symbol, exp_date, strike, direction):
-        # direction into C or P
-        direction = 'C' if 'C' in direction.upper() else'P'
-        
-        # Pad strike with zeros
-        def format_strike (strike):
-            x    = str(int(strike)) + "000"
-            return "0" * (8-len(x)) + x
-        # Assemble
-        return str(symbol).upper() +\
-            datetime.datetime.strptime(exp_date,"%Y-%m-%d").strftime("%y%m%d") +\
-            direction + format_strike(strike)
-    ############################################################################
     def account_history(self, account=None, type='all', range="all"):
         # type must be in "all, bookkeeping, trade"
         # range must be in "all, today, current_week, current_month, last_month"
+        
+        if not (utils.check(type) and utils.check(range)):
+            return {}
         
         # Imply account
         if account == None:
@@ -334,7 +336,7 @@ class Ally:
         req     = requests.Request('GET',url,params=data,auth=auth).prepare()
         
         results            = {'response':session.send(req).json()}
-        results['request'] = fixml.pretty_print_POST(req)
+        results['request'] = utils.pretty_print_POST(req)
         
         return results['response']['response']['transactions']['transaction']
             
