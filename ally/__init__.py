@@ -14,6 +14,7 @@ import json
 import xml.dom.minidom
 import datetime
 import os
+import sys
 
 import matplotlib
 matplotlib.use('Agg') 
@@ -61,23 +62,23 @@ class Ally:
             else:
 
                 # Try to use environment params
-                    self.params = {
-                        'client_key':            os.environ['ALLY_CONSUMER_KEY'],
-                        'client_secret':         os.environ['ALLY_CONSUMER_KEY'],
-                        'resource_owner_key':    os.environ['ALLY_OATH_TOKEN'],
-                        'resource_owner_secret': os.environ['ALLY_OAUTH_SECRET'],
-                    }
+                self.params = {
+                    'client_key':            os.environ['ALLY_CONSUMER_KEY'],
+                    'client_secret':         os.environ['ALLY_CONSUMER_KEY'],
+                    'resource_owner_key':    os.environ['ALLY_OATH_TOKEN'],
+                    'resource_owner_secret': os.environ['ALLY_OAUTH_SECRET'],
+                }
+                
                 try:
                     self.params['account'] = os.environ['ALLY_ACCOUNT_NBR']
-                catch:
+                except e:
                     pass
                 
-        catch:
-            print("Didn't specify parameters or environment variables not set!" + 
+        except:
+            print("Didn't specify parameters or environment variables not set!\n" + 
             "Go to https://github.com/alienbrett/PyAlly.git for help")
-            os.exit(-1)
-                
-                
+            raise Exception("Didn't specify Ally API environment varialbles!")
+            
         # ESTABLISH SESSION
         self.session =  OAuth1Session(
             client_key=self.params['client_key'],
