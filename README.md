@@ -1,10 +1,31 @@
 # PyAlly
-Use Python3 to control Ally Invest brokerage API
+Python3 wrapper for [Ally Invest brokerage API](https://www.ally.com/api/invest/documentation/getting-started/ "Ally Invest API")
 
+Ally Bank's investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.
 
-We recommend setting environment variables to store
-Ally API credentials. Insert the following into
-`~/.bashrc`:
+After setting up API keys, PyAlly can provide the basic/essential transaction functions from a simple python request.
+
+## Supported features
+* Stock buy/sell/short/buy-to-cover orders
+* Instrument quotes
+* Query account transaction history
+* Query account holdings
+* Represent account holdings
+## Planned Features
+* Option trading
+* Backtrader integration
+* More complex orders
+* Advanced portfolio analysis
+
+## Requirements
+* requests-oathlib
+* matplotlib
+
+## Installation
+Currently, the package can only be used from this github library. In the future, it will be available as a PyPi package.
+
+Once the package is downloaded, we recommend setting environment variables to store
+Ally API credentials. Insert the following into `~/.bashrc`:
 
 ```bash
 export ALLY_CONSUMER_KEY=XXXXXXXXXXXXXXXXXXXXXXXX
@@ -12,6 +33,11 @@ export ALLY_CONSUMER_SECRET=XXXXXXXXXXXXXXXXXXXXX
 export ALLY_OATH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXX
 export ALLY_OATH_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXX
 ```
+
+
+## Usage
+
+Once the api keys are configured, your brokerage account can be easily accessed via a few simple pythonic functions:
 
 ```python
 import ally
@@ -138,3 +164,9 @@ exec_status = a.submit_order(
 )
 
 ```
+
+## Author
+* [Brett Graves](https://github.com/alienbrett)
+
+## Contributing
+Please contact me if you enjoyed the project or thought it could be improved. I do my best to code with quality but sometimes it is easier said than done. Anyone with an interest with an eye for detail is welcome to contribute.
