@@ -1,3 +1,4 @@
+#!/bin/python3.7
 import yfinance as yf
 import pandas as pd
 import mysql.connector
@@ -28,16 +29,16 @@ def load_intraday(host, user, password, db, table, symbols):
                 interval='1m',
                 auto_adjust=True
             )
+            f = '%Y-%m-%d %H:%M:%S'
+            df['sym'] = sym
+            df['date'] = df.index.strftime(f)
+
+            print(df.tail())
+            tuples = [tuple(x) for x in df.values]
+            print(tuples[:5])
+
+            mycursor.executemany(sql,tuples)
+            mydb.commit()
+            print(mycursor.rowcount, "was inserted")
         except:
             pass
-        f = '%Y-%m-%d %H:%M:%S'
-        df['sym'] = sym
-        df['date'] = df.index.strftime(f)
-        
-        print(df.tail())
-        tuples = [tuple(x) for x in df.values]
-        print(tuples[:5])
-        
-        mycursor.executemany(sql,tuples)
-        mydb.commit()
-        print(mycursor.rowcount, "was inserted")

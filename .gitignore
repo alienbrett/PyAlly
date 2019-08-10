@@ -1,0 +1,7 @@
+*.pyc
+*.swp
+*.log
+*.json
+*.png
+*.ipynb
+*.ipynb_checkpoints/
