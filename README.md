@@ -22,7 +22,7 @@ After setting up API keys, PyAlly can provide the basic/essential Ally brokerage
 * matplotlib
 
 ## Installation
-Currently, the package can only be used from this github library. In the future, it will be available as a PyPi package.
+`pip3 install pyally`
 
 Once the package is downloaded, we recommend setting environment variables to store
 Ally API credentials. Insert the following into `~/.bashrc`:
