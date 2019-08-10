@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
         long_description = fh.read()
 
 setuptools.setup(
-        name="example-pkg-alienbrett",
-        version="0.0.1",
+        name="pyally",
+        version="0.1.1",
         author="Brett Graves",
         author_email="alienbrett648@gmail.com",
         description="Ally Invest API Wrapper",
