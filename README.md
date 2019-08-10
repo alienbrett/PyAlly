@@ -16,45 +16,37 @@ export ALLY_OATH_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXX
 ```python
 import ally
 
-"""
-	Create new Ally object, with API credentials specified in environment
-"""
+#	Create new Ally object, with API credentials specified in environment
 a = ally.Ally()
 
 
-"""
-	Get transaction history in JSON dictionary form
-		- Optionally specify account, if not in set in
-		environment
-		- Optionally specify type of transaction, must be 
-			"all", "bookkeeping", or "trade"
-            [default "all"]
-        - Optionally specify time window for transactions, must be in 
-            "all", "today", "current_week", "current_month", "last_month"
-            [default "all"]
-"""
+#	Get transaction history in JSON dictionary form
+#		- Optionally specify account, if not in set in
+#		environment
+#		- Optionally specify type of transaction, must be 
+#			"all", "bookkeeping", or "trade"
+#            [default "all"]
+#        - Optionally specify time window for transactions, must be in 
+#            "all", "today", "current_week", "current_month", "last_month"
+#            [default "all"]
 trans_history = a.account_history(
 	account=12345678,
 	type="all",
     range="current_week"
 )
 
-"""
-    Get current holdings for an account in JSON dict format
-        Uses default account if not specified
-        Optionally dump json to file
-"""
+#    Get current holdings for an account in JSON dict format
+#        Uses default account if not specified
+#        Optionally dump json to file
 current_holdings = a.get_holdings(
     account=12345678,
     outfile="./holdings.json"
 )
 
-"""
-    Create pie graph of asset allocations for account, using matplotib
-    Dumps to file ./graph.png by default
-        Specify account optionally
-        - specify regen=True to prevent outputting cached graph [default False]
-"""
+#    Create pie graph of asset allocations for account, using matplotib
+#    Dumps to file ./graph.png by default
+#        Specify account optionally
+#        - specify regen=True to prevent outputting cached graph [default False]
 pie_file = a.holdings_chart(
     account=12345678,
     graph_file="./my_graph_file.png",
@@ -62,13 +54,11 @@ pie_file = a.holdings_chart(
 )
 
 
-"""
-    Get quote:
-        Go to
-            https://www.ally.com/api/invest/documentation/market-ext-quotes-get-post/
-        to see available fields options
-        [defaults to None]
-"""
+#    Get quote:
+#        Go to
+#            https://www.ally.com/api/invest/documentation/market-ext-quotes-get-post/
+#        to see available fields options
+#        [defaults to None]
 quote = a.get_quote(
     symbols="SPY,ALLY",
     fields="ask,bid,vol"
@@ -77,9 +67,8 @@ quote = a.get_quote(
 
 
 
-"""
-    Create an Order:
-"""
+#    Create an Order:
+
 # Market buy order
 market_buy = ally.order.Long(
     
@@ -120,9 +109,8 @@ limit_sell = ally.order.Long(
     new_position=True
 )
 
-'''
-    Submit Order for an account:
-'''
+
+#   Submit Order for an account:
 
 exec_status = a.submit_order(
     
