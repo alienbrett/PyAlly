@@ -7,3 +7,9 @@
 *.ipynb_checkpoints
 *.ipynb_checkpoints/
 *.ipynb_checkpoints*
+dist/
+dist/*
+build/
+build/*
+pyally.egg-info/
+pyally.egg-info/*
