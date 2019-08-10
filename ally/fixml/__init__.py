@@ -21,12 +21,12 @@ side = {
 ############################
 # I stole this function off Stackexchange or something. Thanks Anon!
 def pretty_print_POST(req):
-    print('{}\n{}\n{}\n\n{}'.format(
+    return '{}\n{}\n{}\n\n{}'.format(
         '-----------START-----------',
         req.method + ' ' + req.url,
         '\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
         req.body,
-    ))
+    )
 ############################
 # Format an order according to the FIXML specifications
 # https://www.ally.com/api/invest/documentation/fixml/ for more info

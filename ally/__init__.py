@@ -104,26 +104,21 @@ class Ally:
                 
         return json.dumps(self.params,indent=self.json_params['indent'])
     ############################################################################
-    def get_accounts(self,outfile=None):
+    def get_accounts(self):
         
-        print('getting accounts...')
-        
+        # Assemble URL
         url = self.endpoints['base'] + 'accounts.json'
+        
+        # Send Requests
         acnts = self.session.get(url).json()\
             ['response']['accounts']['accountsummary']
         
-        
+        # set accounts internally
         self.accounts = {}
         for acnt in acnts:
             self.accounts[int(acnt['account'])] = acnt
         
-        if outfile != None:
-            with open(outfile, 'w') as f:
-                json.dump(
-                    self.accounts,
-                    f,
-                    indent=self.json_params['indent']
-                )
+        
         return self.accounts
     ############################################################################
     # Create pie graph PNG of the current account holdings.

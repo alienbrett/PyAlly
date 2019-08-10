@@ -3,19 +3,19 @@ Python3 wrapper for [Ally Invest brokerage API](https://www.ally.com/api/invest/
 
 Ally Bank's investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.
 
-After setting up API keys, PyAlly can provide the basic/essential transaction functions from a simple python request.
+After setting up API keys, PyAlly can provide the basic/essential Ally brokerage transaction functions from a simple python request.
 
 ## Supported features
 * Stock buy/sell/short/buy-to-cover orders
-* Instrument quotes
 * Query account transaction history
-* Query account holdings
 * Represent account holdings
+* Query account holdings
+* Instrument quotes
 ## Planned Features
-* Option trading
+* Advanced portfolio analysis
 * Backtrader integration
 * More complex orders
-* Advanced portfolio analysis
+* Option trading
 
 ## Requirements
 * requests-oathlib
