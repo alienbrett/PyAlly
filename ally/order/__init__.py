@@ -25,6 +25,7 @@ class Order:
         self.timespan = timespan
         self.sectype = sectype
         
+        
         if self.qty > 0:
             self.side = 'buy'
         elif new_position:
@@ -32,7 +33,6 @@ class Order:
         else:
             self.side = 'sell'
             
-        
         self.date['creation'] = datetime.datetime.now()
     ##############################
     def print(self):

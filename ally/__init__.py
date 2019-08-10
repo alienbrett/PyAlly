@@ -13,6 +13,7 @@ import requests
 import json
 import xml.dom.minidom
 import datetime
+import os
 
 import matplotlib
 matplotlib.use('Agg') 
@@ -33,18 +34,49 @@ class Ally:
     
     ############################################################################
     def __init__(self, params=None ):
+        
+        
         self.session = None
         self.accounts = []
         self.holdings = None
         self.holdings_graph = None
         
-        # SET paramS
-        if type(params) == type({}):
-            self.params = params
-        elif type(params) == type(""):
-            # LOAD FROM params (file)
-            with open(params, 'r') as f:
-                self.params = json.load(f)
+        
+        try:
+            
+            # SET paramS
+            if type(params) == type({}):
+
+                # Take dict
+                self.params = params
+
+            elif type(params) == type(""):
+                
+
+                # LOAD FROM params (file)
+                with open(params, 'r') as f:
+                    self.params = json.load(f)
+                    
+
+            else:
+
+                # Try to use environment params
+                    self.params = {
+                        'client_key':            os.environ['ALLY_CONSUMER_KEY'],
+                        'client_secret':         os.environ['ALLY_CONSUMER_KEY'],
+                        'resource_owner_key':    os.environ['ALLY_OATH_TOKEN'],
+                        'resource_owner_secret': os.environ['ALLY_OAUTH_SECRET'],
+                    }
+                try:
+                    self.params['account'] = os.environ['ALLY_ACCOUNT_NBR']
+                catch:
+                    pass
+                
+        catch:
+            print("Didn't specify parameters or environment variables not set!" + 
+            "Go to https://github.com/alienbrett/PyAlly.git for help")
+            os.exit(-1)
+                
                 
         # ESTABLISH SESSION
         self.session =  OAuth1Session(
@@ -133,7 +165,7 @@ class Ally:
                 )
         return self.holdings
     ############################################################################
-    def holdings_chart(self, graph_file=None, account=None):
+    def holdings_chart(self, graph_file="./graph.png", account=None, regen=False):
         
         if account == None:
             account = self.params['account']
@@ -142,11 +174,8 @@ class Ally:
         
         if self.holdings == None:
             self.get_holdings(account = account)
-            
-        if graph_file == None:
-            graph_file = "./graph.png"
         
-        if self.holdings_graph == None:
+        if self.holdings_graph == None or regen:
             
             labels = [h['sym'] for h in self.holdings]
             sizes = [h['qty'] * h['price'] for h in self.holdings]
