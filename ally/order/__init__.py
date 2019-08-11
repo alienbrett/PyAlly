@@ -82,3 +82,5 @@ class Long(Order):
         
         return not self.open
             
+class Option(Order):
+    

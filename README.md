@@ -24,8 +24,10 @@ After setting up API keys, PyAlly can provide the basic/essential Ally brokerage
 ## Installation
 `pip3 install pyally`
 
-Once the package is downloaded, we recommend setting environment variables to store
-Ally API credentials. Insert the following into `~/.bashrc`:
+Once the package is downloaded, we recommend setting environment variables to store Ally API credentials.
+
+
+Insert the following into `~/.bashrc`:
 
 ```bash
 export ALLY_CONSUMER_KEY=XXXXXXXXXXXXXXXXXXXXXXXX
