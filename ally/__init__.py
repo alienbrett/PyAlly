@@ -9,7 +9,11 @@ from . import instrument
 
 all = ['fixml.FIXML', 'order', 'instrument', 'Ally', 'utils']
 
+<<<<<<< HEAD
 from requests_oauthlib   import OAuth1
+=======
+from requests_oauthlib   import  OAuth1Session, OAuth1
+>>>>>>> updates
 import xml.dom.minidom
 import datetime
 import requests
@@ -321,7 +325,11 @@ class Ally:
         # Must insert account info
         order['Order']['Acct'] = str(int(account))
             
+<<<<<<< HEAD
             # Assemble URL
+=======
+        # Assemble URL
+>>>>>>> updates
         url = self.endpoints['base']          +\
               'accounts/'                     +\
               str(account)                    +\
@@ -329,8 +337,13 @@ class Ally:
               ('/preview' if preview else '') +\
              '.json'
         
+        print(url)
         # Create FIXML formatted request body
+<<<<<<< HEAD
         data = fixml.FIXML(order)
+=======
+        data = fixml.FIXML( order )
+>>>>>>> updates
         print(data)
         
         # Create Authentication headers
@@ -338,15 +351,18 @@ class Ally:
         
         # Create HTTP request objects
         session = requests.Session()
-        req     = requests.Request('POST',url, data=data, auth=auth).prepare()
+        req     = requests.Request('POST',url, data=data.encode('utf-8'), auth=auth).prepare()
         
         # Submit request to put order in as soon as possible
-        results            = {'response':session.send(req)}
-        results['request'] = utils.pretty_print_POST(req)
+        results            = {
+            'response':session.send(req).json()['response']['message']
+        }
+        results['request'] = req
         
+#         print(utils.pretty_print_POST(req))
         # Optionally print request
         if verbose:
-            print(results['request'])
+            print(utils.pretty_print_POST(results['request']))
         
         return results
     ############################################################################
