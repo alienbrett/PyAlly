@@ -18,7 +18,7 @@ def Test(t):
         ]
 
         for order in orders:
-            a.submit_order(order, verbose=True)
+            print(a.submit_order(order, verbose=True))
         
 
         
