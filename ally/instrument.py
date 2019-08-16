@@ -18,7 +18,7 @@ def Option (instrument, maturity_date, strike):
     return {
         **instrument,
         **{
-            'MatDt'   : str(maturity_date) + "T00:00:00.000‐05:00",
+            'MatDt'   : str(maturity_date) + 'T00:00:00.000-05:00',
             'StrkPx'  : str(int(strike)),
             'SecTyp' : 'OPT'
         }
