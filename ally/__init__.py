@@ -329,6 +329,7 @@ class Ally:
               ('/preview' if preview else '') +\
              '.json'
         
+        print(url)
         # Create FIXML formatted request body
         data = fixml.FIXML( order )
         print(data)
@@ -338,15 +339,18 @@ class Ally:
         
         # Create HTTP request objects
         session = requests.Session()
-        req     = requests.Request('POST',url, data=data, auth=auth).prepare()
+        req     = requests.Request('POST',url, data=data.encode('utf-8'), auth=auth).prepare()
         
         # Submit request to put order in as soon as possible
-        results            = {'response':session.send(req)}
-        results['request'] = utils.pretty_print_POST(req)
+        results            = {
+            'response':session.send(req).json()['response']['message']
+        }
+        results['request'] = req
         
+#         print(utils.pretty_print_POST(req))
         # Optionally print request
         if verbose:
-            print(results['request'])
+            print(utils.pretty_print_POST(results['request']))
         
         return results
     ############################################################################
