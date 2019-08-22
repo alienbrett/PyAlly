@@ -27,15 +27,22 @@ After setting up API keys, PyAlly can provide the basic/essential Ally brokerage
 Once the package is downloaded, we recommend setting environment variables to store Ally API credentials.
 
 Log into [Ally Invest](https://secure.ally.com), go to the specific account page, click Tools->API
+
+
 ![Tools](https://github.com/alienbrett/PyAlly/blob/master/resources/tools.PNG?raw=true)
 
 
 Fill out the API token application as a Personal Application
+
+
 ![New Application](https://github.com/alienbrett/PyAlly/blob/master/resources/new_application.PNG?raw=true)
 
 
 Enter the API tokens and secrets into your environment variables 
+
+
 ![Details](https://github.com/alienbrett/PyAlly/blob/master/resources/details.PNG?raw=true)
+
 
 Insert the following into `~/.bashrc`:
 
