@@ -10,11 +10,13 @@ After setting up API keys, PyAlly can provide the basic/essential Ally brokerage
 * Query account transaction history
 * Represent account holdings
 * Query account holdings
+* Orders supported:
+    * Market
+    * Stop
+    * Limit
+    * Stop Limit
+    * Stop Loss
 * Instrument quotes
-## Planned Features
-* Advanced portfolio analysis
-* Backtrader integration
-* More complex orders
 * Option trading
 
 ## Requirements
@@ -54,17 +56,18 @@ export ALLY_OATH_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 
-## Usage
+## Documentation
 
-Once the api keys are configured, your brokerage account can be easily accessed via a few simple pythonic functions:
-
+#### Initialize
 ```python
 import ally
-
-#	Create new Ally object, with API credentials specified in environment
 a = ally.Ally()
+```
 
 
+### Account Functions
+#### Transaction History
+```python
 #	Get transaction history in JSON dictionary form
 #		- Optionally specify account, if not in set in
 #		environment
@@ -79,7 +82,10 @@ trans_history = a.account_history(
 	type="all",
     range="current_week"
 )
+```
 
+#### Current Account Holdings
+```python
 #    Get current holdings for an account in JSON dict format
 #        Uses default account if not specified
 #        Optionally dump json to file
@@ -87,7 +93,10 @@ current_holdings = a.get_holdings(
     account=12345678,
     outfile="./holdings.json"
 )
+```
 
+#### Holdings Pie Chart
+```python
 #    Create pie graph of asset allocations for account, using matplotib
 #    Dumps to file ./graph.png by default
 #        Specify account optionally
@@ -97,8 +106,11 @@ pie_file = a.holdings_chart(
     graph_file="./my_graph_file.png",
     regen=True
 )
+```
 
 
+#### Live Quotes
+```python
 #    Get quote:
 #        Go to
 #            https://www.ally.com/api/invest/documentation/market-ext-quotes-get-post/
@@ -108,59 +120,108 @@ quote = a.get_quote(
     symbols="SPY,ALLY",
     fields="ask,bid,vol"
 )
+```
 
 
 
+### Instruments
 
-#    Create an Order:
-
-# Market buy order
-market_buy = ally.order.Long(
-    
-    # Symbol
-    sym="ALLY",
-    
-    # Quantity in units of shares
-    qty=1.0,
-    
-    # Execute at Market
-    price=None,
-    
-    # Good For Day
-    timespan='GFD'
+#### Equity
+```python
+Equity("SPY")     # Perfectly equivalent statements
+Instrument('spy') # Perfectly equivalent statements
+```
+#### Option
+```python
+Call (
+    instrument    = Equity("spy"), # Underlying
+    maturity_date = "2019-09-30",  # Expiration date
+    strike        = 290            # Strike
 )
 
-# Limit short-sell order
-#    Will only execute if execution price is more favorable than price
-#    Limit works for buy and sell
-limit_sell = ally.order.Long(
-    
-    # Symbol
-    sym="ALLY",
-    
-    # Negative quantity indicates sell or short-sell
-    qty=-1.0,
-    
-    # Set limit price. Will only execute at price more favorable than specified price
-    #    (less than limit if buy, greater than limit if sell)
-    price=29.69,
-    
-    # Good Till Cancelled
-    timespan='GTC',
-    
-    # new_position defaults to true
-    # Negative quantity & new_position==True? Short
-    # Negative quantity & new_position==False? Sell
-    new_position=True
+Put (
+    instrument    = Instrument("ALLY"), # Underlying
+    maturity_date = "2019-10-18",       # Expiration date
+    strike        = 300                 # Strike
 )
+```
+
+### Orders
+`Order( timespan, type, price, instrument, quantity)`
+```python
+market_buy = ally.order.Order(
+    
+    # Good for day order
+    timespan   = ally.order.Timespan('day'),
+    
+    # Buy order (to_open is True by defaul)
+    type       = ally.order.Buy(),
+    
+    # Market order
+    price      = ally.order.Market(),
+    
+    # Stock, symbol F
+    instrument = ally.instrument.Equity('f'),
+    
+    # 1 share
+    quantity   = ally.order.Quantity(1)
+)
+```
+
+#### TimeInForce (Timespans)
+```python
+#### Timespans
+Timespan('day')
+Timespan('gtc')
+Timespan('marketonclose')
+```
 
 
-#   Submit Order for an account:
 
+#### Types
+```python
+Buy()              # Buy to open (default)
+Buy(to_open=False) # Buy to cover
+
+Sell()              # Sell short (default)
+Sell(to_open=False) # Sell to close
+```
+
+
+
+#### Pricing
+```python
+Market ()         # Give me anything
+Limit (69)        # Execute at least as favorably as $69.00
+Stop (4.20)       # Stop order at $4.20
+StopLimit (
+    Stop  (10),   # Stop at $10.00
+    Limit (9.50)  # No worse than $9.50
+)
+StopLoss (
+    isBuy=False,  # Interpret stop as less than current price
+    pct=True,     # Treat 'stop' as pct
+    stop=5.0      # Stop at 5% from highest achieved after order placed
+)
+StopLoss (
+    isBuy=True,   # Interpret stop as less than current price
+    pct=False,    # Treat 'stop' as pct
+    stop=5.0      # Stop at $5.00 above lowest price
+)
+```
+
+
+#### Quantity
+```python
+Quantity ( 15 )  # In shares or lots, for an option
+```
+
+#### Submitting an Order
+```python
 exec_status = a.submit_order(
     
     # specify order created, see above
-    order=market_buy,
+    order=,
     
     # Can dry-run using preview=True, defaults to True
     # Must specify preview=False to actually execute
@@ -171,6 +232,7 @@ exec_status = a.submit_order(
 )
 
 ```
+
 
 ## Author
 * [Brett Graves](https://github.com/alienbrett)
