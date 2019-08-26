@@ -17,34 +17,32 @@ def Equity(symbol):
 #################################################
 def Option (instrument, maturity_date, strike):
     return {
-        **instrument,
         **{
             'MatDt'      : str(maturity_date) + 'T00:00:00.000-05:00',
             'StrkPx'     : str(int(strike)),
             'SecTyp'     : 'OPT',
             '__maturity' : str(maturity_date),
             '__strike'   : str(int(strike))
-        }
+        },
+        **instrument
     }
 
 #################################################
 def Call (instrument, maturity_date, strike):
     # Let Option do some lifting
-    return {
-        **{
-        '__type':'call',
-        'CFI':'OC'
-        },
+    x = {
+        **{ 'CFI':'OC' },
         **Option(instrument, maturity_date, strike)
     }
+    x['__type'] = 'call'
+    return x
         
 #################################################
 def Put (instrument, maturity_date, strike):
     # Let Option do some lifting
-    return {
-        **{
-        '__type':'put',
-        'CFI':'OP'
-        },
+    x = {
+        **{ 'CFI':'OP' },
         **Option(instrument, maturity_date, strike)
     }
+    x['__type'] = 'put'
+    return x
