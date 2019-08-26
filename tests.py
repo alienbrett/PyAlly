@@ -30,20 +30,8 @@ def Test(t):
         ]
 
         for order in orders:
-            print(a.submit_order(
-                order,
-                quantity=ally.order.Quantity(10),
-                instrument=instrument,
-                verbose=True,
-            ))
+            print(a.submit_order(order))
         
-        for order in orders:
-            print(a.submit_order(
-                order,
-                quantity=ally.order.Quantity(10),
-                instrument=op,
-                verbose=True,
-            ))
 
         
         
@@ -68,18 +56,8 @@ def Test(t):
         print(a.get_quote('nvda','bid,ask'))
         print(a.get_quote('nvda,chk,brk.b','bid,ask,vol'))
         print(a.get_quote(['nvda','chk,brk.b'],['bid','ask','vol']))
-        a.get_quote('','')
-        a.get_quote()
 
 
-        print(
-            a.submit_order(
-                order=order,
-                verbose=True,
-                preview=True
-            )['response']
-        )
-                   
         
 
 if len(sys.argv) < 2:
