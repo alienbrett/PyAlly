@@ -116,12 +116,12 @@ def Timespan(type='Day'):
 def Buy(to_open=True):
     if to_open:
         return {
-            '__type'  :'buy',
+            '__side'  :'buy',
             'Side'    :'1'
         }
     else:
         return {
-            '__type'  : 'buy_to_cover',
+            '__side'  : 'buy_to_cover',
             'Side'    : '1',
             'AccTyp'  : '5'
         }
@@ -131,12 +131,12 @@ def Buy(to_open=True):
 def Sell(to_open=True):
     if to_open:
         return {
-            '__type'  :'sell_short',
+            '__side'  :'sell_short',
             'Side'    :'2'
         }
     else:
         return {
-            '__type'  : 'sell',
+            '__side'  : 'sell',
             'Side'    : '5'
         }
 
@@ -151,19 +151,19 @@ def StopLoss( isBuy=False, pct=True, stop=5 ):
     # if pct == false?
     #  treat stop as dollar amnt
     return {
-            '__type'   : 'stop limit',
-            'Typ'      : 'P',
-            'ExecInst' : 'a',
-            'PegPxTyp' : '1',
-            'OfstTyp'  : '0' if pct else '1',
-            'OfstVal'  : str(float(stop) * (-1 if isBuy else 1))
+            '__execution'  : 'stop limit',
+            'Typ'           : 'P',
+            'ExecInst'      : 'a',
+            'PegPxTyp'      : '1',
+            'OfstTyp'       : '0' if pct else '1',
+            'OfstVal'       : str(float(stop) * (-1 if isBuy else 1))
         }
     
     
 # Pass in sub-orders
 def StopLimit(stopOrder, limitOrder):
     return {
-        '__type' : 'stop limit',
+        '__execution' : 'stop limit',
         'Typ'    : '4',
         'Px'     : limitOrder['Px'],
         'StopPx' : stopOrder['StopPX'],
@@ -172,14 +172,14 @@ def StopLimit(stopOrder, limitOrder):
     
 def Market():
     return {
-        '__type' :'market',
+        '__execution' :'market',
         'Typ'    :'1'
     }
     
 
 def Limit(limit):
     return {
-        '__type' :'limit',
+        '__execution' :'limit',
         'Typ'    :'2',
         'Px'     :str(float(limit))
     }
@@ -187,7 +187,7 @@ def Limit(limit):
 
 def Stop(stop):
     return {
-        '__type' :'stop',
+        '__execution' :'stop',
         'Typ'    :'3',
         'StopPX' : str(float(stop))
     }

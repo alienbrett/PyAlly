@@ -1,10 +1,13 @@
 import requests
+import datetime
 
 ############################################################################
 # Convert option information into OCC-name format
 def option_format(symbol="", exp_date="1970-01-01", strike=0, direction=""):
-    if not (check(symbol) and check(range) and check(strike) and check(direction)):
+    
+    if not (check(symbol) and check(exp_date) and check(str(strike)) and check(direction)):
         return ""
+    
     # direction into C or P
     direction = 'C' if 'C' in direction.upper() else'P'
 

@@ -1,3 +1,4 @@
+from . import utils
 #################################################
 """            INSTRUMENT                """
 #################################################
@@ -34,7 +35,14 @@ def Call (instrument, maturity_date, strike):
         **{ 'CFI':'OC' },
         **Option(instrument, maturity_date, strike)
     }
-    x['__type'] = 'call'
+    x['__underlying'] = x['Sym']
+    x['__type']       = 'call'
+    x['__symbol']     = utils.option_format(
+        symbol        = x['Sym'],
+        exp_date      = x['__maturity'],
+        strike        = x['__strike'],
+        direction     = 'C'
+    )
     return x
         
 #################################################
@@ -44,5 +52,12 @@ def Put (instrument, maturity_date, strike):
         **{ 'CFI':'OP' },
         **Option(instrument, maturity_date, strike)
     }
-    x['__type'] = 'put'
+    x['__underlying'] = x['Sym']
+    x['__type']       = 'put'
+    x['__symbol']     = utils.option_format(
+        symbol        = x['Sym'],
+        exp_date      = x['__maturity'],
+        strike        = x['__strike'],
+        direction     = 'P'
+    )
     return x

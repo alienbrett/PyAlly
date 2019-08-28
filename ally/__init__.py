@@ -158,7 +158,7 @@ class Ally:
         req     = requests.Request('GET',url,auth=auth).prepare()
         
         # Send Request
-        raw_holdings = session.send(req).json()\
+        self.raw_holdings = session.send(req).json()\
             ['response']['accountholdings']
         
         # Get accounts (necessary?)
@@ -169,7 +169,7 @@ class Ally:
         self.holdings = []
         
         # Format correct information into self.holdings
-        for h in raw_holdings['holding']:
+        for h in self.raw_holdings['holding']:
             
             # Precalculate some values
             float_price = float(h['price'])
