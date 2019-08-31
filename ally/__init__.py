@@ -150,7 +150,6 @@ class Ally:
               'accounts/'            +\
               str(account)           +\
               '/holdings.json'
-        print(url)
         
         # Create auth
         session = requests.Session()
@@ -158,56 +157,13 @@ class Ally:
         req     = requests.Request('GET',url,auth=auth).prepare()
         
         # Send Request
-        self.raw_holdings = session.send(req).json()\
+        self.holdings = session.send(req).json()\
             ['response']['accountholdings']
         
         # Get accounts (necessary?)
         if self.accounts == []:
             self.get_accounts()
             
-        # Reinit holdings
-        self.holdings = []
-        
-        # Format correct information into self.holdings
-        for h in self.raw_holdings['holding']:
-            
-            # Precalculate some values
-            float_price = float(h['price'])
-            float_qty   = float(h['qty'])
-            
-            # Only grab symbol, price, and quantity
-            self.holdings.append({
-                'value' : float_qty * float_price,
-                'sym'   : h['instrument']['sym'],
-                'price' : float_price,
-                'qty'   : float_qty
-            })
-            
-        # Precalculate dollar value of account
-        usd = float(self.accounts[account]['accountbalance']['money']['cash'])
-        
-        # Add USD cash as holding
-        self.holdings.append({
-            'value' : usd,
-            'sym'   : 'USD',
-            'price' : 1.0,
-            'qty'   : usd
-        })
-        
-        # Subtract short positions value from cash
-        self.holdings[-1]['qty'] += sum(
-            [x['value']
-             for x in self.holdings
-             if x['qty'] < 0.0]
-        )
-        
-        # Normalize all holding values into positive amount
-        for hld in self.holdings:
-            hld['qty'] = abs(hld['qty'])
-            
-        # Sort holdings by market value
-        self.holdings.sort(key=lambda x: x['value'])
-        
         return self.holdings
     
     ############################################################################
@@ -224,12 +180,15 @@ class Ally:
         if self.holdings == None:
             self.get_holdings(account = account)
         
+        self.holdings['holding'].sort(key=lambda h: abs(float(h['marketvalue'])))
+        
         # If no cache or ignore cache:
         if self.holdings_graph == None or regen:
             
             # Create lists of position names and USD size
-            labels  = [h['sym']              for h in self.holdings]
-            sizes   = [h['qty'] * h['price'] for h in self.holdings]
+#             labels  = [h['sym']              for h in self.holdings]
+            labels  = [h['instrument']['sym']       for h in self.holdings['holding']]
+            sizes   = [abs(float(h['marketvalue'])) for h in self.holdings['holding']]
 
             # Create Pie
             fig, ax = matplotlib.pyplot.subplots()
