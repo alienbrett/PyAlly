@@ -72,7 +72,7 @@ class Ally:
                 self.params = {
                     'resource_owner_secret'  : os.environ['ALLY_OAUTH_SECRET'],
                     'resource_owner_key'     : os.environ['ALLY_OAUTH_TOKEN'],
-                    'client_secret'          : os.environ['ALLY_CONSUMER_KEY'],
+                    'client_secret'          : os.environ['ALLY_CONSUMER_SECRET'],
                     'client_key'             : os.environ['ALLY_CONSUMER_KEY'],
                 }
                 
