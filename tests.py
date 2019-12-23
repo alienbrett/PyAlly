@@ -57,6 +57,10 @@ def Test(t):
         print(a.get_quote('nvda,chk,brk.b','bid,ask,vol'))
         print(a.get_quote(['nvda','chk,brk.b'],['bid','ask','vol']))
 
+    elif t == 5:
+
+         print(a.get_quote('ally'))
+         help(a.get_holdings)
 
         
 

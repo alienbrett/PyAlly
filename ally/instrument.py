@@ -3,6 +3,8 @@ from . import utils
 """            INSTRUMENT                """
 #################################################
 def Instrument(symbol):
+    """Turn a symbol into an Instrument equity object
+    """
     symbol = str(symbol).upper()
     return {
         '__symbol' : symbol,
@@ -13,10 +15,15 @@ def Instrument(symbol):
 
 #################################################
 def Equity(symbol):
+    """Turn a symbol into an Instrument equity object
+    (Equivalent to Instrument(symbol))
+    """
     return Instrument(symbol)
 
 #################################################
 def Option (instrument, maturity_date, strike):
+    """Create Option object for option information specified
+    """
     return {
         **{
             'MatDt'      : str(maturity_date) + 'T00:00:00.000-05:00',
@@ -30,6 +37,8 @@ def Option (instrument, maturity_date, strike):
 
 #################################################
 def Call (instrument, maturity_date, strike):
+    """Create Call object for option information specified
+    """
     # Let Option do some lifting
     x = {
         **{ 'CFI':'OC' },
@@ -47,6 +56,8 @@ def Call (instrument, maturity_date, strike):
         
 #################################################
 def Put (instrument, maturity_date, strike):
+    """Create Put object for option information specified
+    """
     # Let Option do some lifting
     x = {
         **{ 'CFI':'OP' },

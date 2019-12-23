@@ -6,8 +6,9 @@ import xml.dom.minidom
 import dicttoxml
 from . import order
 
-# Convert non-nested key/vals in dict into dict on their own
 def getAttributes(tag):
+    """Convert non-nested key/vals in dict into dict on their own
+    """
     return dict([(k,v) for k,v in tag.items() if
             type(v) == type("")
             and '__' not in k 
@@ -17,6 +18,8 @@ def getAttributes(tag):
 
 
 def FIXML(order):
+    """Turn order object into http request body in XML
+    """
     root = ET.Element(
         'FIXML',
         attrib={'xmlns':"http://www.fixprotocol.org/FIXML-5-0-SP2"}

@@ -136,9 +136,10 @@ class Ally:
         
         return self.accounts
     ############################################################################
-    # Create pie graph PNG of the current account holdings.
-    #  Currently does not correctly format negative USD Cash
     def get_holdings(self,account=None, verbose=False):
+        """Create pie graph PNG of the current account holdings.
+        Currently does not correctly format negative USD Cash
+        """
         
         # Imply account
         if account == None:
@@ -168,6 +169,7 @@ class Ally:
     
     ############################################################################
     def holdings_chart(self, graph_file="./graph.png", account=None, regen=False):
+        """Create graph of current holdings, by dollar value"""
         
         # Imply account
         if account == None:
@@ -186,7 +188,6 @@ class Ally:
         if self.holdings_graph == None or regen:
             
             # Create lists of position names and USD size
-#             labels  = [h['sym']              for h in self.holdings]
             labels  = [h['instrument']['sym']       for h in self.holdings['holding']]
             sizes   = [abs(float(h['marketvalue'])) for h in self.holdings['holding']]
 
@@ -203,7 +204,10 @@ class Ally:
         return self.holdings_graph
     ############################################################################
     # Return JSON of quote
-    def get_quote (self, symbols, fields=None):
+    def get_quote (self, symbols, fields=[]):
+        """For a full list of fields options,
+        visit https://www.ally.com/api/invest/documentation/market-ext-quotes-get-post/
+        """
         
         # Ensure correctly-typed input
         if not utils.check(symbols):
@@ -212,7 +216,7 @@ class Ally:
         # Correctly format Symbols, also store split up symbols
         if type(symbols) == type([]):
             # We were passed list
-            fmt_symbols = symbols.join('')
+            fmt_symbols = ','.join(symbols)
         else:
             # We were passed string
             fmt_symbols = symbols
@@ -222,7 +226,7 @@ class Ally:
         # Correctly format Fields, also store split up fields
         if type(fields) == type([]):
             # We were passed list
-            fmt_fields = fields.join(',')
+            fmt_fields = ','.join(fields)
         else:
             # We were passed string
             fmt_fields = fields
@@ -231,8 +235,6 @@ class Ally:
         # For aesthetics...
         fmt_symbols = fmt_symbols.upper()
         
-#         print(fmt_fields)
-#         print(fmt_symbols)
         
         # Assemble URL
         url = self.endpoints['base'] + 'market/ext/quotes.json'
@@ -268,7 +270,10 @@ class Ally:
     
     ############################################################################
     def submit_order (self, order, preview=True, account = None, verbose=False):
-        
+        """Given an order object, use preview to toggle whether order is submitted or not.
+        Also, can specify account, and optional verbosity
+        """
+
         # utils.check input
         if order == None:
             return {}
@@ -310,8 +315,9 @@ class Ally:
         return results
     ############################################################################
     def account_history(self, account=None, type='all', range="all"):
-        # type must be in "all, bookkeeping, trade"
-        # range must be in "all, today, current_week, current_month, last_month"
+        """type must be in "all, bookkeeping, trade"
+        range must be in "all, today, current_week, current_month, last_month"
+        """
         
         if not (utils.check(type) and utils.check(range)):
             return {}
@@ -342,8 +348,8 @@ class Ally:
         
         return results['response']['response']['transactions']['transaction']
     ############################################################################
-    # return list of float strike prices for specific symbol
     def get_strike_prices(self,symbol=""):
+        """return list of float strike prices for specific symbol"""
         
         # Safety first!
         if not utils.check(symbol):
@@ -363,8 +369,8 @@ class Ally:
         # Convert to floats
         return [float(x) for x in results['response']['prices']['price']]
     ############################################################################
-    # return list of float strike prices for specific symbol
     def get_exp_dates(self,symbol=""):
+        """return list of float strike prices for specific symbol"""
         
         # Safety first!
         if not utils.check(symbol):
@@ -384,24 +390,25 @@ class Ally:
         return results['response']['expirationdates']['date']
         
     ############################################################################
-    # return list of float strike prices for specific symbol
-    # QUERYABLE FIELDS:
-    #     strikeprice  #  possible values: 5 or 7.50, integers or decimals         
-    #     xdate        #  YYYYMMDD
-    #     xmonth       #  MM
-    #     xyear        #  YYYY 
-    #     put_call     #  'put' or 'call'  
-    #     unique       #  'strikeprice', 'xdate'
-    # OPERATORS:
-    #     LT  # <
-    #     GT  # >
-    #     LTE # <=
-    #     GTE # >=
-    #     EQ  # ==
-    #
-    # For complete list of Field values, and query help
-    #  https://www.ally.com/api/invest/documentation/market-options-search-get-post/
     def search_options(self,symbol="", query="", fields=""):
+        """return list of float strike prices for specific symbol
+        QUERYABLE FIELDS:
+            strikeprice  #  possible values: 5 or 7.50, integers or decimals         
+            xdate        #  YYYYMMDD
+            xmonth       #  MM
+            xyear        #  YYYY 
+            put_call     #  'put' or 'call'  
+            unique       #  'strikeprice', 'xdate'
+        OPERATORS:
+            LT  # <
+            GT  # >
+            LTE # <=
+            GTE # >=
+            EQ  # ==
+
+        For complete list of Field values, and query help
+         https://www.ally.com/api/invest/documentation/market-options-search-get-post/
+        """
         
         # Safety first!
         if not utils.check(symbol) or not utils.check(query) or not utils.check(fields):
@@ -410,7 +417,7 @@ class Ally:
         # Format
         symbol    = symbol.upper()
         if type(query) == type([]):
-            fmt_query = query.join(' AND ')
+            fmt_query = ' AND '.join([str(q) for q in query])
         else:
             fmt_query = query
         
@@ -419,7 +426,7 @@ class Ally:
         data = {
             'symbol':symbol,
             'query':fmt_query,
-            'fids':fields.join(',')
+            'fids':','.join(fields)
         }
         
         # Create HTTP Request objects
@@ -429,9 +436,10 @@ class Ally:
         
         return results
     ############################################################################
-    # Return options with a strike price within a certain percentage of the 
-    #     last price on the market, on a given exp_date, with a specified direction.
     def options_chain(self, symbol="", direction="c", within_pct=4.0, exp_date=""):
+        """Return options with a strike price within a certain percentage of the 
+        last price on the market, on a given exp_date, with a specified direction.
+        """
         
         # Safety first!
         if not utils.check(symbol) or not utils.check(direction) or not utils.check(exp_date):

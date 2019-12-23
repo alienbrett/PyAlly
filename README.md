@@ -51,8 +51,8 @@ Insert the following into `~/.bashrc`:
 ```bash
 export ALLY_CONSUMER_KEY=XXXXXXXXXXXXXXXXXXXXXXXX
 export ALLY_CONSUMER_SECRET=XXXXXXXXXXXXXXXXXXXXX
-export ALLY_OATH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXX
-export ALLY_OATH_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXX
+export ALLY_OUATH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXX
+export ALLY_OUATH_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 
@@ -115,9 +115,9 @@ pie_file = a.holdings_chart(
 #        Go to
 #            https://www.ally.com/api/invest/documentation/market-ext-quotes-get-post/
 #        to see available fields options
-#        [defaults to None]
+#        [defaults to all fields available]
 quote = a.get_quote(
-    symbols="SPY,ALLY",
+    symbols="spy,ALLY",
     fields="ask,bid,vol"
 )
 ```
