@@ -17,7 +17,7 @@ def getAttributes(tag):
 
 
 
-def FIXML(order):
+def FIXML(orderd,verbose=False):
     """Turn order object into http request body in XML
     """
     root = ET.Element(
@@ -25,18 +25,21 @@ def FIXML(order):
         attrib={'xmlns':"http://www.fixprotocol.org/FIXML-5-0-SP2"}
     )
 
-    print(order)
-    
-    o_attrib   = getAttributes(order['Order'])
-    qty_attrib = getAttributes(order['Order']['OrdQty'])
-    inst_attrib   = getAttributes(order['Order']['Instrmt'])
+    if verbose:
+        print(orderd)
 
-    o        = ET.SubElement(root,'Order', attrib=o_attrib )
+    ordReqT     = order.orderReqType(orderd)
+    
+    o_attrib    = getAttributes(orderd[ordReqT])
+    qty_attrib  = getAttributes(orderd[ordReqT]['OrdQty'])
+    inst_attrib = getAttributes(orderd[ordReqT]['Instrmt'])
+
+    o        = ET.SubElement(root,ordReqT, attrib=o_attrib )
     instrmt  = ET.SubElement(o,'Instrmt',attrib=inst_attrib)
     qty      = ET.SubElement(o,'OrdQty', attrib=qty_attrib)
 
 
-    raw = ET.tostring(root)#.decode('utf-8')
+    raw = ET.tostring(root)
 
     dom = xml.dom.minidom.parseString(raw)
 

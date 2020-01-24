@@ -125,8 +125,7 @@ class Ally:
         auth = self.create_auth()
         
         # Send Requests
-        acnts = requests.get(url, auth=auth).json()\
-            ['response']['accounts']['accountsummary']
+        acnts = requests.get(url, auth=auth).json()['response']['accounts']['accountsummary']
         
         # set accounts internally
         self.accounts = {}
@@ -269,33 +268,51 @@ class Ally:
         return results
     
     ############################################################################
-    def submit_order (self, order, preview=True, account = None, verbose=False):
-        """Given an order object, use preview to toggle whether order is submitted or not.
-        Also, can specify account, and optional verbosity
+    def submit_order (self,orderx,preview=True, append_order=True,
+        account=None, verbose=False, discard_quotes=True):
+
+        """Handle an order request. This ones a little complicated with a few options:
+        order           - Must submit an order constructed with ally.Order.Order(...)
+                          Or, submit a cancel request, using an order object and negating
+                          ( ally.Order.Cancel(order) will produce a cancel request)
+        preview         - If True, just submit dummy order with some extra information.
+                          Set to true by default, to prevent accidental orders by n00bs
+        append_order    - If True, return the order information in the response.
+                          If disabled, the user must keep track of the original order in case
+                          a cancel is needed later.
+        account         - Optionally specify account
+        verbose         - True or False
+        discard_quotes  - If disabled, more information is returned, including tick bars
+                          of the instrument in question, and extra greeks and metrics.
+                          True by default
         """
 
         # utils.check input
-        if order == None:
+        if orderx == None:
             return {}
         
+
         # Imply account
         if account == None:
             account = self.params['account']
+
             
         # Must insert account info
-        order['Order']['Acct'] = str(int(account))
-            
-            # Assemble URL
+        orderx[order.orderReqType(orderx)]['Acct'] = str(int(account))
+
+
+        # Assemble URL
         url = self.endpoints['base']          +\
               'accounts/'                     +\
               str(account)                    +\
-              '/orders'                       +\
+              '/orderxs'                       +\
               ('/preview' if preview else '') +\
              '.json'
         
         # Create FIXML formatted request body
-        data = fixml.FIXML(order)
-        print(data)
+        data = fixml.FIXML(orderx)
+        if verbose:
+            print(data)
         
         # Create Authentication headers
         auth = self.create_auth()
@@ -304,14 +321,29 @@ class Ally:
         session = requests.Session()
         req     = requests.Request('POST',url, data=data, auth=auth).prepare()
         
-        # Submit request to put order in as soon as possible
+        # Submit request to put orderx in as soon as possible
+        # results            = {'response':json.loads(session.send(req).text)}
         results            = {'response':session.send(req)}
         results['request'] = utils.pretty_print_POST(req)
         
         # Optionally print request
         if verbose:
             print(results['request'])
+            print(results['response'])
+
+        # Clean this up a bit, un-nest one layer
+        if 'response' in results.keys():
+            if 'response' in results['response'].keys():
+                results['response'] = results['response']['response']
         
+        # optionally throw away unsightly extra bullshit
+        if discard_quotes:
+            del results['response']['quotes']
+
+        # Optionally send the original orderx back to the user
+        if append_order:
+            results['orderx_submission'] = orderx
+
         return results
     ############################################################################
     def account_history(self, account=None, type='all', range="all"):
@@ -347,6 +379,39 @@ class Ally:
         results['request'] = utils.pretty_print_POST(req)
         
         return results['response']['response']['transactions']['transaction']
+    ############################################################################
+    def order_history(self, account=None, verbose=False):
+        """View most recent orders"""
+        if not (utils.check(account)):
+            return {}
+        
+        # Imply account
+        if account == None:
+            account = self.params['account']
+            
+        # Assemble URL
+        url =   self.endpoints['base']    +\
+                'accounts/'               +\
+                str(account)              +\
+                '/orders.json'
+        # Add parameters
+        data = {}
+        
+        # Create HTTP Request objects
+        session = requests.Session()
+        auth    = self.create_auth()
+        req     = requests.Request('GET',url,params=data,auth=auth).prepare()
+        
+        
+        results            = {'response':session.send(req).json()}
+        results['request'] = utils.pretty_print_POST(req)
+
+        # Clean this up a bit, un-nest one layer
+        if 'response' in results.keys():
+            if 'response' in results['response'].keys():
+                results['response'] = results['response']['response']
+
+        return results
     ############################################################################
     def get_strike_prices(self,symbol=""):
         """return list of float strike prices for specific symbol"""
@@ -411,7 +476,8 @@ class Ally:
         """
         
         # Safety first!
-        if not utils.check(symbol) or not utils.check(query) or not utils.check(fields):
+        if not utils.check(symbol):
+            print("failed check?")
             return []
         
         # Format

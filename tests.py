@@ -1,5 +1,6 @@
 import sys
 import ally
+import json
 
 n_tests = 5
 tests = range(n_tests)
@@ -30,7 +31,7 @@ def Test(t):
         ]
 
         for order in orders:
-            print(a.submit_order(order))
+            print(a.submit_order(order,verbose=True))
         
 
         
@@ -62,6 +63,32 @@ def Test(t):
          print(a.get_quote('ally'))
          help(a.get_holdings)
 
+    elif t == 6:
+
+
+
+         orders = [
+            ally.order.Order(
+                instrument=ally.instrument.Equity('nflx'),
+                quantity=ally.order.Quantity(20),
+                timespan=ally.order.Timespan('day'),
+                type=ally.order.Sell(),
+                price=ally.order.Limit(400)
+            )
+         ]
+         ids = [ a.submit_order(order, preview=True, verbose=False) for order in orders ]
+         
+         for i in ids:
+            print(json.dumps(i['response'], indent=4, sort_keys=True))
+
+    elif t == 7:
+
+
+        # View prior orders
+        o = ally.order.Cancel(sys.argv[2])
+        print(json.dumps(o, indent=4))
+        x = a.submit_order(o,verbose=True)
+        print(json.dumps(x, indent=4))
         
 
 if len(sys.argv) < 2:

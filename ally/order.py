@@ -1,12 +1,11 @@
 #################################################
 """            ORDER                """
 #################################################
-
-
-
+from . import instrument
 #################################################
 # ORDER CONSTRUCTOR
-def Order(timespan,type,price,instrument, quantity):
+def Order(timespan,type,price,instrument,quantity):
+    """Wrap an order up for submission"""
     x = {
        'Order':{
             **timespan,
@@ -22,10 +21,7 @@ def Order(timespan,type,price,instrument, quantity):
     }
     if x['Order']['Instrmt']['SecTyp'] == 'OPT':
         x['Order']['OrdQty']['Qty'] = str(round(float(x['Order']['OrdQty']['Qty'])))
-#     if x['Instrmt']['SecTyp'] == 'OP':
-#         x['Order']['PosEfct'] = 'O' if x['
     return x
-        
 
 """
 # Timespans
@@ -131,13 +127,13 @@ def Buy(to_open=True):
 def Sell(to_open=True):
     if to_open:
         return {
-            '__side'  :'sell_short',
-            'Side'    :'2'
+            '__side'  : 'sell',
+            'Side'    : '5'
         }
     else:
         return {
-            '__side'  : 'sell',
-            'Side'    : '5'
+            '__side'  :'sell_short',
+            'Side'    :'2'
         }
 
 
@@ -202,3 +198,64 @@ def Quantity(n):
         '__quantity' : n,
         'Qty'        : n
     }
+        
+
+# Unusual order requests
+#################################################
+
+
+def Cancel(orderid, order=None):
+    """Convert an order into a cancel order
+    It's unclear in the Ally Invest API documentation whether or not the order information
+    must match the original order request. Maybe a user only needs the order ID?"""
+
+    # make sure order is at least nominally ok
+    if order==None:
+        order = Order(
+            Timespan('gtc'),
+            Buy(),
+            Market(),
+            instrument.Instrument("none"),
+            Quantity(0)
+            )
+
+
+    # Handle two cases
+    if 'Order' in order.keys():
+        order['OrdCxlReq'] = order.pop('Order')
+
+    elif 'OrdCxlRplcReq' in order.keys():
+        order['OrdCxlReq'] = order.pop('OrdCxlRplcReq')
+
+    else:
+        order = {'error':"Don't try to submit this order, it's malformatted. Missing order request type"}
+        return order
+
+
+    order['OrdCxlReq']['OrigID'] = str(orderid)
+    return order
+
+
+
+def Modify(neworder, orderid):
+    """Given a new order, and a different order ID,
+    Cancel the old and replace with some new order in a single step"""
+
+    if 'Order' in neworder.keys():
+        neworder['OrdCxlRplcReq'] = neworder.pop('Order')
+        neworder['OrdCxlRplcReq']['OrigID'] = str(neworderid)
+    elif 'OrdCxlRplcReq' in neworder.keys():
+        neworder['OrdCxlRplcReq']['OrigID'] = str(neworderid)
+    else:
+        order = {'error':"Don't try to submit this order, it's malformatted. Missing order request type, or it looks cancelled already"}
+        return order
+
+
+
+# Small order utility
+#################################################
+def orderReqType(order):
+    """Return the string that corresponds to the order's request type"""
+    for x in ('Order','OrdCxlRplcReq','OrdCxlReq'):
+        if x in order.keys():
+            return x
