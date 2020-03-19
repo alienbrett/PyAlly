@@ -1,4 +1,4 @@
-# PyAlly
+# PyAlly 0.3.0
 Python3 wrapper for [Ally Invest brokerage API](https://www.ally.com/api/invest/documentation/getting-started/ "Ally Invest API")
 
 Ally Bank's investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.
@@ -21,6 +21,7 @@ After setting up API keys, PyAlly can provide the basic/essential Ally brokerage
 
 ## Requirements
 * requests-oathlib
+* requests
 * matplotlib
 
 ## Installation
@@ -53,6 +54,9 @@ export ALLY_CONSUMER_KEY=XXXXXXXXXXXXXXXXXXXXXXXX
 export ALLY_CONSUMER_SECRET=XXXXXXXXXXXXXXXXXXXXX
 export ALLY_OAUTH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXX
 export ALLY_OAUTH_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
+
+# Optionally, if you want an account number auto-entered,
+export ALLY_ACCOUNT_NBR=12345678
 ```
 
 
@@ -230,6 +234,28 @@ exec_status = a.submit_order(
     # Like always, if not specified in environment, use a specific account
     account=12345678
 )
+```
+
+
+#### Cancelling an outstanding order
+Given an order ID, cancel the outstanding order (if the existing order isn't already filled)
+```python
+a.order.Cancel( 15 )         # in this case with orderID 15
+a.order.Cancel( orderid=15 ) # equivalent
+```
+
+
+#### Modifying an outstanding order
+Given an order ID and a new order,
+Ally allows us to replace an existing outstanding order with
+new values (if the existing order isn't already filled)
+```python
+a.order.Modify(
+    orderid=15,
+    order=... # enter a new order
+)
+```
+
 
 ```
 
@@ -239,3 +265,7 @@ exec_status = a.submit_order(
 
 ## Contributing
 Please contact me if you enjoyed the project or thought it could be improved. I do my best to code with quality but sometimes it is easier said than done. Anyone with an interest with an eye for detail is welcome to contribute.
+Message me on github or send an email!
+
+If you're dying to buy me a beer, I accept venmo at @alienbrett. That said, feel no obligation; this is free software and it's here for you to use.
+

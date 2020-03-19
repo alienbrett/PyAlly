@@ -79,7 +79,9 @@ def Test(t):
          ids = [ a.submit_order(order, preview=True, verbose=False) for order in orders ]
          
          for i in ids:
-            print(json.dumps(i['response'], indent=4, sort_keys=True))
+            # ensure we're only considering 200's
+            if i['response']:
+                print(json.dumps(i['response'], indent=4, sort_keys=True))
 
     elif t == 7:
 
