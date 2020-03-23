@@ -119,7 +119,7 @@ def Buy(to_open=True):
         return {
             '__side'  : 'buy_to_cover',
             'Side'    : '1',
-            'AccTyp'  : '5'
+            'AcctTyp'  : '5'
         }
 
 # Sell() --------> Sell
