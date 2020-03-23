@@ -302,7 +302,7 @@ class Ally:
         url = self.endpoints['base']          +\
               'accounts/'                     +\
               str(account)                    +\
-              '/orderxs'                       +\
+              '/orders'                       +\
               ('/preview' if preview else '') +\
              '.json'
         
