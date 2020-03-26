@@ -2,7 +2,7 @@
 """            ALLY                """
 #################################################
 
-from . import utils, order, fixml, instrument, option_info
+from . import utils, order as order_utils, fixml, instrument, option_info
 
 all = ['fixml.FIXML', 'order', 'instrument', 'Ally', 'utils']
 
@@ -265,7 +265,7 @@ class Ally:
         return results
     
     ############################################################################
-    def submit_order (self,orderx,preview=True, append_order=True,
+    def submit_order (self,order,preview=True, append_order=True,
         account=None, verbose=False, discard_quotes=True):
 
         """Handle an order request. This ones a little complicated with a few options:
@@ -285,7 +285,7 @@ class Ally:
         """
 
         # utils.check input
-        if orderx == None:
+        if order == None:
             return {}
         
 
@@ -295,7 +295,7 @@ class Ally:
 
             
         # Must insert account info
-        orderx[order.orderReqType(orderx)]['Acct'] = str(int(account))
+        order[order_utils.orderReqType(order)]['Acct'] = str(int(account))
 
 
         # Assemble URL
@@ -307,7 +307,7 @@ class Ally:
              '.json'
         
         # Create FIXML formatted request body
-        data = fixml.FIXML(orderx)
+        data = fixml.FIXML(order)
         if verbose:
             print(data)
         
@@ -318,7 +318,7 @@ class Ally:
         session = requests.Session()
         req     = requests.Request('POST',url, data=data, auth=auth).prepare()
         
-        # Submit request to put orderx in as soon as possible
+        # Submit request to put order in as soon as possible
         results            = {'response':session.send(req)}
         results['request'] = utils.pretty_print_POST(req)
         
@@ -339,9 +339,9 @@ class Ally:
 
 
 
-        # Optionally send the original orderx back to the user
+        # Optionally send the original order back to the user
         if append_order:
-            results['orderx_submission'] = orderx
+            results['order_submission'] = order
 
         return results
     ############################################################################
@@ -412,7 +412,7 @@ class Ally:
 
         return results
     ############################################################################
-    def timesales(self, symbols="", interval="5min", rpp="10", index="0", startdate="", enddate="", starttime=""):
+    def timesales( self, symbols="", interval="5min", rpp="10", index="0", startdate="", enddate="", starttime=""):
         """return time and sales quote data based on a symbol passed as a query parameter
            see https://www.ally.com/api/invest/documentation/market-timesales-get/ for parameter explanations
         """
