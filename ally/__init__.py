@@ -411,3 +411,34 @@ class Ally:
                 results['response'] = results['response']['response']
 
         return results
+    ############################################################################
+    def timesales(self, symbols="", interval="5min", rpp="10", index="0", startdate="", enddate="", starttime=""):
+        """return time and sales quote data based on a symbol passed as a query parameter
+           see https://www.ally.com/api/invest/documentation/market-timesales-get/ for parameter explanations
+        """
+
+        # Safety first!
+        if not utils.check(symbols) or not utils.check(startdate):
+            return []
+
+        symbols = symbols.upper()
+
+        # Assemble URL
+        url =   self.endpoints['base']    + 'market/timesales.json'
+        data = {
+          'symbols': symbols,
+          'interval': interval,
+          'rpp': rpp,
+          'index': index,
+          'startdate': startdate,
+          'enddate': enddate,
+          'starttime': starttime
+        }
+
+        # Create HTTP Request objects
+        auth               = self.create_auth()
+        results            = requests.get(url,params=data,auth=auth).json()\
+            ['response']['quotes']['quote']
+
+        # Convert to floats
+        return results
