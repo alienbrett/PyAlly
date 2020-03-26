@@ -3,7 +3,6 @@
 #################################################
 import xml.etree.cElementTree as ET
 import xml.dom.minidom
-import dicttoxml
 from . import order
 
 def getAttributes(tag):

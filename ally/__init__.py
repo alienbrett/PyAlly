@@ -2,15 +2,11 @@
 """            ALLY                """
 #################################################
 
-from . import utils
-from . import order
-from . import fixml
-from . import instrument
+from . import utils, order, fixml, instrument, option_info
 
 all = ['fixml.FIXML', 'order', 'instrument', 'Ally', 'utils']
 
 from requests_oauthlib   import OAuth1
-import xml.dom.minidom
 import datetime
 import requests
 import json
@@ -39,6 +35,12 @@ class Ally:
     last_auth_time = None
     auth           = None
     valid_auth_dt  = datetime.timedelta(seconds=9.7)
+
+    # Just some option functions, specified in option_info.py
+    get_strike_prices   = option_info.get_strike_prices
+    get_exp_dates       = option_info.get_exp_dates
+    search_options      = option_info.search_options
+    options_chain       = option_info.options_chain
     
     ############################################################################
     def __init__(self, params=None ):
@@ -109,13 +111,6 @@ class Ally:
             
         return self.auth
     ############################################################################
-    def dump_params(self, fname='keyfile.json'):
-        if fname != None:
-            with open(fname,'w') as f:
-                json.dump(self.params, f, indent=self.json_params['indent'])
-                
-        return json.dumps(self.params,indent=self.json_params['indent'])
-    ############################################################################
     def get_accounts(self):
         
         # Assemble URL
@@ -126,11 +121,13 @@ class Ally:
         
         # Send Requests
         acnts = requests.get(url, auth=auth).json()['response']['accounts']['accountsummary']
-        
         # set accounts internally
         self.accounts = {}
-        for acnt in acnts:
-            self.accounts[int(acnt['account'])] = acnt
+        if type(acnts) == type([]):
+            for acnt in list(acnts):
+                self.accounts[ int(acnt['account']) ] = acnt
+        else:
+            self.accounts[ int(acnts['account']) ] = acnts
         
         
         return self.accounts
@@ -305,7 +302,7 @@ class Ally:
         url = self.endpoints['base']          +\
               'accounts/'                     +\
               str(account)                    +\
-              '/orderxs'                       +\
+              '/orders'                       +\
               ('/preview' if preview else '') +\
              '.json'
         
@@ -322,7 +319,6 @@ class Ally:
         req     = requests.Request('POST',url, data=data, auth=auth).prepare()
         
         # Submit request to put orderx in as soon as possible
-        # results            = {'response':json.loads(session.send(req).text)}
         results            = {'response':session.send(req)}
         results['request'] = utils.pretty_print_POST(req)
         
@@ -331,14 +327,17 @@ class Ally:
             print(results['request'])
             print(results['response'])
 
-        # Clean this up a bit, un-nest one layer
-        if 'response' in results.keys():
+
+        # Check if we received a good response
+        if results['response']:
             if 'response' in results['response'].keys():
                 results['response'] = results['response']['response']
         
-        # optionally throw away unsightly extra bullshit
-        if discard_quotes:
-            del results['response']['quotes']
+            # optionally throw away unsightly extra bullshit
+            if discard_quotes:
+                del results['response']['quotes']
+
+
 
         # Optionally send the original orderx back to the user
         if append_order:
@@ -413,133 +412,6 @@ class Ally:
 
         return results
     ############################################################################
-    def get_strike_prices(self,symbol=""):
-        """return list of float strike prices for specific symbol"""
-        
-        # Safety first!
-        if not utils.check(symbol):
-            return []
-        
-        # Format
-        symbol = symbol.upper()
-        
-        # Assemble URL
-        url =   self.endpoints['base']    + 'market/options/strikes.json'
-        data = { 'symbol':symbol }
-        
-        # Create HTTP Request objects
-        auth               = self.create_auth()
-        results            = requests.get(url,params=data,auth=auth).json()
-        
-        # Convert to floats
-        return [float(x) for x in results['response']['prices']['price']]
-    ############################################################################
-    def get_exp_dates(self,symbol=""):
-        """return list of float strike prices for specific symbol"""
-        
-        # Safety first!
-        if not utils.check(symbol):
-            return []
-        
-        # Format
-        symbol = symbol.upper()
-        
-        # Assemble URL
-        url =   self.endpoints['base']    + 'market/options/expirations.json'
-        data = { 'symbol':symbol }
-        
-        # Create HTTP Request objects
-        auth               = self.create_auth()
-        results            = requests.get(url,params=data,auth=auth).json()
-        
-        return results['response']['expirationdates']['date']
-        
-    ############################################################################
-    def search_options(self,symbol="", query="", fields=""):
-        """return list of float strike prices for specific symbol
-        QUERYABLE FIELDS:
-            strikeprice  #  possible values: 5 or 7.50, integers or decimals         
-            xdate        #  YYYYMMDD
-            xmonth       #  MM
-            xyear        #  YYYY 
-            put_call     #  'put' or 'call'  
-            unique       #  'strikeprice', 'xdate'
-        OPERATORS:
-            LT  # <
-            GT  # >
-            LTE # <=
-            GTE # >=
-            EQ  # ==
-
-        For complete list of Field values, and query help
-         https://www.ally.com/api/invest/documentation/market-options-search-get-post/
-        """
-        
-        # Safety first!
-        if not utils.check(symbol):
-            print("failed check?")
-            return []
-        
-        # Format
-        symbol    = symbol.upper()
-        if type(query) == type([]):
-            fmt_query = ' AND '.join([str(q) for q in query])
-        else:
-            fmt_query = query
-        
-        # Assemble URL
-        url =   self.endpoints['base']    + 'market/options/search.json'
-        data = {
-            'symbol':symbol,
-            'query':fmt_query,
-            'fids':','.join(fields)
-        }
-        
-        # Create HTTP Request objects
-        auth               = self.create_auth()
-        results            = requests.post(url,params=data,auth=auth).json()\
-            ['response']['quotes']['quote']
-        
-        return results
-    ############################################################################
-    def options_chain(self, symbol="", direction="c", within_pct=4.0, exp_date=""):
-        """Return options with a strike price within a certain percentage of the 
-        last price on the market, on a given exp_date, with a specified direction.
-        """
-        
-        # Safety first!
-        if not utils.check(symbol) or not utils.check(direction) or not utils.check(exp_date):
-            return []
-        
-        cur_price = self.get_quote(symbol, 'last')['last']
-        
-        # Format
-        direction = "call" if "c" in direction else "put"
-        symbol    = symbol.upper()
-        fmt_query = "xdate-eq:" + str(exp_date) + \
-            " AND " + "strikeprice-gte:" + str(float(cur_price)*(1.0-within_pct/100.0)) + \
-            " AND " + "strikeprice-lte:" + str(float(cur_price)*(1.0+within_pct/100.0)) + \
-            " AND " + "put_call-eq:" + direction
-        
-        # Assemble URL
-        url =   self.endpoints['base']    + 'market/options/search.json'
-        data = {
-            'symbol':symbol,
-            'query':fmt_query
-        }
-        
-        # Create HTTP Request objects
-        auth               = self.create_auth()
-        results            = requests.post(url,params=data,auth=auth).json()\
-            ['response']['quotes']['quote']
-        
-        for op in results:
-            if direction == "call":
-                op['in_the_money'] = op['strikeprice'] <= cur_price
-            else:
-                op['in_the_money'] = op['strikeprice'] >= cur_price
-        return results
-    ############################################################################
     def timesales(self, symbols="", interval="5min", rpp="10", index="0", startdate="", enddate="", starttime=""):
         """return time and sales quote data based on a symbol passed as a query parameter
            see https://www.ally.com/api/invest/documentation/market-timesales-get/ for parameter explanations
@@ -570,4 +442,3 @@ class Ally:
 
         # Convert to floats
         return results
-        

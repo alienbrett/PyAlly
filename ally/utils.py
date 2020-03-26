@@ -2,9 +2,10 @@ import requests
 import datetime
 
 ############################################################################
-# Convert option information into OCC-name format
 def option_format(symbol="", exp_date="1970-01-01", strike=0, direction=""):
-    
+    """Given some parameters, return the OCC standardized option name
+    direction should contain 'C' for a call, or 'P' for a put (lowercase is fine)
+    """
     if not (check(symbol) and check(exp_date) and check(str(strike)) and check(direction)):
         return ""
     
@@ -21,19 +22,28 @@ def option_format(symbol="", exp_date="1970-01-01", strike=0, direction=""):
         direction + format_strike(strike)
 
 def option_strike(name):
+    """Pull apart an OCC standardized option name and
+    retreive the strike price, in integer form"""
     return int(name[-8:])/1000
 
 def option_maturity(name):
+    """Given OCC standardized option name,
+    return the date of maturity"""
     return datetime.datetime.strptime(name[-15:-9],"%y%m%d").strftime("%Y-%m-%d")
 
 def option_callput(name):
+    """Given OCC standardized option name,
+    return whether its a call or a put"""
     return 'call' if name.upper()[-9] == 'C' else 'put'
 
 def option_symbol(name):
+    """Given OCC standardized option name, return option ticker"""
     return name[:-15]
 ############################################################################
-# I stole this function off Stackexchange or something. Thanks Anon!
 def pretty_print_POST(req):
+    """Not my code, 
+    I stole this function off Stackexchange or something. Thanks Anon!
+    """
     return '{}\n{}\n{}\n\n{}'.format(
         '-----------START-----------',
         req.method + ' ' + req.url,

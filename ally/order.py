@@ -119,7 +119,7 @@ def Buy(to_open=True):
         return {
             '__side'  : 'buy_to_cover',
             'Side'    : '1',
-            'AccTyp'  : '5'
+            'AcctTyp'  : '5'
         }
 
 # Sell() --------> Sell
@@ -127,13 +127,13 @@ def Buy(to_open=True):
 def Sell(to_open=True):
     if to_open:
         return {
-            '__side'  : 'sell',
-            'Side'    : '5'
+            '__side'  :'sell_short',
+            'Side'    :'2'
         }
     else:
         return {
-            '__side'  :'sell_short',
-            'Side'    :'2'
+            '__side'  : 'sell',
+            'Side'    : '5'
         }
 
 
@@ -247,7 +247,9 @@ def Modify(neworder, orderid):
     elif 'OrdCxlRplcReq' in neworder.keys():
         neworder['OrdCxlRplcReq']['OrigID'] = str(neworderid)
     else:
-        order = {'error':"Don't try to submit this order, it's malformatted. Missing order request type, or it looks cancelled already"}
+        order = { 'error':
+			"Don't try to submit this order, it's malformatted. Missing order request type, or it looks cancelled already"
+        }
         return order
 
 
