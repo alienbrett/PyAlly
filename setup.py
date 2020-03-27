@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
         name="pyally",
-        version="0.3.1",
+        version="0.3.2",
         author="Brett Graves",
         author_email="alienbrett648@gmail.com",
         description="Ally Invest API Wrapper",
@@ -14,7 +14,6 @@ setuptools.setup(
         url="https://github.com/alienbrett/PyAlly",
         packages=setuptools.find_packages(),
 		install_requires=[
-			'matplotlib',
 			'requests-oauthlib',
 			'requests'
 		],
