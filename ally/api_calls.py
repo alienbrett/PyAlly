@@ -10,48 +10,87 @@ import os
 
 
 
+
+
+def quote_stream ( self, symbols ):
+	print("Got here...")
+	try:
+		# Send Request
+		r	=	requests.Session().post(
+			url		=	self.endpoints['stream'] + 'market/quotes.json',
+			auth	=	self.create_auth(),
+			data	=	{'symbols':symbols},
+			stream=True
+		)
+		print("Sent the request...")
+		for line in r.iter_lines(chunk_size=1):
+			print("Got one!")
+			decoded_line = line.decode('utf-8')
+			print(json.loads(decoded_line))
+			
+	except ConnectionError as e:
+		print("ConnectionError:",e)
+		raise
+	except HTTPError as e:
+		print("HTTPError:",e)
+		raise
+	except Timeout as e:
+		print("Timeout:",e)
+		raise
+
+
+##################
+
 def req_sess ( self ):
 	"""Fast session reuse"""
 	if self.session == None:
 		self.session = requests.Session()
 	return self.session
 
-
+##################
 		
-def call_api ( self, use_post, url_suffix, data,
-	timeout=1, verbose=False):
+def call_api ( self, use_post, url_suffix, data=None,
+	params=None,
+	timeout=3, verbose=False, use_auth=True):
 	"""Properly handle sending one API request
 	"""
 	s = self.req_sess()
+
 
 	# Create a prepped request
 	req = s.prepare_request(
 		requests.Request(
 			'POST' if use_post else 'GET',
 			self.endpoints['base'] + str(url_suffix),
-			auth=self.create_auth(),
-			data=data
+			auth	= self.create_auth() if use_auth else None,
+			data	= data,
+			params	= params
 		)
 	)
 	
 	try:
 		# Send Request
-		raw_response = s.send(
+		r = s.send(
 			req,
 			timeout=timeout
 		)
+		if r:
+			r = r.json()
+		else:
+			r.raise_for_status()
+			
 	except ConnectionError as e:
-		print(e)
+		print("ConnectionError:",e)
 		raise
 	except HTTPError as e:
-		print(e)
+		print("HTTPError:",e)
 		raise
 	except Timeout as e:
-		print(e)
+		print("Timeout:",e)
 		raise
 
 	return {
-		'response'	: raw_response,
+		'response'	: r,
 		'request'	: utils.pretty_print_POST(req)
 	}
 
@@ -82,16 +121,13 @@ def create_auth(self):
 	return self.auth
 ############################################################################
 def get_accounts(self):
-	
-	# Assemble URL
-	url = self.endpoints['base'] + 'accounts.json'
-	
-	# Authenticate
-	auth = self.create_auth()
 
-	
-	# Send Requests
-	acnts = requests.get(url, auth=auth).json()['response']['accounts']['accountsummary']
+	acnts = self.call_api(
+		use_post	= False,
+		url_suffix	= 'accounts.json',
+		data		= None
+	)['response']['response']['accounts']['accountsummary']
+
 	# set accounts internally
 	self.accounts = {}
 	if type(acnts) == type([]):
@@ -107,32 +143,19 @@ def get_holdings(self,account=None, verbose=False):
 	"""Create pie graph PNG of the current account holdings.
 	Currently does not correctly format negative USD Cash
 	"""
-	# This suppresses warnings and errors, idk just go with it
-	import matplotlib
-	matplotlib.use('Agg') 
-	import matplotlib.pyplot
-	matplotlib.use('Agg') 
-
 	
 	# Imply account
 	if account == None:
 		account = self.params['account']
 	account = int(account)
 	
-	# Assemble URL
-	url = self.endpoints['base']	+\
-		'accounts/'					+\
-		str(account)				+\
-		'/holdings.json'
-	
-	# Create auth
-	session = requests.Session()
-	auth	= self.create_auth()
-	req	 = requests.Request('GET',url,auth=auth).prepare()
-	
-	# Send Request
-	self.holdings = session.send(req).json()\
-		['response']['accountholdings']
+	# Send Requests
+	self.holdings = self.call_api(
+		use_post	= False,
+		url_suffix	= 'accounts/' + str(account) + '/holdings.json',
+		data		= None
+	)['response']['response']['accountholdings']
+
 	
 	# Get accounts (necessary?)
 	if self.accounts == []:
@@ -143,6 +166,13 @@ def get_holdings(self,account=None, verbose=False):
 ############################################################################
 def holdings_chart(self, graph_file="./graph.png", account=None, regen=False):
 	"""Create graph of current holdings, by dollar value"""
+
+	# This suppresses warnings and errors, idk just go with it
+	import matplotlib
+	matplotlib.use('Agg') 
+	import matplotlib.pyplot
+	matplotlib.use('Agg') 
+
 	
 	# Imply account
 	if account == None:
@@ -208,13 +238,6 @@ def get_quote (self, symbols, fields=[]):
 	# For aesthetics...
 	fmt_symbols = fmt_symbols.upper()
 	
-	
-	# Assemble URL
-	# url = self.endpoints['base'] + 
-	
-	# Authenticate
-	# auth = self.create_auth()
-	
 	# Create request paramters according to how we need them
 	req_params = { 'symbols':symbols }
 	if fields != None:
@@ -225,7 +248,7 @@ def get_quote (self, symbols, fields=[]):
 		use_post	= True,
 		url_suffix	= 'market/ext/quotes.json',
 		data		= req_params
-	)['response'].json()['response']['quotes']['quote']
+	)['response']['response']['quotes']['quote']
 	
 	
 	# Add symbols to output
@@ -267,35 +290,32 @@ def submit_order (self,order,preview=True, append_order=True,
 	# Imply account
 	if account == None:
 		account = self.params['account']
-
 		
+
 	# Must insert account info
 	order[order_utils.orderReqType(order)]['Acct'] = str(int(account))
 
 
-	# Assemble URL
-	url = self.endpoints['base']		+\
-		'accounts/'						+\
-		str(account)					+\
-		'/orders'						+\
-		('/preview' if preview else '')	+\
-		'.json'
-	
 	# Create FIXML formatted request body
 	data = fixml.FIXML(order)
 	if verbose:
 		print(data)
+
 	
-	# Create Authentication headers
-	auth = self.create_auth()
-	
-	# Create HTTP request objects
-	session = requests.Session()
-	req	 = requests.Request('POST',url, data=data, auth=auth).prepare()
-	
-	# Submit request to put order in as soon as possible
-	results			= {'response':session.send(req)}
-	results['request'] = utils.pretty_print_POST(req)
+	# Assemble URL
+	url_suffix = 'accounts/' + str(account) + '/orders'
+	if preview:
+		url_suffix += '/preview'
+	url_suffix += '.json'
+	print(url_suffix)
+
+
+	results = self.call_api (
+		use_post	= True,
+		url_suffix	= url_suffix,
+		data		= data
+	)
+
 	
 	# Optionally print request
 	if verbose:
@@ -303,14 +323,11 @@ def submit_order (self,order,preview=True, append_order=True,
 		print(results['response'])
 
 
-	# Check if we received a good response
-	if results['response']:
-		if 'response' in results['response'].keys():
-			results['response'] = results['response']['response']
+	results['response'] = results['response']['response']
 	
-		# optionally throw away unsightly extra bullshit
-		if discard_quotes:
-			del results['response']['quotes']
+	# optionally throw away unsightly extra bullshit
+	if discard_quotes:
+		del results['response']['quotes']
 
 
 
@@ -331,26 +348,17 @@ def account_history(self, account=None, type='all', range="all"):
 	# Imply account
 	if account == None:
 		account = self.params['account']
-		
-	# Assemble URL
-	url = self.endpoints['base']	+\
-			'accounts/'				+\
-			str(account)			+\
-			'/history.json'
 	# Add parameters
 	data = {
 		'range':range,
 		'transactions':type
 	}
 	
-	# Create HTTP Request objects
-	session = requests.Session()
-	auth	= self.create_auth()
-	req	 = requests.Request('GET',url,params=data,auth=auth).prepare()
-	
-	
-	results				= {'response':session.send(req).json()}
-	results['request']	= utils.pretty_print_POST(req)
+	results = self.call_api (
+		url_suffix	= 'accounts/' + str(account) + '/history.json',
+		use_post	= False,
+		params		= data
+	)
 	
 	return results['response']['response']['transactions']['transaction']
 ############################################################################
@@ -363,27 +371,15 @@ def order_history(self, account=None, verbose=False):
 	if account == None:
 		account = self.params['account']
 		
-	# Assemble URL
-	url =   self.endpoints['base']	+\
-			'accounts/'			   +\
-			str(account)			  +\
-			'/orders.json'
-	# Add parameters
-	data = {}
-	
-	# Create HTTP Request objects
-	session	= requests.Session()
-	auth	= self.create_auth()
-	req		= requests.Request('GET',url,params=data,auth=auth).prepare()
-	
-	
-	results			= {'response':session.send(req).json()}
-	results['request'] = utils.pretty_print_POST(req)
+	results	= self.call_api(
+		url_prefix	= 'accounts/' + str(account) + '/orders.json',
+		use_post	= False,
+		params		= {}
+	)
 
 	# Clean this up a bit, un-nest one layer
-	if 'response' in results.keys():
-		if 'response' in results['response'].keys():
-			results['response'] = results['response']['response']
+	if 'response' in results['response'].keys():
+		results['response'] = results['response']['response']
 
 	return results
 ############################################################################
@@ -399,7 +395,7 @@ def timesales( self, symbols="", interval="5min", rpp="10", index="0", startdate
 	symbols = symbols.upper()
 
 	# Assemble URL
-	url = self.endpoints['base'] + 'market/timesales.json'
+	url_suffix	= 'market/timesales.json'
 	data = {
 		'symbols': symbols,
 		'interval': interval,
@@ -410,10 +406,68 @@ def timesales( self, symbols="", interval="5min", rpp="10", index="0", startdate
 		'starttime': starttime
 	}
 
-	# Create HTTP Request objects
-	auth			= self.create_auth()
-	results			= requests.get(url,params=data,auth=auth).json()\
-		['response']['quotes']['quote']
+	results = self.call_api (
+		use_post	= False,
+		url_suffix	= url_suffix,
+		params		= data
+	)
 
-	# Convert to floats
-	return results
+	return results['response']['response']['quotes']['quote']
+
+############################################################################
+def market_clock ( self ):
+	"""Receive information about the state of the exchange
+	"""
+	url_suffix = 'market/clock.json'
+
+	results = self.call_api (
+		use_post	= False,
+		url_suffix	= url_suffix,
+		use_auth	= False
+	)
+
+	x = { k:v
+		for k,v in results['response']['response'].items()
+		if k in (
+			'date','message','unixtime','error'
+		)
+	}
+	for k,v in results['response']['response']['status'].items():
+		x[k] = v
+	return x
+############################################################################
+def api_status ( self ):
+	"""Receive information about the Ally servers right now
+	"""
+	url_suffix	=	'utility/status.json'
+
+	results = self.call_api (
+		use_post	= False,
+		url_suffix	= url_suffix,
+		use_auth	= False
+	)
+
+	return { k:v
+		for k,v in results['response']['response'].items()
+		if k in ( 'time','error')
+	}
+############################################################################
+def get_member ( self ):
+	"""Receive some information about the owner of this account
+	"""
+	results	= self.call_api (
+		use_post	= False,
+		url_suffix	= 'member/profile.json'
+	)['response']['response']['userdata']
+	
+	x = {
+		entry['name']:entry['value']
+		for entry in results['userprofile']['entry']
+		if entry['name'] not in ('defaultAccount')
+	}
+	return {**x, **{
+		k:v
+		for k,v in results['account'].items()
+		}
+	}
+

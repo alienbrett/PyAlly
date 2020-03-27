@@ -1,6 +1,7 @@
 import sys
 import ally
 import json
+import pandas as pd
 
 n_tests = 5
 tests = range(n_tests)
@@ -41,7 +42,7 @@ def Test(t):
 
 		print(ally.utils.option_format("ibm", "2014-01-18", 200.00, "call"))
 		print(ally.utils.option_format())
-		print(a.account_history())
+		print(json.dumps(a.account_history(),indent=4))
 
 
 	elif t == 3:
@@ -97,6 +98,57 @@ def Test(t):
 		ts = a.timesales('spy',interval='1min',startdate='2020-03-26')
 		print(
 			json.dumps( ts, indent=4, sort_keys=True)
+		)
+
+	elif t == 9:
+		print("Attempting market streaming")
+		print(
+			a.quote_stream(
+				symbols='SPY'
+			)
+		)
+	elif t == 10:
+		print("market info:",
+			json.dumps(
+				a.market_clock(),
+				indent=4
+			)
+		)
+		print("api server info:",
+			json.dumps(
+				a.api_status(),
+				indent=4
+			)
+		)
+
+	elif t == 11:
+		print("timesales")
+		n_pages = 10
+		for i in range(n_pages):
+			print(i)
+			x = a.timesales(
+				symbols='spy',
+				rpp=str(n_pages),
+				interval='1min',
+				index=str(i),
+				startdate='2020-03-26'
+			)
+
+			print("Found ",len(x),"ticks")
+			print(json.dumps(x,indent=4))
+			df = pd.DataFrame(x)
+			df['datetime'] = pd.to_datetime(df['datetime'])
+			df = df.set_index('datetime')
+			df.to_csv('/tmp/df.csv'+str(i))
+
+	elif t == 12:
+		print("Get member information:")
+		print(
+			json.dumps(
+				a.get_member(),
+				indent=4
+			)
+
 		)
 		
 

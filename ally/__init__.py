@@ -22,7 +22,8 @@ class Ally:
 		'base'					:'https://api.tradeking.com/v1/',
 		'request_token'			:'https://developers.tradeking.com/oauth/request_token',
 		'user_auth'				:'https://developers.tradeking.com/oauth/authorize',
-		'resource_owner_key'	:'https://developers.tradeking.com/oauth/resource_owner_key'
+		'resource_owner_key'	:'https://developers.tradeking.com/oauth/resource_owner_key',
+		'stream'				:'https://stream.tradeking.com/v1/'
 	}
 	json_params = {
 		'indent':4
@@ -43,7 +44,7 @@ class Ally:
 	# Most API calls are stored in api_calls.py
 	create_auth			=	api_calls.create_auth
 	get_accounts		=	api_calls.get_accounts
-	get_holdings		=	api_calls.get_accounts
+	get_holdings		=	api_calls.get_holdings
 	holdings_chart		=	api_calls.holdings_chart
 	get_quote			=	api_calls.get_quote
 	submit_order		=	api_calls.submit_order
@@ -52,6 +53,10 @@ class Ally:
 	timesales			=	api_calls.timesales
 	call_api			=	api_calls.call_api
 	req_sess			=	api_calls.req_sess
+	quote_stream		=	api_calls.quote_stream
+	market_clock		=	api_calls.market_clock
+	api_status			=	api_calls.api_status
+	get_member			=	api_calls.get_member
 	
 	############################################################################
 	def __init__(self, params=None ):
