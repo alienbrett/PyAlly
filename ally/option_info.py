@@ -1,6 +1,7 @@
 from . import utils
 
 from requests_oauthlib   import OAuth1
+import pyximport; pyximport.install()
 import requests
 import json
 

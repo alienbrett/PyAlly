@@ -2,6 +2,7 @@ from . import utils, order as order_utils, fixml, instrument, option_info
 
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 from requests_oauthlib   import OAuth1
+import pyximport; pyximport.install()
 import datetime
 import requests
 import json
@@ -51,16 +52,22 @@ def req_sess ( self ):
 		
 def call_api ( self, use_post, url_suffix, data=None,
 	params=None,
-	timeout=3, verbose=False, use_auth=True):
+	timeout=3, verbose=False, use_auth=True, delete=False):
 	"""Properly handle sending one API request
 	"""
-	s = self.req_sess()
+	s		= self.req_sess()
 
+	if use_post:
+		meth = 'POST'
+	elif delete:
+		meth = 'DELETE'
+	else:
+		meth = 'GET'
 
 	# Create a prepped request
 	req = s.prepare_request(
 		requests.Request(
-			'POST' if use_post else 'GET',
+			meth,
 			self.endpoints['base'] + str(url_suffix),
 			auth	= self.create_auth() if use_auth else None,
 			data	= data,

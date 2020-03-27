@@ -2,8 +2,10 @@
 """			ALLY				"""
 #################################################
 
+import pyximport; pyximport.install()
 from . import 	order as order_utils
 from . import 	option_info
+from . import 	watchlist as watchlist_utils
 from . import	instrument
 from . import 	api_calls
 from . import	utils
@@ -42,22 +44,36 @@ class Ally:
 	options_chain		=	option_info.options_chain
 	############################################################################
 	# Most API calls are stored in api_calls.py
-	create_auth			=	api_calls.create_auth
+	# Account operations
 	get_accounts		=	api_calls.get_accounts
 	get_holdings		=	api_calls.get_holdings
 	holdings_chart		=	api_calls.holdings_chart
-	get_quote			=	api_calls.get_quote
 	submit_order		=	api_calls.submit_order
 	account_history		=	api_calls.account_history
 	order_history		=	api_calls.order_history
+	############################################################################
+	# Pricing information
+	get_quote			=	api_calls.get_quote
 	timesales			=	api_calls.timesales
+	quote_stream		=	api_calls.quote_stream # Unfinished
+	############################################################################
+	# Common
+	create_auth			=	api_calls.create_auth
 	call_api			=	api_calls.call_api
 	req_sess			=	api_calls.req_sess
-	quote_stream		=	api_calls.quote_stream
+	############################################################################
+	# Utilities
 	market_clock		=	api_calls.market_clock
 	api_status			=	api_calls.api_status
 	get_member			=	api_calls.get_member
-	
+	############################################################################
+	# Watchlists
+	get_watchlists		=	watchlist_utils.get_watchlists
+	new_watchlist		=	watchlist_utils.new_watchlist
+	delete_watchlist	=	watchlist_utils.delete_watchlist
+	watchlist			=	watchlist_utils.watchlist
+	delete_symbol		=	watchlist_utils.delete_symbol
+	add_symbol		=	watchlist_utils.add_symbol
 	############################################################################
 	def __init__(self, params=None ):
 		self.holdings_graph	= None

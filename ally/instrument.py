@@ -1,3 +1,4 @@
+import pyximport; pyximport.install()
 from . import utils
 #################################################
 """			INSTRUMENT				"""

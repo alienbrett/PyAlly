@@ -1,10 +1,16 @@
-import sys
+import pyximport; pyximport.install()
+import pandas as pd
 import ally
 import json
-import pandas as pd
+import sys
 
 n_tests = 5
 tests = range(n_tests)
+
+def easyPrint(d):
+	print(
+		json.dumps(d,indent=4)
+	)
 
 def Test(t):
 	t = int(t)
@@ -143,12 +149,37 @@ def Test(t):
 
 	elif t == 12:
 		print("Get member information:")
-		print(
-			json.dumps(
-				a.get_member(),
-				indent=4
-			)
+		easyPrint(a.get_member())
 
+
+	elif t == 13:
+		print("Get all watchlists")
+		easyPrint(a.get_watchlists())
+
+	elif t == 14:
+		print("Add new watchlist: make sure to specify tests.py 14 NAME symbol1,symbol2,...")
+		easyPrint(
+			a.new_watchlist(sys.argv[2], sys.argv[3].split(','))
+		)
+
+	elif t == 15:
+		print("view symbols in watchlist tests.py 15 NAME")
+		easyPrint( a.watchlist(sys.argv[2]) )
+
+	elif t == 16:
+		print("delete watchlist tests.py 16 NAME")
+		easyPrint( a.delete_watchlist(sys.argv[2]) )
+
+	elif t == 17:
+		print("delete symbol from watchlist test.py 17 NAME SYMBOL")
+		easyPrint(
+			a.delete_symbol(sys.argv[2],sys.argv[3])
+		)
+
+	elif t == 18:
+		print("Add symbol: make sure to specify tests.py 14 NAME symbol1,symbol2,...")
+		easyPrint(
+			a.add_symbol(sys.argv[2], sys.argv[3].split(','))
 		)
 		
 

@@ -1,6 +1,7 @@
 #################################################
 """			FIXML				"""
 #################################################
+import pyximport; pyximport.install()
 import xml.etree.cElementTree as ET
 import xml.dom.minidom
 # This prevents collisions

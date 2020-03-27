@@ -1,3 +1,4 @@
+import pyximport; pyximport.install()
 import requests
 import datetime
 
