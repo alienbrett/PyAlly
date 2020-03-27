@@ -1,9 +1,5 @@
-from . import utils
-
-from requests_oauthlib   import OAuth1
 import pyximport; pyximport.install()
-import requests
-import json
+from . import utils
 
 ############################################################################
 def get_strike_prices(self,symbol=""):
@@ -12,20 +8,24 @@ def get_strike_prices(self,symbol=""):
 	# Safety first!
 	if not utils.check(symbol):
 		return []
+
+	results	= self.call_api (
+		use_post	= False,
+		url_suffix	= 'market/options/strikes.json',
+		params		= { 'symbol':symbol }
+	)['response']['response']
 	
-	# Format
-	symbol = symbol.upper()
-	
-	# Assemble URL
-	url =   self.endpoints['base']	+ 'market/options/strikes.json'
-	data = { 'symbol':symbol }
-	
-	# Create HTTP Request objects
-	auth			   = self.create_auth()
-	results			= requests.get(url,params=data,auth=auth).json()
+
+	if results['error'] != 'Success':
+		raise ValueError
+
+	results = results['prices']['price']
+
+	if type(results) != type([]):
+		results = [results]
 	
 	# Convert to floats
-	return [float(x) for x in results['response']['prices']['price']]
+	return list(map(float,results))
 ############################################################################
 def get_exp_dates(self,symbol=""):
 	"""return list of float strike prices for specific symbol"""
@@ -34,18 +34,21 @@ def get_exp_dates(self,symbol=""):
 	if not utils.check(symbol):
 		return []
 	
-	# Format
-	symbol = symbol.upper()
+	results	= self.call_api (
+		use_post	= False,
+		url_suffix	= 'market/options/expirations.json',
+		params		= { 'symbol':symbol }
+	)['response']['response']
+
+	if results['error'] != 'Success':
+		raise ValueError
+
+	results = results['expirationdates']['date']
+
+	if type(results) != type([]):
+		results = [results]
 	
-	# Assemble URL
-	url =   self.endpoints['base']	+ 'market/options/expirations.json'
-	data = { 'symbol':symbol }
-	
-	# Create HTTP Request objects
-	auth			   = self.create_auth()
-	results			= requests.get(url,params=data,auth=auth).json()
-	
-	return results['response']['expirationdates']['date']
+	return results
 	
 ############################################################################
 def search_options(self,symbol="", query="", fields=""):
@@ -74,25 +77,30 @@ def search_options(self,symbol="", query="", fields=""):
 		return []
 	
 	# Format
-	symbol	= symbol.upper()
 	if type(query) == type([]):
 		fmt_query = ' AND '.join([str(q) for q in query])
 	else:
 		fmt_query = query
 	
-	# Assemble URL
-	url =   self.endpoints['base']	+ 'market/options/search.json'
 	data = {
 		'symbol':symbol,
 		'query':fmt_query,
 		'fids':','.join(fields)
 	}
-	
-	# Create HTTP Request objects
-	auth			   = self.create_auth()
-	results			= requests.post(url,params=data,auth=auth).json()\
-		['response']['quotes']['quote']
-	
+	results	= self.call_api (
+		use_post	= True,
+		url_suffix	= 'market/options/search.json',
+		data		= data
+	)['response']['response']
+
+	if results['error'] != 'Success':
+		raise ValueError
+
+	results = results['quotes']['quote']
+
+	if type(results) != type([]):
+		results = [results]
+
 	return results
 ############################################################################
 def options_chain(self, symbol="", direction="c", within_pct=4.0, exp_date=""):
@@ -108,23 +116,15 @@ def options_chain(self, symbol="", direction="c", within_pct=4.0, exp_date=""):
 	
 	# Format
 	direction = "call" if "c" in direction else "put"
-	symbol	= symbol.upper()
 	fmt_query = "xdate-eq:" + str(exp_date) + \
 		" AND " + "strikeprice-gte:" + str(float(cur_price)*(1.0-within_pct/100.0)) + \
 		" AND " + "strikeprice-lte:" + str(float(cur_price)*(1.0+within_pct/100.0)) + \
 		" AND " + "put_call-eq:" + direction
 	
-	# Assemble URL
-	url =   self.endpoints['base']	+ 'market/options/search.json'
-	data = {
-		'symbol':symbol,
-		'query':fmt_query
-	}
-	
-	# Create HTTP Request objects
-	auth			   = self.create_auth()
-	results			= requests.post(url,params=data,auth=auth).json()\
-		['response']['quotes']['quote']
+	results = self.search_options(
+		symbol=symbol,
+		query=fmt_query
+	)
 	
 	for op in results:
 		if direction == "call":

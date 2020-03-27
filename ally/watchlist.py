@@ -1,13 +1,5 @@
-from . import utils, order as order_utils, fixml, instrument, option_info
-
+# Pure python, how about that!
 import pyximport; pyximport.install()
-from requests.exceptions import ConnectionError, HTTPError, Timeout
-from requests_oauthlib   import OAuth1
-import datetime
-import requests
-import json
-import sys
-import os
 
 ############################################################################
 def get_watchlists ( self ):

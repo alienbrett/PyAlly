@@ -10,6 +10,7 @@ from . import	instrument
 from . import 	api_calls
 from . import	utils
 from . import 	fixml
+from . import	news
 
 all = ['fixml.FIXML', 'order', 'instrument', 'Ally', 'utils']
 
@@ -73,7 +74,10 @@ class Ally:
 	delete_watchlist	=	watchlist_utils.delete_watchlist
 	watchlist			=	watchlist_utils.watchlist
 	delete_symbol		=	watchlist_utils.delete_symbol
-	add_symbol		=	watchlist_utils.add_symbol
+	add_symbol			=	watchlist_utils.add_symbol
+	############################################################################
+	# News
+	news_search			=	news.news_search
 	############################################################################
 	def __init__(self, params=None ):
 		self.holdings_graph	= None

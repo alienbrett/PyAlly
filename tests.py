@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import pyximport; pyximport.install()
 import pandas as pd
 import ally
@@ -181,7 +183,19 @@ def Test(t):
 		easyPrint(
 			a.add_symbol(sys.argv[2], sys.argv[3].split(','))
 		)
-		
+
+	elif t == 20:
+		print("Search for news on several symbols")
+		print("Use like this: test.py 20 tsla,nvda,...")
+		easyPrint(
+			a.news_search(
+				sys.argv[2].split(','),
+				maxhits		= 10,
+				startdate	= '03/18 00:00',
+				enddate		= '03/21 00:00'
+
+			)
+		)
 
 if len(sys.argv) < 2:
 	print("Running all tests:")
