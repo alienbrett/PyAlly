@@ -1,13 +1,15 @@
+import pyximport; pyximport.install()
+
+from requests.exceptions import ConnectionError, HTTPError, Timeout
+from requests_oauthlib   import OAuth1
+import datetime
+import requests
+import json
+
 from . import utils
 from . import order as order_utils
 from . import fixml
 
-from requests.exceptions import ConnectionError, HTTPError, Timeout
-from requests_oauthlib   import OAuth1
-import pyximport; pyximport.install()
-import datetime
-import requests
-import json
 
 
 
