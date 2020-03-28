@@ -25,16 +25,12 @@ def news_search ( self, symbols, maxhits=None, startdate=None, enddate=None ):
 
 	# Create call
 	results = self.call_api (
-		use_post	= False,
+		method		= 'GET',
 		url_suffix	= url_suffix,
 		use_auth	= True,
-		params		= data
-	)['response']['response']
+		data		= data
+	)['articles']['article']
 
-	if results['error'] != 'Success':
-		raise  ValueError
-	
-	results = results['articles']['article']
 	if type(results) != type([]):
 		results = [results]
 

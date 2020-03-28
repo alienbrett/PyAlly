@@ -2,7 +2,6 @@
 """			ORDER				"""
 #################################################
 import pyximport; pyximport.install()
-from . import instrument
 #################################################
 # ORDER CONSTRUCTOR
 def Order(timespan,type,price,instrument,quantity):
@@ -216,7 +215,7 @@ def Cancel(orderid, order=None):
 			Timespan('gtc'),
 			Buy(),
 			Market(),
-			instrument.Instrument("none"),
+			{},
 			Quantity(0)
 			)
 

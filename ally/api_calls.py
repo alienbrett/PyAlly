@@ -1,4 +1,6 @@
-from . import utils, order as order_utils, fixml, instrument, option_info
+from . import utils
+from . import order as order_utils
+from . import fixml
 
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 from requests_oauthlib   import OAuth1
@@ -6,14 +8,14 @@ import pyximport; pyximport.install()
 import datetime
 import requests
 import json
-import sys
-import os
 
 
 
 
 
 def quote_stream ( self, symbols ):
+	"""Incomplete, don't use this yet
+	"""
 	print("Got here...")
 	try:
 		# Send Request
@@ -50,28 +52,30 @@ def req_sess ( self ):
 
 ##################
 		
-def call_api ( self, use_post, url_suffix, data=None,
-	params=None,
-	timeout=3, verbose=False, use_auth=True, delete=False):
+def call_api (
+	self, method, url_suffix, data=None, 
+	timeout=3, verbose=False, use_auth=True, full_output=False):
 	"""Properly handle sending one API request
 	"""
 	s		= self.req_sess()
 
-	if use_post:
-		meth = 'POST'
-	elif delete:
-		meth = 'DELETE'
+	method = method.upper()
+
+	if method == 'GET':
+		send_params	= data
+		send_data	= None
 	else:
-		meth = 'GET'
+		send_data	= data
+		send_params = None
 
 	# Create a prepped request
 	req = s.prepare_request(
 		requests.Request(
-			meth,
+			method,
 			self.endpoints['base'] + str(url_suffix),
 			auth	= self.create_auth() if use_auth else None,
-			data	= data,
-			params	= params
+			params	= send_params,
+			data	= send_data
 		)
 	)
 	
@@ -83,6 +87,10 @@ def call_api ( self, use_post, url_suffix, data=None,
 		)
 		if r:
 			r = r.json()
+			r = r['response']
+
+			if r['error'] != 'Success':
+				raise ValueError( r['error'] )
 		else:
 			r.raise_for_status()
 			
@@ -96,10 +104,13 @@ def call_api ( self, use_post, url_suffix, data=None,
 		print("Timeout:",e)
 		raise
 
-	return {
-		'response'	: r,
-		'request'	: utils.pretty_print_POST(req)
-	}
+	if full_output:
+		return {
+			'response'	: r,
+			'request'	: utils.pretty_print_POST(req)
+		}
+	else:
+		return r
 
 
 
@@ -130,10 +141,9 @@ def create_auth(self):
 def get_accounts(self):
 
 	acnts = self.call_api(
-		use_post	= False,
-		url_suffix	= 'accounts.json',
-		data		= None
-	)['response']['response']['accounts']['accountsummary']
+		method		= 'GET',
+		url_suffix	= 'accounts.json'
+	)['accounts']['accountsummary']
 
 	# set accounts internally
 	self.accounts = {}
@@ -158,10 +168,9 @@ def get_holdings(self,account=None, verbose=False):
 	
 	# Send Requests
 	self.holdings = self.call_api(
-		use_post	= False,
-		url_suffix	= 'accounts/' + str(account) + '/holdings.json',
-		data		= None
-	)['response']['response']['accountholdings']
+		method		= 'GET',
+		url_suffix	= 'accounts/' + str(account) + '/holdings.json'
+	)['accountholdings']
 
 	
 	# Get accounts (necessary?)
@@ -252,10 +261,10 @@ def get_quote (self, symbols, fields=[]):
 		
 
 	results = self.call_api (
-		use_post	= True,
+		method		= 'POST',
 		url_suffix	= 'market/ext/quotes.json',
 		data		= req_params
-	)['response']['response']['quotes']['quote']
+	)['quotes']['quote']
 	
 	
 	# Add symbols to output
@@ -270,8 +279,10 @@ def get_quote (self, symbols, fields=[]):
 	return results
 
 ############################################################################
-def submit_order (self,order,preview=True, append_order=True,
-	account=None, verbose=False, discard_quotes=True):
+def submit_order (
+	self,order,preview=True, append_order=True,
+	account=None, verbose=False, discard_quotes=True
+):
 
 	"""Handle an order request. This ones a little complicated with a few options:
 	order		   - Must submit an order constructed with ally.Order.Order(...)
@@ -314,28 +325,26 @@ def submit_order (self,order,preview=True, append_order=True,
 	if preview:
 		url_suffix += '/preview'
 	url_suffix += '.json'
-	print(url_suffix)
 
 
+	# Perform our call
 	results = self.call_api (
-		use_post	= True,
+		method		= 'POST',
 		url_suffix	= url_suffix,
-		data		= data
+		data		= data,
+		full_output	= verbose # we can change the output dynamically
 	)
 
 	
-	# Optionally print request
 	if verbose:
+		# Notice results will have different type, depending on verbose
 		print(results['request'])
 		print(results['response'])
 
-
-	results['response'] = results['response']['response']
-	
-	# optionally throw away unsightly extra bullshit
-	if discard_quotes:
-		del results['response']['quotes']
-
+	else:
+		# optionally throw away unsightly extra bullshit
+		if discard_quotes:
+			del results['quotes']
 
 
 	# Optionally send the original order back to the user
@@ -344,7 +353,7 @@ def submit_order (self,order,preview=True, append_order=True,
 
 	return results
 ############################################################################
-def account_history(self, account=None, type='all', range="all"):
+def account_history(self, account=None, type_='all', range_="all"):
 	"""type must be in "all, bookkeeping, trade"
 	range must be in "all, today, current_week, current_month, last_month"
 	"""
@@ -357,17 +366,17 @@ def account_history(self, account=None, type='all', range="all"):
 		account = self.params['account']
 	# Add parameters
 	data = {
-		'range':range,
-		'transactions':type
+		'range':range_,
+		'transactions':type_
 	}
 	
 	results = self.call_api (
 		url_suffix	= 'accounts/' + str(account) + '/history.json',
-		use_post	= False,
-		params		= data
+		method		= 'GET',
+		data		= data
 	)
 	
-	return results['response']['response']['transactions']['transaction']
+	return results['transactions']['transaction']
 ############################################################################
 def order_history(self, account=None, verbose=False):
 	"""View most recent orders"""
@@ -379,14 +388,15 @@ def order_history(self, account=None, verbose=False):
 		account = self.params['account']
 		
 	results	= self.call_api(
-		url_prefix	= 'accounts/' + str(account) + '/orders.json',
-		use_post	= False,
-		params		= {}
+		method		= 'GET',
+		url_prefix	= 'accounts/' + str(account) + '/orders.json'
 	)
 
+	"""
 	# Clean this up a bit, un-nest one layer
 	if 'response' in results['response'].keys():
 		results['response'] = results['response']['response']
+	"""
 
 	return results
 ############################################################################
@@ -414,12 +424,12 @@ def timesales( self, symbols="", interval="5min", rpp="10", index="0", startdate
 	}
 
 	results = self.call_api (
-		use_post	= False,
+		method		= 'GET',
 		url_suffix	= url_suffix,
-		params		= data
+		data		= data
 	)
 
-	return results['response']['response']['quotes']['quote']
+	return results['quotes']['quote']
 
 ############################################################################
 def market_clock ( self ):
@@ -428,19 +438,15 @@ def market_clock ( self ):
 	url_suffix = 'market/clock.json'
 
 	results = self.call_api (
-		use_post	= False,
+		method		= 'GET',
 		url_suffix	= url_suffix,
 		use_auth	= False
 	)
 
 	x = { k:v
-		for k,v in results['response']['response'].items()
-		if k in (
-			'date','message','unixtime','error'
-		)
+		for k,v in results.items()
+		if k in ( 'message','status')
 	}
-	for k,v in results['response']['response']['status'].items():
-		x[k] = v
 	return x
 ############################################################################
 def api_status ( self ):
@@ -449,13 +455,13 @@ def api_status ( self ):
 	url_suffix	=	'utility/status.json'
 
 	results = self.call_api (
-		use_post	= False,
+		method		= 'GET',
 		url_suffix	= url_suffix,
 		use_auth	= False
 	)
 
 	return { k:v
-		for k,v in results['response']['response'].items()
+		for k,v in results.items()
 		if k in ( 'time','error')
 	}
 ############################################################################
@@ -463,9 +469,9 @@ def get_member ( self ):
 	"""Receive some information about the owner of this account
 	"""
 	results	= self.call_api (
-		use_post	= False,
+		method		= 'GET',
 		url_suffix	= 'member/profile.json'
-	)['response']['response']['userdata']
+	)['userdata']
 	
 	x = {
 		entry['name']:entry['value']
@@ -477,4 +483,29 @@ def get_member ( self ):
 		for k,v in results['account'].items()
 		}
 	}
+############################################################################
+def toplists ( self, list_type='topactive', exchange='N' ):
+	"""Return ranked list of stocks during the last trading day, for a specific exchange.
+	list_type must be one of (
+		'topactive', [default]
+		'toplosers',
+		'topvolume',
+		'topgainers',
+		'toppctgainers'
+	)
+	exchange must be one of (
+		'N' => NYSE [default]
+		'A' => American Stock exchange
+		'Q' => Nasdaq
+		'U' => Nasdaq Bulletin Board
+		'V' => Nasdaq OTC Other
+	)
+	"""
+	results = self.call_api (
+		method		= 'GET',
+		url_suffix	= 'market/toplists/' + str(list_type) + '.json',
+		data		= { 'exchange' : exchange }
+	)
+	
+	return results
 

@@ -67,6 +67,7 @@ class Ally:
 	market_clock		=	api_calls.market_clock
 	api_status			=	api_calls.api_status
 	get_member			=	api_calls.get_member
+	toplists			=	api_calls.toplists
 	############################################################################
 	# Watchlists
 	get_watchlists		=	watchlist_utils.get_watchlists

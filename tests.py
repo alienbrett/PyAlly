@@ -190,12 +190,22 @@ def Test(t):
 		easyPrint(
 			a.news_search(
 				sys.argv[2].split(','),
-				maxhits		= 10,
-				startdate	= '03/18 00:00',
-				enddate		= '03/21 00:00'
+				maxhits		= 10
+				# startdate	= '03/18 00:00',
+				# enddate		= '03/21 00:00'
 
 			)
 		)
+	
+	elif t == 21:
+		print("Toplists (not top-less!)")
+		print("use like this: test.py 21 (toplist type) (exchange)")
+		x = a.toplist(
+				sys.argv[2],
+				sys.argv[3]
+			)
+		print("Found", len(x), "entries!")
+		easyPrint( x )
 
 if len(sys.argv) < 2:
 	print("Running all tests:")

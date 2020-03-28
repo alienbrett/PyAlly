@@ -10,16 +10,10 @@ def get_strike_prices(self,symbol=""):
 		return []
 
 	results	= self.call_api (
-		use_post	= False,
+		method		= 'GET',
 		url_suffix	= 'market/options/strikes.json',
-		params		= { 'symbol':symbol }
-	)['response']['response']
-	
-
-	if results['error'] != 'Success':
-		raise ValueError
-
-	results = results['prices']['price']
+		data		= { 'symbol':symbol }
+	)['prices']['price']
 
 	if type(results) != type([]):
 		results = [results]
@@ -37,13 +31,8 @@ def get_exp_dates(self,symbol=""):
 	results	= self.call_api (
 		use_post	= False,
 		url_suffix	= 'market/options/expirations.json',
-		params		= { 'symbol':symbol }
-	)['response']['response']
-
-	if results['error'] != 'Success':
-		raise ValueError
-
-	results = results['expirationdates']['date']
+		data		= { 'symbol':symbol }
+	)['expirationdates']['date']
 
 	if type(results) != type([]):
 		results = [results]
@@ -76,27 +65,19 @@ def search_options(self,symbol="", query="", fields=""):
 		print("failed check?")
 		return []
 	
-	# Format
-	if type(query) == type([]):
-		fmt_query = ' AND '.join([str(q) for q in query])
-	else:
-		fmt_query = query
+	query = ' AND '.join(list(query))
 	
 	data = {
 		'symbol':symbol,
 		'query':fmt_query,
 		'fids':','.join(fields)
 	}
+
 	results	= self.call_api (
-		use_post	= True,
+		method		= 'POST',
 		url_suffix	= 'market/options/search.json',
 		data		= data
-	)['response']['response']
-
-	if results['error'] != 'Success':
-		raise ValueError
-
-	results = results['quotes']['quote']
+	)['quotes']['quote']
 
 	if type(results) != type([]):
 		results = [results]
@@ -114,12 +95,12 @@ def options_chain(self, symbol="", direction="c", within_pct=4.0, exp_date=""):
 	
 	cur_price = self.get_quote(symbol, 'last')['last']
 	
-	# Format
-	direction = "call" if "c" in direction else "put"
-	fmt_query = "xdate-eq:" + str(exp_date) + \
-		" AND " + "strikeprice-gte:" + str(float(cur_price)*(1.0-within_pct/100.0)) + \
-		" AND " + "strikeprice-lte:" + str(float(cur_price)*(1.0+within_pct/100.0)) + \
-		" AND " + "put_call-eq:" + direction
+	fmt_query = ' AND '.join([
+		"xdate-eq:"			+ str(exp_date),
+		"strikeprice-gte:"	+ str(float(cur_price)*(1.0-within_pct/100.0)),
+		"strikeprice-lte:"	+ str(float(cur_price)*(1.0+within_pct/100.0)),
+		"put_call-eq:"		+ "call" if "c" in direction else "put"
+	])
 	
 	results = self.search_options(
 		symbol=symbol,
