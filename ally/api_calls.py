@@ -510,4 +510,21 @@ def toplists ( self, list_type='topactive', exchange='N' ):
 	)
 	
 	return results
+############################################################################
+def get_cash(account):
+	acnts = self.call_api(
+		method='GET',
+		url_suffix='accounts.json'
+	)['accounts']['accountsummary']
 
+	# set accounts internally
+	self.accounts = {}
+	if type(acnts) == type([]):
+		for acnt in list(acnts):
+			self.accounts[int(acnt['account'])] = acnt
+	else:
+		self.accounts[int(acnts['account'])] = acnts
+
+	cash = self.accounts[account]['accountbalance']['money']
+	
+	return cash
