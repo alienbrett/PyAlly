@@ -69,7 +69,7 @@ def search_options(self,symbol="", query="", fields=""):
 	
 	data = {
 		'symbol':symbol,
-		'query':fmt_query,
+		'query':query,
 		'fids':','.join(fields)
 	}
 
