@@ -1,4 +1,4 @@
-# PyAlly 0.3.4
+# PyAlly 0.3.5
 Python3 wrapper for [Ally Invest brokerage API](https://www.ally.com/api/invest/documentation/getting-started/ "Ally Invest API")
 
 Ally Bank's investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.
@@ -28,6 +28,7 @@ After setting up API keys, PyAlly can provide the basic/essential Ally brokerage
 * [Brett Graves](https://github.com/alienbrett)
 * [Cole Fox](https://github.com/coalfocks)
 * [Rob Valadez](https://github.com/Rob-Valdez)
+* [Julian Traversa](https://github.com/JTraversa)
 
 Message me on Github or [send an email](mailto:alienbrett648@gmail.com) if you enjoyed the project or thought it could be improved. I do my best to code with quality but sometimes it is easier said than done. Anyone with an interest with an eye for detail is welcome to contribute.
 
