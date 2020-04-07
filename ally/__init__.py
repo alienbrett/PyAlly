@@ -52,6 +52,7 @@ class Ally:
 	submit_order		=	api_calls.submit_order
 	account_history		=	api_calls.account_history
 	order_history		=	api_calls.order_history
+	get_cash			=	api_calls.get_cash
 	############################################################################
 	# Pricing information
 	get_quote			=	api_calls.get_quote

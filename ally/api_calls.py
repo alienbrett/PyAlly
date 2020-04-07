@@ -521,7 +521,12 @@ def toplists ( self, list_type='topactive', exchange='N' ):
 	
 	return results
 ############################################################################
-def get_cash(account):
+def get_cash(self, account=None):
+	# Imply account
+	if account == None:
+		account = self.params['account']
+	account = int(account)
+
 	acnts = self.call_api(
 		method='GET',
 		url_suffix='accounts.json'
