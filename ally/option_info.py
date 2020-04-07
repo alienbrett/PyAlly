@@ -43,12 +43,12 @@ def get_exp_dates(self,symbol=""):
 def search_options(self,symbol="", query="", fields=""):
 	"""return list of float strike prices for specific symbol
 	QUERYABLE FIELDS:
-		strikeprice  #  possible values: 5 or 7.50, integers or decimals		 
+		strikeprice	#  possible values: 5 or 7.50, integers or decimals		 
 		xdate		#  YYYYMMDD
-		xmonth	   #  MM
+		xmonth		#  MM
 		xyear		#  YYYY 
-		put_call	 #  'put' or 'call'  
-		unique	   #  'strikeprice', 'xdate'
+		put_call	#  'put' or 'call'  
+		unique		#  'strikeprice', 'xdate'
 	OPERATORS:
 		LT  # <
 		GT  # >

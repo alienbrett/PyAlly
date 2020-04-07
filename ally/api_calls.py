@@ -18,13 +18,21 @@ from . import fixml
 def quote_stream ( self, symbols ):
 	"""Incomplete, don't use this yet
 	"""
+	"""https://stream.tradeking.com/v1/market/quotes.json?
+	symbols=AAPL
+	oauth_consumer_key=X9j5GvxuowIiCClw45bXdWLc3UXS3kxMaM68XzxrI9A3
+	oauth_token=cmpCWpPq1pjmPA0I4kSamCwuGne8rQBlFjF2ZOUC84U6
+	"""
 	print("Got here...")
 	try:
 		# Send Request
 		r	=	requests.Session().post(
 			url		=	self.endpoints['stream'] + 'market/quotes.json',
 			auth	=	self.create_auth(),
-			data	=	{'symbols':symbols},
+			data	=	{
+				'symbols':symbols,
+				'oauth_consumer_key':self.params['client_key']
+			},
 			stream=True
 		)
 		print("Sent the request...")
@@ -415,14 +423,16 @@ def timesales( self, symbols="", interval="5min", rpp="10", index="0", startdate
 
 	# Assemble URL
 	url_suffix	= 'market/timesales.json'
-	data = {
-		'symbols': symbols,
-		'interval': interval,
-		'rpp': rpp,
-		'index': index,
-		'startdate': startdate,
-		'enddate': enddate,
-		'starttime': starttime
+	data = {k:v for k,v in {
+			'symbols': symbols,
+			'interval': interval,
+			'rpp': rpp,
+			'index': index,
+			'startdate': startdate,
+			'enddate': enddate,
+			'starttime': starttime
+		}.items()
+		if v is not None and v != ""
 	}
 
 	results = self.call_api (
