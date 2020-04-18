@@ -368,7 +368,7 @@ def account_history(self, account=None, type_='all', range_="all"):
 	range must be in "all, today, current_week, current_month, last_month"
 	"""
 	
-	if not (utils.check(type) and utils.check(range)):
+	if not (utils.check(type_) and utils.check(range_)):
 		return {}
 	
 	# Imply account

@@ -128,12 +128,12 @@ def Sell(to_open=True):
 	if to_open:
 		return {
 			'__side'  :'sell_short',
-			'Side'	:'2'
+			'Side'	: '5'
 		}
 	else:
 		return {
 			'__side'  : 'sell',
-			'Side'	: '5'
+			'Side'	:'2'
 		}
 
 
