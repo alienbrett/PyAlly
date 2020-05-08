@@ -1,5 +1,3 @@
-import pyximport; pyximport.install()
-
 ############################################################################
 def get_watchlists ( self ):
 	"""Grab a list of watchlist ID's

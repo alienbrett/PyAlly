@@ -1,11 +1,12 @@
 #################################################
 """			FIXML				"""
 #################################################
-import pyximport; pyximport.install()
 import xml.etree.cElementTree as ET
 import xml.dom.minidom
+
 # This prevents collisions
 from . import order as order_utils
+
 
 def getAttributes(tag):
 	"""Convert non-nested key/vals in dict into dict on their own
@@ -35,13 +36,9 @@ def FIXML(orderd,verbose=False):
 	qty_attrib  = getAttributes( orderd[ordReqT]['OrdQty'] )
 	inst_attrib = getAttributes( orderd[ordReqT]['Instrmt'] )
 
-	o		= ET.SubElement( root, ordReqT, attrib=o_attrib )
-	instrmt  = ET.SubElement( o,  'Instrmt', attrib=inst_attrib )
-	qty	  = ET.SubElement( o,  'OrdQty', attrib=qty_attrib )
-
+	o			= ET.SubElement( root, ordReqT, attrib=o_attrib )
+	instrmt		= ET.SubElement( o,  'Instrmt', attrib=inst_attrib )
+	qty			= ET.SubElement( o,  'OrdQty', attrib=qty_attrib )
 
 	raw = ET.tostring( root )
-
-	# dom = xml.dom.minidom.parseString(raw)
-
 	return raw

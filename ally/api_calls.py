@@ -1,5 +1,3 @@
-import pyximport; pyximport.install()
-
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 from requests_oauthlib   import OAuth1
 import datetime
@@ -17,11 +15,6 @@ from . import fixml
 
 def quote_stream ( self, symbols ):
 	"""Incomplete, don't use this yet
-	"""
-	"""https://stream.tradeking.com/v1/market/quotes.json?
-	symbols=AAPL
-	oauth_consumer_key=X9j5GvxuowIiCClw45bXdWLc3UXS3kxMaM68XzxrI9A3
-	oauth_token=cmpCWpPq1pjmPA0I4kSamCwuGne8rQBlFjF2ZOUC84U6
 	"""
 	print("Got here...")
 	try:
@@ -399,14 +392,8 @@ def order_history(self, account=None, verbose=False):
 		
 	results	= self.call_api(
 		method		= 'GET',
-		url_prefix	= 'accounts/' + str(account) + '/orders.json'
+		url_suffix	= 'accounts/' + str(account) + '/orders.json'
 	)
-
-	"""
-	# Clean this up a bit, un-nest one layer
-	if 'response' in results['response'].keys():
-		results['response'] = results['response']['response']
-	"""
 
 	return results
 ############################################################################
@@ -459,6 +446,7 @@ def market_clock ( self ):
 		for k,v in results.items()
 		if k in ( 'message','status')
 	}
+
 	return x
 ############################################################################
 def api_status ( self ):

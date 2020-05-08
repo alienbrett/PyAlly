@@ -1,8 +1,6 @@
 #################################################
 """			ALLY				"""
 #################################################
-
-import pyximport; pyximport.install()
 from . import 	order as order_utils
 from . import 	option_info
 from . import 	watchlist as watchlist_utils

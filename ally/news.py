@@ -1,5 +1,4 @@
 # Pure python, how about that!
-import pyximport; pyximport.install()
 
 ############################################################################
 def news_search ( self, symbols, maxhits=None, startdate=None, enddate=None ):

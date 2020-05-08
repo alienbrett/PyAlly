@@ -1,8 +1,6 @@
 #################################################
 """			ORDER				"""
 #################################################
-import pyximport; pyximport.install()
-#################################################
 # ORDER CONSTRUCTOR
 def Order(timespan,type,price,instrument,quantity):
 	"""Wrap an order up for submission"""
@@ -162,7 +160,7 @@ def StopLimit(stopOrder, limitOrder):
 		'__execution' : 'stop limit',
 		'Typ'	: '4',
 		'Px'	 : limitOrder['Px'],
-		'StopPx' : stopOrder['StopPX'],
+		'StopPx' : stopOrder['StopPx'],
 	}
 	
 	
@@ -185,7 +183,7 @@ def Stop(stop):
 	return {
 		'__execution' :'stop',
 		'Typ'	:'3',
-		'StopPX' : str(float(stop))
+		'StopPx' : str(float(stop))
 	}
 
 
