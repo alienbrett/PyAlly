@@ -185,7 +185,7 @@ def Stop(stop):
 	return {
 		'__execution' :'stop',
 		'Typ'	:'3',
-		'StopPX' : str(float(stop))
+		'StopPx' : str(float(stop))
 	}
 
 
