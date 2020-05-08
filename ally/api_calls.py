@@ -399,7 +399,7 @@ def order_history(self, account=None, verbose=False):
 		
 	results	= self.call_api(
 		method		= 'GET',
-		url_prefix	= 'accounts/' + str(account) + '/orders.json'
+		url_suffix	= 'accounts/' + str(account) + '/orders.json'
 	)
 
 	"""
