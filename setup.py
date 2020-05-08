@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
         name="pyally",
-        version="0.3.7",
+        version="0.3.8",
         author="Brett Graves",
         author_email="alienbrett648@gmail.com",
         description="Ally Invest API Wrapper",
@@ -15,8 +15,7 @@ setuptools.setup(
         packages=setuptools.find_packages(),
 		install_requires=[
 			'requests-oauthlib',
-			'requests',
-			'cython'
+			'requests'
 		],
         classifiers=[
             "Programming Language :: Python :: 3",

@@ -15,3 +15,4 @@ build/
 build/*
 pyally.egg-info/
 pyally.egg-info/*
+venv/
