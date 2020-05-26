@@ -1,0 +1,4 @@
+
+
+class ApiKeyException(Exception):
+	pass
