@@ -1,5 +1,5 @@
 from requests_oauthlib	import OAuth1
-from datetime			import datetime
+from datetime			import datetime, timedelta
 from requests			import Session
 
 
@@ -26,13 +26,12 @@ class Auth:
 	def _get_auth ( self ):
 		# Compute the auth, without caching
 		return OAuth1(
-			self._params.get('ALLY_OAUTH_SECRET'),
-			self._params.get('ALLY_OAUTH_TOKEN'),
-			self._params.get('ALLY_CONSUMER_SECRET'),
 			self._params.get('ALLY_CONSUMER_KEY'),
-			signature_type='ALLY_ACCOUNT_NBR'
+			self._params.get('ALLY_CONSUMER_SECRET'),
+			self._params.get('ALLY_OAUTH_TOKEN'),
+			self._params.get('ALLY_OAUTH_SECRET'),
+			signature_type='auth_header'
 		)
-
 
 	
 	@property
@@ -65,10 +64,10 @@ class Auth:
 		
 		# make sure DT is good
 		if dt is None:
-			timedelta(seconds=9.7)
+			dt = timedelta(seconds=9.7)
 
 		# Keep track of the cache invalidation time
-		_valid_auth_dt = dt
+		self._valid_auth_dt = dt
 
 		# Store what we need
 		self._params = params

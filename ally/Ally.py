@@ -2,18 +2,18 @@ from os			import environ
 from json		import load
 from .Auth		import Auth
 from .exception	import ApiKeyException
+from .Api		import setTimeout
 
 
 
 
-__all_params = ( 
-	'ALLY_OAUTH_SECRET'	
-	'ALLY_OAUTH_TOKEN'
-	'ALLY_CONSUMER_SECRET'
-	'ALLY_CONSUMER_KEY'
+_all_params = ( 
+	'ALLY_OAUTH_SECRET',
+	'ALLY_OAUTH_TOKEN',
+	'ALLY_CONSUMER_SECRET',
+	'ALLY_CONSUMER_KEY',
 	'ALLY_ACCOUNT_NBR'
 )
-
 
 
 
@@ -21,20 +21,25 @@ __all_params = (
 class Ally:
 
 	# Import all our class methods
-	# from . import Account	as account
-	from . import Info		as info
+	from .Account	import (
+		holdings,
+		balances,
+		history
+	)
+	from .Info		import clock, status
 
 
 
 
 	auth = None
+	account_nbr = None
 
 	def param_load_environ (self):
 		"""Try to use environment params
 		Account number is now mandatory
 		"""
 		params = {}
-		for t in __all_params:
+		for t in _all_params:
 			params[t] = environ.get(t,None)
 		return params
 
@@ -50,23 +55,24 @@ class Ally:
 
 
 
-	def __init__ ( self, params = None ):
+	def __init__ ( self, params = None, timeout=1.0 ):
 
 		"""Provide API keys in the form of:
 		- A dictionary: { ALLY_OAUTH_SECRET: ...}
 		- A string: (filename to json file containing api keys)
 		- None (default): Grab the api keys from environment variables
 
-
 		For any of the mediums above, be sure to provide all of the keys:
+			params = { 
+				'ALLY_OAUTH_SECRET'		: ...,
+				'ALLY_OAUTH_TOKEN'		: ...,
+				'ALLY_CONSUMER_SECRET'	: ...,
+				'ALLY_CONSUMER_KEY'		: ...,
+				'ALLY_ACCOUNT_NBR'		: ...
+			}
 
-		params = { 
-			'ALLY_OAUTH_SECRET'		: ...,
-			'ALLY_OAUTH_TOKEN'		: ...,
-			'ALLY_CONSUMER_SECRET'	: ...,
-			'ALLY_CONSUMER_KEY'		: ...,
-			'ALLY_ACCOUNT_NBR'		: ...
-		}
+		Also optionally specify timeout period for API requests
+			Requests will be automatically retried if connection doesn't succeed
 
 		"""
 
@@ -89,7 +95,7 @@ class Ally:
 			
 
 		# Check that we have all the parameters we need
-		for t in __all_params:
+		for t in _all_params:
 			if params.get(t,None) is None:
 				raise ApiKeyException ( '{0} parameter not provided'.format(t) )
 
@@ -97,7 +103,13 @@ class Ally:
 		# Create the auth that we want
 		#  This is the only tidbit that actually
 		#   needs these parameters anyways
-		self._auth = Auth(params)
+		self.auth = Auth(params)
+
+		# But keep account number
+		self.account_nbr = params['ALLY_ACCOUNT_NBR']
+
+		
+
 
 
 

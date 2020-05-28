@@ -19,7 +19,7 @@ class Status ( Endpoint ):
 
 	
 def clock ():
-	return Clock.request()
+	return Clock().request()
 
 def status ():
-	return Status.request()
+	return Status().request()

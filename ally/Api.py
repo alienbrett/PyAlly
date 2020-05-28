@@ -1,9 +1,13 @@
 # from requests.exceptions import ConnectionError, HTTPError, Timeout
-from enum		import Enum
-from requests	import Request, Session
+from enum					import Enum
+from retry					import retry
+from requests				import Request, Session
+from requests.exceptions	import HTTPError,Timeout
 import datetime
 import logging
-import json
+
+
+
 
 
 """
@@ -24,6 +28,12 @@ import json
 	* 180 per minute, user info like balance, summary, etc
 
 """
+
+
+
+# Global timeout variable
+_timeout = 1.0
+
 
 
 class RequestType(Enum):
@@ -54,10 +64,16 @@ class Endpoint:
 	req = None
 	
 
+
+
+
 	@classmethod
 	def url ( cls ):
 		return cls._host + cls._resource
 	
+
+
+
 
 	@classmethod
 	def resolve ( cls, **kwargs):
@@ -68,10 +84,16 @@ class Endpoint:
 
 
 
+
+
+
 	def extract ( self, response ):
 		"""Extract certain fields from response
 		"""
 		return response.json().get('response')
+
+
+
 
 
 
@@ -84,10 +106,22 @@ class Endpoint:
 
 
 
-	def fetch ( self ):
-		"""Fetch the network resource we manage
+
+
+	@retry ( (Timeout), backoff=1.1, jitter=(0.01, 0.05) )
+	def _fetch_raw ( self ):
+		return self.s.send(
+			self.req,
+			timeout = _timeout
+		)
+
+
+	def request ( self=None ):
+		"""Execute an entire loop, and aggregate results
 		"""
-		return self.extract ( self.s.send( self.req ) )
+		return self.extract (
+			self._fetch_raw()
+		)
 
 
 
@@ -108,14 +142,16 @@ class Endpoint:
 			self.s = auth.sess
 		else:
 			self.s = Session()
-		
-		# response = self.fetch()
 
+
+		req_auth = None if auth is None else auth.auth
+		
 		# Create a prepped request
 		self.req = self.s.prepare_request(
 			Request(
 				self._method,
-				self.resolve( ),
+				self.resolve( **kwargs ),
+				auth	= req_auth,
 				params	= send_params,
 				data	= send_data
 			)
@@ -123,16 +159,42 @@ class Endpoint:
 
 
 
-	@classmethod
-	def request ( cls ):
-		"""Execute an entire loop, and aggregate results
-		"""
-		return cls().fetch()
+
+
 
 
 
 
 class AuthenticatedEndpoint ( Endpoint ):
-	pass
+	"""Simple class, just require auth. Non-auth is non-optional
+	"""
+	def __init__ ( self, auth, **kwargs ):
+		"""Create and send request
+		Return the processed result
+		"""
+		super().__init__(auth,**kwargs)
 
 
+
+
+
+
+
+class AccountEndpoint ( AuthenticatedEndpoint ):
+	"""Also automatically resolve url to include account number
+	"""
+	def resolve ( self, **kwargs):
+		"""Inject the account number into the call
+		"""
+		return self.url().format(kwargs.get('account_nbr'))
+
+
+
+
+
+
+def setTimeout ( t ):
+	"""Used to set the global request response timeout variable
+	"""
+	if t is not None:
+		_timeout = float(t)
