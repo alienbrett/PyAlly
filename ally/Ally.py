@@ -3,6 +3,7 @@ from json		import load
 from .Auth		import Auth
 from .exception	import ApiKeyException
 from .Api		import setTimeout
+from .Watchlist	import Watchlist
 
 
 
@@ -27,7 +28,8 @@ class Ally:
 		history
 	)
 	from .Info		import clock, status
-
+	from .Order		import submit, orders
+	from .Quote		import quote, stream
 
 
 
@@ -108,6 +110,10 @@ class Ally:
 		# But keep account number
 		self.account_nbr = params['ALLY_ACCOUNT_NBR']
 
+
+		# Watchlist gets copy of our object
+		#  this is so that it can manage its own api calls
+		self.watchlists = Watchlist( self )
 		
 
 

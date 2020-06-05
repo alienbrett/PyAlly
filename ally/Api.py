@@ -3,6 +3,10 @@ from enum					import Enum
 from retry					import retry
 from requests				import Request, Session
 from requests.exceptions	import HTTPError,Timeout
+from .utils					import (
+	pretty_print_POST,
+	JSONStreamParser
+)
 import datetime
 import logging
 
@@ -109,19 +113,24 @@ class Endpoint:
 
 
 	@retry ( (Timeout), backoff=1.1, jitter=(0.01, 0.05) )
-	def _fetch_raw ( self ):
+	def _fetch_raw ( self, stream=False ):
 		return self.s.send(
 			self.req,
-			timeout = _timeout
+			timeout = _timeout,
+			stream=stream
 		)
+
 
 
 	def request ( self=None ):
 		"""Execute an entire loop, and aggregate results
 		"""
-		return self.extract (
-			self._fetch_raw()
-		)
+		x = self._fetch_raw()
+
+		# print(x.status)
+		x.raise_for_status()
+
+		return self.extract ( x )
 
 
 
@@ -156,6 +165,7 @@ class Endpoint:
 				data	= send_data
 			)
 		)
+		print(pretty_print_POST(self.req))
 
 
 
@@ -187,6 +197,38 @@ class AccountEndpoint ( AuthenticatedEndpoint ):
 		"""Inject the account number into the call
 		"""
 		return self.url().format(kwargs.get('account_nbr'))
+
+
+
+
+
+
+class StreamEndpoint ( AuthenticatedEndpoint ):
+	"""Stream an endpoint
+	"""
+	def request ( self=None ):
+		"""Execute an entire loop, and aggregate results
+		"""
+
+		x = self._fetch_raw(stream=True)
+
+		x.raise_for_status()
+
+		p = JSONStreamParser()
+
+		for chunk in x.iter_content( chunk_size=1 ):
+			it = p.stream(chunk.decode('utf-8'))
+			while True:
+				try:
+					row = next(it)
+				except StopIteration:
+					pass
+				else:
+					print(row)
+				finally:
+					del it
+					break
+
 
 
 
