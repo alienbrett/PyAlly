@@ -29,7 +29,7 @@ class Ally:
 	)
 	from .Info		import clock, status
 	from .Order		import submit, orders
-	from .Quote		import quote, stream
+	from .Quote		import quote, stream, timesales
 
 
 

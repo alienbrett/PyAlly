@@ -39,6 +39,8 @@ class Quote ( AuthenticatedEndpoint ):
 		"""Return get params together with post body data
 		"""
 
+		if 'symbols' not in kwargs.keys():
+			raise KeyError('Please specify symbols, and pass in list of symbols (or string)')
 		symbols	= kwargs.get('symbols',[])
 		fields	= kwargs.get('fields',[])
 
@@ -82,7 +84,8 @@ class Quote ( AuthenticatedEndpoint ):
 			
 		
 		data = None
-		return params, data
+		# return params, data
+		return data, params
 
 
 
@@ -98,7 +101,9 @@ class Quote ( AuthenticatedEndpoint ):
 			pd.to_numeric,
 			errors='ignore'
 		)
-		df.set_index('symbol')
+		df = df.set_index('symbol')
+		df = df.replace ({'na':None})
+
 		return df
 
 
