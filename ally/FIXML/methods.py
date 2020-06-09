@@ -109,6 +109,16 @@ class FIXML:
 
 
 
+	def cancel ( self ):
+		"""Modify this order so that when submitted, this order
+		overwrites and cancels the older order.
+		Calling this function alone is not enough to cancel the order upstream,
+		it must be submitted next
+		"""
+		self._type = OrderType.Cancel
+
+
+
 
 
 	def from_str ( self, orderstring ):
@@ -238,3 +248,4 @@ class FIXML:
 			# Probably cancel request
 			# print("Loading from fixml object")
 			self.from_fixml ( order, otype, orderid )
+
