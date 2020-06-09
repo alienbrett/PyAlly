@@ -112,11 +112,9 @@ class Endpoint:
 
 
 
-	@retry ( (Timeout), backoff=1.1, jitter=(0.01, 0.05) )
 	def _fetch_raw ( self, stream=False ):
 		return self.s.send(
 			self.req,
-			timeout = _timeout,
 			stream=stream
 		)
 

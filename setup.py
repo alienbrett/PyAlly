@@ -16,7 +16,8 @@ setuptools.setup(
 		install_requires=[
 			'requests-oauthlib',
 			'requests',
-			'retry'
+			'retry',
+			'pytz'
 		],
         classifiers=[
             "Programming Language :: Python :: 3",

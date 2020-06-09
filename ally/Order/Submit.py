@@ -1,6 +1,6 @@
 from ..Api			import AccountEndpoint, RequestType
 from .order			import orderReqType, injectAccount
-from ..exception	import OrderException
+from ..exception	import OrderException, ExecutionException
 from ..FIXML		import FIXML
 
 
@@ -25,10 +25,11 @@ class Submission ( AccountEndpoint ):
 		To submit a real order, specify 'preview'=False
 		in the constructer arguments
 		"""
+		self._preview = kwargs.get('preview',True)
 
 		return self.url().format(
 			kwargs.get('account_nbr'),
-			"/preview" if kwargs.get('preview',True) else ''
+			"/preview" if self._preview else ''
 		)
 	
 
@@ -40,8 +41,18 @@ class Submission ( AccountEndpoint ):
 		"""Extract certain fields from response
 		"""
 		response = response.json()['response']
+		
+		if response['error'] != 'Success':
+			raise ExecutionException(response['error'])
 
-		return response
+
+		if not self._preview:
+			# Get the ID we were promissed
+			self._order._id = response['clientorderid']
+			return self._order._id
+
+		else:
+			return response
 
 
 
@@ -53,22 +64,13 @@ class Submission ( AccountEndpoint ):
 		"""Return get params together with post body data
 		"""
 
-		order = kwargs['order']
+		# Get our order
+		self._order = kwargs['order']
 
+		# Let FIXML handle this bullshit
+		data = self._order.fixml()
 
-		# Must insert account info
-		#  this helps us handle modify operations
-		orderReqTyp		= orderReqType( order )
-		# order[]['Acct']	= kwargs.get( 'account_nbr' )
-
-		# Create FIXML formatted request body
-		# Except key errors and the like,
-		#  hopefully in the future we can offer more granular exceptions
-		try:
-			data = FIXML( order )
-		except:
-			raise OrderException("Incorrectly formatted order")
-
+		# Return what we have
 		return None, data
 
 
@@ -91,7 +93,7 @@ def submit ( self, order, **kwargs ):
 	"""
 
 	# Add the account number to this order
-	order = injectAccount ( order, self.account_nbr )
+	order._data = injectAccount ( order._data, self.account_nbr )
 
 
 	# Throw order into the right place

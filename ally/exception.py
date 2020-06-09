@@ -7,6 +7,8 @@ class ApiKeyException(Exception):
 class OrderException(Exception):
 	pass
 
+class ExecutionException(Exception):
+	pass
 
 
 # Order formatting exceptions
@@ -17,3 +19,4 @@ class TimeInForceException(Exception):
 
 class PriceException(Exception):
 	pass
+

@@ -1,5 +1,5 @@
-from ..Api			import AccountEndpoint, RequestType
-from ..FIXML.FIXML	import FIXML
+from ..Api		import AccountEndpoint, RequestType
+from ..FIXML	import FIXML
 
 
 
@@ -23,10 +23,7 @@ class OutstandingOrders ( AccountEndpoint ):
 		if not isinstance(raworders, list):
 			raworders = [raworders]
 
-		orders = [
-			FIXML ( x.get('fixmlmessage') )
-			for x in raworders
-		]
+		orders = [ FIXML ( x ) for x in raworders]
 
 		return orders
 

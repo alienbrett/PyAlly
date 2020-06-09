@@ -18,8 +18,8 @@ class Status ( Endpoint ):
 
 
 	
-def clock ():
+def clock ( *args, **kwargs ):
 	return Clock().request()
 
-def status ():
+def status ( *args, **kwargs ):
 	return Status().request()
