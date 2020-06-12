@@ -4,6 +4,7 @@ from .Auth		import Auth
 from .exception	import ApiKeyException
 from .Api		import setTimeout
 from .Watchlist	import Watchlist
+from .			import NewOrder
 
 
 

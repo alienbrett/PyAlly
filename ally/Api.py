@@ -204,6 +204,7 @@ class AccountEndpoint ( AuthenticatedEndpoint ):
 class StreamEndpoint ( AuthenticatedEndpoint ):
 	"""Stream an endpoint
 	"""
+	_host		= 'https://stream.tradeking.com/v1/'
 	def request ( self=None ):
 		"""Execute an entire loop, and aggregate results
 		"""
@@ -222,7 +223,9 @@ class StreamEndpoint ( AuthenticatedEndpoint ):
 				except StopIteration:
 					pass
 				else:
-					print(row)
+					quote = row.get('quote')
+					if quote is not None:
+						yield quote
 				finally:
 					del it
 					break

@@ -182,6 +182,9 @@ class FIXML:
 
 
 
+
+
+
 	def __init__ ( self, order={}, otype=OrderType.Order, orderid=None ):
 		"""Construct a wrapper class for an object
 		Arguments:

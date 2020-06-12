@@ -125,4 +125,3 @@ class JSONStreamParser:
 				raise StopIteration
 			else:
 				yield x
-

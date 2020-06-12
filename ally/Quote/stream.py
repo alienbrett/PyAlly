@@ -6,17 +6,8 @@ import json
 
 
 
-
-
-
-
-
-
-
-
 class Stream ( StreamEndpoint ):
 	_type		= RequestType.Quote
-	_host		= 'https://stream.tradeking.com/v1/'
 	_resource	= 'market/quotes.json'
 	_method		= 'POST'
 	_symbols	= []
@@ -54,25 +45,6 @@ class Stream ( StreamEndpoint ):
 			
 		params = None
 		return params, data
-
-
-
-	# def extract ( self, response ):
-	# 	"""Extract certain fields from response
-	# 	"""
-	# 	response = response.json()['response']
-	# 	quotes = response['quotes']['quote']
-
-	# 	if type(quotes) != type ([]):
-	# 		quotes = [quotes]
-	# 	
-	# 	# Zip symbols up with the response
-	# 	for i,d in enumerate(quotes):
-	# 		d['symbol'] = self._symbols[i]
-	# 	
-	# 	# and return it to the world
-	# 	return quotes
-
 
 
 
