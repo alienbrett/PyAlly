@@ -1,7 +1,7 @@
 from ..Api			import AccountEndpoint, RequestType
-from .order			import orderReqType, injectAccount
+# from .order			import orderReqType, injectAccount
 from ..exception	import OrderException, ExecutionException
-from ..FIXML		import FIXML
+from .order			import Order
 
 
 
@@ -67,8 +67,12 @@ class Submission ( AccountEndpoint ):
 		# Get our order
 		self._order = kwargs['order']
 
+		# Update account info
+		self._acct	= kwargs['account']
+		self._order.set_account(self._acct)
+
 		# Let FIXML handle this bullshit
-		data = self._order.fixml()
+		data = self._order.fixml
 
 		# Return what we have
 		return None, data
@@ -93,8 +97,7 @@ def submit ( self, order, **kwargs ):
 	"""
 
 	# Add the account number to this order
-	order._data = injectAccount ( order._data, self.account_nbr )
-
+	order.set_account(self.account_nbr)
 
 	# Throw order into the right place
 	kwargs['order'] = order
