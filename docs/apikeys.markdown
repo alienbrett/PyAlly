@@ -1,6 +1,7 @@
 ---
-Title: Getting API Keys
+title: Getting API Keys
 ---
+
 ## Getting API Keys
 
 Log into [Ally Invest](https://secure.ally.com), go to the specific account page, click Tools->API
