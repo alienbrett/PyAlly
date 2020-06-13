@@ -1,4 +1,7 @@
 import datetime
+import json
+import re
+nonspace = re.compile(r'\S')
 
 ############################################################################
 def option_format(symbol="", exp_date="1970-01-01", strike=0, direction=""):
@@ -38,6 +41,10 @@ def option_callput(name):
 def option_symbol(name):
 	"""Given OCC standardized option name, return option ticker"""
 	return name[:-15]
+
+
+
+
 ############################################################################
 def pretty_print_POST(req):
 	"""Not my code, 
@@ -53,3 +60,68 @@ def pretty_print_POST(req):
 # string typecheck
 def check(s):
 	return type(s) == type("") and len(s) > 0
+
+
+def sanitize_input ( s ):
+	"""Given an arbitrary string,
+	escape '/' characters
+	"""
+	return s.replace('/',r"%2F")
+
+
+
+class JSONStreamParser:
+	"""Iteratively decode a JSON string into an object.
+	Adapted from solution on page:
+		https://stackoverflow.com/questions/21059466/python-json-parser
+	"""
+
+	s = ""
+
+	def __init__ ( self, s="" ):
+		self.s = s
+		self.decoder = json.JSONDecoder()
+		self.pos = 0
+	
+	
+	def stream_one ( self ):
+		"""Parse one iteration of our currently-held string
+		"""
+		# Search a bit
+		matched = nonspace.search(
+			self.s,
+			self.pos
+		)
+
+		# If we haven't encountered anything,
+		#  there's nothing to return
+		if not matched:
+			return None
+
+		# Otherwise, read through this little bit
+		self.pos			= matched.start()
+		try:
+			decoded, self.pos	= self.decoder.raw_decode(
+				self.s,
+				self.pos
+			)
+		except:
+			return None
+
+		# Return what we were able to find
+		return decoded
+
+
+	def stream ( self,  new_dat="" ):
+		"""Given a single piece of data,
+		Yield objects until there's nothing left to do
+		"""
+		# Append this data into our string queue
+		self.s += new_dat
+
+		while True:
+			x = self.stream_one()
+			if x is None:
+				raise StopIteration
+			else:
+				yield x

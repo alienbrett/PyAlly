@@ -15,7 +15,9 @@ setuptools.setup(
         packages=setuptools.find_packages(),
 		install_requires=[
 			'requests-oauthlib',
-			'requests'
+			'requests',
+			'retry',
+			'pytz'
 		],
         classifiers=[
             "Programming Language :: Python :: 3",
