@@ -111,6 +111,10 @@ def fixTag ( tag ):
 
 
 def parseTree ( tree ):
+
+	if isinstance(tree, str):
+		tree = ET.fromstring(tree)
+
 	if tree is None:
 		return {}
 		

@@ -3,7 +3,23 @@ import unittest
 from .classes	import *
 from .order		import Order
 
-__all__ = ['TestOrderManual','TestInstrumentConstruction','TestPricingConstruction', 'TestOrderConstruction']
+__all__ = ['TestOrderManual','TestInstrumentConstruction','TestPricingConstruction', 'TestOrderConstruction', 'TestOrderParse']
+
+
+class XMLTestCase(unittest.TestCase):
+	def assertEqualXML( self, s1, s2, msg, verbose=False ):
+		s1 = ET.tostring(ET.fromstring(s1))
+		s2 = ET.tostring(ET.fromstring(s2))
+		if verbose:
+			print()
+			print(s1)
+			print(s2)
+		self.assertEqual(
+			s1,
+			s2,
+			msg
+		)
+
 
 
 
@@ -218,20 +234,7 @@ class TestPricingConstruction(unittest.TestCase):
 
 
 
-class TestOrderConstruction(unittest.TestCase):
-	
-	def assertEqualXML( self, s1, s2, msg, verbose=False ):
-		s1 = ET.tostring(ET.fromstring(s1))
-		s2 = ET.tostring(ET.fromstring(s2))
-		if verbose:
-			print()
-			print(s1)
-			print(s2)
-		self.assertEqual(
-			s1,
-			s2,
-			msg
-		)
+class TestOrderConstruction(XMLTestCase):
 
 
 	def test_market_stock_buy_day(self):
@@ -324,3 +327,23 @@ class TestOrderConstruction(unittest.TestCase):
 			'<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><OrdCxlRplcReq TmInForce="0" Typ="2" Side="1" Px="15.0" Acct="12345678" OrigID="SVI-12345678"><Instrmt SecTyp="CS" Sym="F"/><OrdQty Qty="1"/></OrdCxlRplcReq></FIXML>',
 			"Straight from the ally website"
 		)
+
+
+
+
+class TestOrderParse(XMLTestCase):
+
+	def test_parse1(self):
+
+
+		fixml = '<?xml version="1.0" encoding="utf-8"?>\r\n<FIXML xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">\r\n  <ExecRpt OrdID="SVI-6111492151" ID="SVI-6111492151" Stat="2" Acct="12345678" AcctTyp="2" Side="2" Typ="2" Px="31.5" TmInForce="1" LastQty="1" LastPx="31.5" LeavesQty="0" TrdDt="2020-06-12T12:12:00.000-04:00" TxnTm="2020-06-12T12:12:00.000-04:00" PosEfct="C">\r\n    <Instrmt Sym="TSLA" CFI="OP" SecTyp="OPT" MMY="202006" MatDt="2020-06-19T00:00:00.000-04:00" StrkPx="935" Mult="100" Desc="TSLA Jun 19 2020 935.00 Put" />\r\n    <Undly Sym="TSLA" />\r\n    <OrdQty Qty="1" />\r\n    <Comm Comm="0.50" />\r\n  </ExecRpt>\r\n</FIXML>'
+
+
+		o = Order(fixml=fixml)
+		
+		self.assertEqual ( o.quantity, 1, "quantity of one" )
+		self.assertEqual ( o.time, TimeInForce.GTC, "Good Til Cancelled order" )
+		self.assertEqual ( o.buysell, Side.Sell, "Sell order" )
+		self.assertEqual ( o.account, 12345678, "account number" )
+		self.assertEqual ( o.orderid, 'SVI-6111492151', "Order number" )
+		self.assertEqual ( o.pricing, Limit(31.50), "Limit order @ $31.50")

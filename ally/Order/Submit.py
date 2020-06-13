@@ -68,8 +68,8 @@ class Submission ( AccountEndpoint ):
 		self._order = kwargs['order']
 
 		# Update account info
-		self._acct	= kwargs['account']
-		self._order.set_account(self._acct)
+		# self._acct	= kwargs['account']
+		# self._order.set_account(self._acct)
 
 		# Let FIXML handle this bullshit
 		data = self._order.fixml

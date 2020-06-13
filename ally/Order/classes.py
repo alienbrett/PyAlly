@@ -43,7 +43,8 @@ class TimeInForce(Enum):
 class Instrument:
 	"""Handle all the bullshit around an instrument
 	"""
-	pass
+	def __str__(self):
+		return self.symbol
 
 
 
@@ -72,12 +73,23 @@ class Pricing:
 	@property
 	def fixml(self):
 		return self._tag
+	
+	def __eq__(self, other):
+		if isinstance(other, Pricing):
+			return \
+			(other.type_ == self.type_) and \
+			(other._data == self._data) and \
+			(other._tag == self._tag)
+		return False
+
 		
 
 
 class Market(Pricing):
 	type_	= PriceType.Market
 	_data	= { 'Typ': '1' }
+	def __str__(self):
+		return 'Market'
 	
 
 
@@ -88,6 +100,8 @@ class Limit(Pricing):
 	def __init__ ( self, limpx ):
 		self.px = round(float(limpx),2)
 		self._data['Px'] = str(self.px)
+	def __str__(self):
+		return 'Limit ${:.3f}'.format(self.px)
 
 
 
@@ -98,6 +112,8 @@ class Stop(Pricing):
 	def __init__ ( self, stoppx ):
 		self.stoppx = round(float(stoppx),2)	
 		self._data['StopPx'] = str(self.stoppx)
+	def __str__(self):
+		return 'Stop ${:.3f}'.format(self.stoppx)
 
 
 
@@ -110,6 +126,8 @@ class StopLimit(Pricing):
 		self.stoppx	= round(float(stoppx),2)
 		self._data['Px']		= str(self.px)
 		self._data['StopPx']	= str(self.stoppx)
+	def __str__ ( self ):
+		return 'StopLimit (Stop ${0:.3f}, Limit ${1:.3f})'.format(self.px,self.stoppx)
 
 
 
@@ -123,11 +141,20 @@ class TrailingStop(Pricing):
 			- True	# Interpret 1.0 offset as 1%
 			- False	# Interpret 1.0 offset as $1.00
 		"""
+		self.use_pct 	= use_pct
+		self.offset		= offset
 		self._tag = {'PegInstr': {
-			'OfstTyp': 1 if use_pct else 0,
+			'OfstTyp': 1 if self.use_pct else 0,
 			'PegPxTyp': 1,
-			'OfstVal': offset
+			'OfstVal': self.offset
 		}}
+
+	def __str__ ( self ):
+		return 'Trailing Stop {0}{1}{2}'.format(
+			'$' if not self.use_pct else '',
+			('{:.1f}' if self.use_pct else '{:.3f}').format(self.offset),
+			'%' if self.use_pct else '',
+		)
 
 
 

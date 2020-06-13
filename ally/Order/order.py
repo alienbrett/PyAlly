@@ -57,6 +57,7 @@ class Order:
 		self.instrument	= None
 		self.pricing	= None
 		self.buysell	= None
+		self.time		= None
 		self.quantity	= 0
 
 
@@ -83,20 +84,23 @@ class Order:
 	@property
 	def convert_buysell ( self ):
 		# Process buysell a wee bit
-		x = None
-		v = self.buysell.value
+		x = {}
 
-		if v == Side.Buy.value:
-			x = { 'Side'	:'1' }
 
-		elif v == Side.Sell.value:
-			x = { 'Side'	:'2' }
+		if self.buysell is not None:
+			v = self.buysell.value
 
-		elif v == Side.BuyCover.value:
-			x = { 'Side'	: '1', 'AcctTyp'  : '5' }
+			if v == Side.Buy.value:
+				x = { 'Side'	:'1' }
 
-		elif v == Side.SellShort.value:
-			x = { 'Side'	: '5' }
+			elif v == Side.Sell.value:
+				x = { 'Side'	:'2' }
+
+			elif v == Side.BuyCover.value:
+				x = { 'Side'	: '1', 'AcctTyp'  : '5' }
+
+			elif v == Side.SellShort.value:
+				x = { 'Side'	: '5' }
 
 		return x
 
@@ -111,32 +115,38 @@ class Order:
 		"""Compile the object into FIXML string
 		Should not affect internal state of object
 		"""
+		
+		d = {}
 
 		# Store account information for this call
-		account_info = {}
 		if self.account is not None:
-			account_info['Acct'] = self.account
+			d['Acct'] = self.account
 
 		# Store order ID for this call
-		orderid_info = {}
 		if self.orderid is not None:
-			account_info['OrigID'] = self.orderid
+			d['OrigID'] = self.orderid
 
 
+		if self.instrument is not None:
+			d.update(self.instrument.fixml)
+
+		if self.pricing is not None:
+			d.update(self.pricing.fixml)
+			d.update(self.pricing.attributes)
+
+		d.update(self.convert_buysell)
+
+		if self.time is not None:
+			d['TmInForce'] = self.time.value
+
+		if self.quantity != 0:
+			d['OrdQty'] = { 'Qty': self.quantity }
+		
 
 		# Properly format our order
 		order = {
 			'xmlns': "http://www.fixprotocol.org/FIXML-5-0-SP2",
-			Order._otype_dict_reverse[self.otype.value]:	{
-				**self.instrument.fixml,
-				**self.price.attributes,
-				**self.price.fixml,
-				**self.convert_buysell,
-				**account_info,
-				**orderid_info,
-				'TmInForce': self.time.value,
-				'OrdQty': { 'Qty': self.quantity }
-			}
+			Order._otype_dict_reverse[self.otype.value]: d
 		}
 
 		# Rework our tree
@@ -185,7 +195,7 @@ class Order:
 		"""Set the account number for an order, so that orders
 		are accepted properly
 		"""
-		self.account = int(account)
+		self.account = int(str(account)[:8])
 
 
 
@@ -245,7 +255,46 @@ class Order:
 
 
 	def set_pricing ( self, priceobj ):
-		self.price = priceobj
+		self.pricing = priceobj
+
+
+
+
+
+	def imply_fixml_instrument( self, instrmt ):
+
+		sectyp = instrmt['SecTyp']
+		sym = instrmt.pop('Sym')
+
+		if sectyp == 'OPT':
+			# Option
+			exp_date	= instrmt.pop('MatDt')[:10]
+			strike		= instrmt.pop('StrkPx')
+			direction	= 'put' if instrmt.pop('CFI') == 'OP' else 'call'
+			sym = option_format(
+				symbol		= sym,
+				exp_date	= exp_date,
+				strike		= strike,
+				direction	= direction
+			)
+					
+		self.set_symbol ( sym )
+	
+
+
+
+
+
+	def __str__(self):
+		return '{0} {1} units of "{2}" {3}, {4}'.format(
+			self.buysell,
+			self.quantity,
+			self.instrument,
+			self.time,
+			self.pricing
+		)
+
+
 
 
 
@@ -254,7 +303,78 @@ class Order:
 		"""Constructer 1)
 		Read FIXML string into this object
 		"""
-		pass
+		xml = parseTree(fixml)['FIXML']
+		xml['Order'] = xml.pop('ExecRpt')
+
+		o = xml['Order']
+
+		o.pop('ID')
+		self.set_orderid ( o.pop('OrdID') )
+
+		self.set_account ( o.pop('Acct') )
+
+		self.set_quantity ( o.get('OrdQty').pop('Qty') )
+
+
+		# Set self.buysell
+		side = o.pop('Side',None)
+		actp = o.pop('AcctTyp',None)
+
+		if side == '1':
+			if actp is None:
+				self.set_buysell('buy')
+			else:
+				self.set_buysell('buycover')
+		elif side == '2':
+			self.set_buysell('sell')
+		elif side == '5':
+			self.set_buysell('sellshort')
+
+		
+		# Time In Force (Day, GTC, OnClose)
+		tminforce = o.pop('TmInForce')
+		if tminforce == '0':
+			self.set_time('day')
+		elif tminforce == '1':
+			self.set_time('gtc')
+		elif tminforce == '7':
+			self.set_time('onclose')
+
+
+		# Parse the pricing type of order
+		typ = o.pop('Typ')
+		px  = o.pop('Px',None)
+		stoppx = o.pop('StopPx',None)
+		p = None
+		# Market
+		if typ == '1':
+		 	p = Market()
+		# Limit
+		elif typ == '2':
+			p = Limit(px)
+		# Simple Stop
+		elif typ == '3':
+			p = Stop(stoppx)
+		# Stop limit
+		elif typ == '4':
+			p = StopLimit ( limpx=px, stoppx=stoppx )
+
+		# Trailing Stop
+		elif typ == 'P':
+			tag		= o.pop('PegInstr')
+			use_pct = ( tag.pop('OfstTyp') == 1 ) # Cast to boolean
+			offset	= tag.pop('OfstVal')
+			p		= TrailingStop ( use_pct=use_pct, offset=offset )
+
+		self.set_pricing ( p )
+
+
+
+
+		instrmt = o.pop('Instrmt')
+		self.imply_fixml_instrument(instrmt)
+
+		print(o)
 	
 
 
@@ -345,5 +465,6 @@ class Order:
 
 		if orderid is not None:
 			self.set_orderid ( orderid )
+
 
 
