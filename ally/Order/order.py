@@ -396,7 +396,7 @@ class Order:
 		instrmt = o.pop('Instrmt')
 		self.imply_fixml_instrument(instrmt)
 
-		print(o)
+		# print(o)
 	
 
 

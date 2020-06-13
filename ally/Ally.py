@@ -137,7 +137,6 @@ class Ally:
 		# Watchlist gets copy of our object
 		#  this is so that it can manage its own api calls
 		self.watchlists = Watchlist( self )
-		
 
 
 

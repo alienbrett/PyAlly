@@ -185,8 +185,6 @@ class Endpoint:
 				data	= send_data
 			)
 		)
-		print(pretty_print_POST(self.req))
-
 
 
 
