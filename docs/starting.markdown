@@ -1,3 +1,7 @@
+---
+title: Getting Started
+---
+
 To import the library, just run
 ```python
 import ally
