@@ -47,4 +47,7 @@ Parameters can also be read from a JSON file:
   'ALLY_ACCOUNT_NBR'      : ...
 }
 ```
+```python
+a = ally.Ally('params.json')
+```
 Now you're ready to make API calls with your new object.
