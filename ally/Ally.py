@@ -43,6 +43,14 @@ _all_params = (
 
 
 class Ally:
+	"""Creates orders, and queries account and trade information from Ally API.
+
+	Submit orders on behalf of this trading account. Also able to modify and cancel
+		existing orders, given a specific orderid string.
+
+	Request quotes, either 5 day rolling historical intraday, current market quotes,
+		or stream quotes continuously with generator.
+	"""
 
 	# Import all our class methods
 	from .Account	import (
@@ -59,7 +67,7 @@ class Ally:
 	auth = None
 	account_nbr = None
 
-	def param_load_environ (self):
+	def _param_load_environ (self):
 		"""Try to use environment params
 		Account number is now mandatory
 		"""
@@ -69,7 +77,7 @@ class Ally:
 		return params
 
 
-	def param_load_file (self, fname):
+	def _param_load_file (self, fname):
 		"""Try to load params from a json file
 		Account number is now mandatory
 		"""
@@ -111,12 +119,12 @@ class Ally:
 
 		# We were passed a JSON file
 		elif type(params) == type(""):
-			params = self.param_load_file(params)
+			params = self._param_load_file(params)
 
 
 		# Use environment variables
 		else:
-			params = self.param_load_environ()
+			params = self._param_load_environ()
 			
 
 		# Check that we have all the parameters we need

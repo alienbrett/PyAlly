@@ -85,4 +85,30 @@ class Holdings ( AccountEndpoint ):
 
 
 
-holdings = template(Holdings)
+def holdings ( self, dataframe: bool = True ):
+	"""Gets all current account holdings.
+
+	Calls the 'accounts/./history.json' endpoint to get list of all current account
+	holdings, including stocks and options. This also includes current market value,
+	cost of acquisition, etc.
+
+	Args:
+		dataframe: Specify an output format
+	
+	Returns:
+		A pandas dataframe by default,
+			otherwise a flat list of dictionaries.
+	"""
+	result = Holdings(
+		auth = self.auth,
+		account_nbr = self.account_nbr
+	).request()
+
+
+	if dataframe:
+		try:
+			result = Holdings.DataFrame ( result )
+		except:
+			pass
+
+	return result

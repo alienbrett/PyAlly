@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .holdings import holdings
-from .balances import balances
-from .history import history
+from .holdings	import holdings
+from .balances	import balances
+from .history	import history
 

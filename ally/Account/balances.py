@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 from ..Api		import AccountEndpoint, RequestType
-from ..utils	import option_format
 from .template	import template
 from .utils		import _dot_flatten
 
@@ -58,14 +57,34 @@ class Balances ( AccountEndpoint ):
 
 		
 
+
+
+
+
+def balances ( self, dataframe: bool = True ):
+	"""Gets current cash and various account metrics.
+
+	Calls the 'accounts/./balances.json' endpoint to get the current list of balances.
+	This includes margin amounts, cash, etc.
+
+	Args:
+		dataframe: Specify an output format
 	
-	
+	Returns:
+		A pandas dataframe with 1 row by default,
+			otherwise a flat dictionary.
+	"""
+	result = Balances(
+		auth = self.auth,
+		account_nbr = self.account_nbr
+	).request()
 
 
+	if dataframe:
+		try:
+			result = Balances.DataFrame ( result )
+		except:
+			pass
 
+	return result
 
-
-
-
-
-balances = template(Balances)
