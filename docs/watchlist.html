@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Support &mdash; PyAlly 1.0.0 documentation</title>
+  <title>Watchlists &mdash; PyAlly 1.0.0 documentation</title>
   
 
   
@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Info" href="info.html" />
     <link rel="prev" title="Quotes" href="quote.html" /> 
 </head>
 
@@ -85,7 +86,9 @@
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Support</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Watchlists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
 
             
@@ -131,13 +134,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Support</li>
+      <li>Watchlists</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/support.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/watchlist.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -150,12 +153,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="support">
-<h1>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h1>
-<p>If you find issues or need help with using the project, please check to see if there’s an open
-issue on <a class="reference external" href="https://github.com/alienbrett/PyAlly/issues">Github</a>, and if not, open a new issue on the page.</p>
-<p>The community is pretty active and hopefully there will be someone to answer,
-but feel free to <a class="reference external" href="mailto:alienbrett648&#37;&#52;&#48;gmail&#46;com">send me an email</a> and I’ll get back with an update as soon as I can.</p>
+  <div class="section" id="watchlists">
+<h1>Watchlists<a class="headerlink" href="#watchlists" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="ally.Watchlist.Watchlist">
+<em class="property">class </em><code class="sig-prename descclassname">ally.Watchlist.</code><code class="sig-name descname">Watchlist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parent</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Watchlist.Watchlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle an accounts watchlists and symbols in a pythonic way.</p>
+<blockquote>
+<div><p>The Watchlist account object wraps ally’s watchlist
+functionality and mimics python datatypes.</p>
+<p>Examples:</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># See all of your watchlists</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">watchlists</span><span class="p">)</span>
+
+<span class="c1"># =&gt; [&#39;w-list1&#39;, &#39;my-watchlist&#39;,...]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># See all the symbols associated with a watchlist</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">watchlist</span><span class="p">[</span><span class="s1">&#39;w-list1&#39;</span><span class="p">])</span>
+
+<span class="c1"># =&gt; [&#39;aapl, &#39;googl&#39;,...]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a watchlist, and initialize with symbols</span>
+<span class="n">a</span><span class="o">.</span><span class="n">watchlist</span><span class="p">[</span><span class="s1">&#39;new-watchlist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;aapl,&#39;</span><span class="n">googl</span><span class="s1">&#39;,...]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove a symbol from a watchlist</span>
+<span class="n">a</span><span class="o">.</span><span class="n">watchlist</span><span class="p">[</span><span class="s1">&#39;new-watchlist&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;aapl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete a watchlist</span>
+<span class="n">a</span><span class="o">.</span><span class="n">watchlist</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;new-watchlist&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </div>
 
 
@@ -165,6 +199,8 @@ but feel free to <a class="reference external" href="mailto:alienbrett648&#37;&#
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="info.html" class="btn btn-neutral float-right" title="Info" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="quote.html" class="btn btn-neutral float-left" title="Quotes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

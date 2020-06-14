@@ -1,4 +1,4 @@
-Getting Started
+Installing
 ===============
 
 
@@ -10,8 +10,8 @@ and the project keys imported so that they can be used with the module.
 
 
 
-Installing
-----------
+Get the Library
+---------------
 
 To install the library, just use pip
    

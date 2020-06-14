@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 from ..Api		import StreamEndpoint, RequestType
-from .template	import template
 import json
 
 
@@ -75,4 +74,34 @@ class Stream ( StreamEndpoint ):
 
 
 
-stream = template(Stream)
+# stream = template(Stream)
+def stream ( self, symbols: list =[] ):
+	"""Live-streams market quotes for up to 256 stock and options.
+
+	The stream generator that yields dictionaries. Specify one or more
+	symbols, and the stream object establishes a connection with the API servers,
+	then starts returning symbol-keyed quote objects in real-time.
+
+	Args:
+		symbols: string or list of strings, each string a symbol to be queried.
+			Notice symbols=['spy'], symbols='spy both work.
+	
+	Returns:
+		A generator
+
+	Example:
+		
+.. code-block:: python
+
+		for quote in a.stream('tsla'):
+			print(quote)
+
+	"""
+
+	result = Stream(
+		auth		= self.auth,
+		account_nbr	= self.account_nbr,
+		symbols		= symbols
+	).request()
+
+	return result

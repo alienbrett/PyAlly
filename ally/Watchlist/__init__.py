@@ -84,8 +84,44 @@ class WatchlistWrapper ( MutableSet ):
 
 
 class Watchlist ( MutableMapping ):
-	"""Handles a single remote watchlist instance.
-	Can append to, view, or delete symbols
+	"""Handle an accounts watchlists and symbols in a pythonic way.
+
+	The Watchlist account object wraps ally's watchlist
+	functionality and mimics python datatypes.
+
+	Examples:
+		
+.. code-block:: python
+	
+	# See all of your watchlists
+	list(a.watchlists)
+
+	# => ['w-list1', 'my-watchlist',...]
+
+
+.. code-block:: python
+
+	# See all the symbols associated with a watchlist
+	list(a.watchlist['w-list1'])
+
+	# => ['aapl, 'googl',...]
+
+.. code-block:: python
+	
+	# Create a watchlist, and initialize with symbols
+	a.watchlist['new-watchlist'] = ['aapl,'googl',...]
+
+.. code-block:: python
+	
+	# Remove a symbol from a watchlist
+	a.watchlist['new-watchlist'].pop('aapl')
+
+.. code-block:: python
+	
+	# Delete a watchlist
+	a.watchlist.pop('new-watchlist')
+
+
 	"""
 	_auth = None
 	_expire = None
@@ -145,18 +181,16 @@ class Watchlist ( MutableMapping ):
 		
 
 	def __iter__ ( self ):
-		"""Return list to run over
+		"""Return list to run ove
 		Must be wrapped in some special iterator stuff
 		so that python3 will handle it how we want
 		"""
-		print("ITER")
 		return self._all.__iter__()
 	
 	
 		
 
 	def __len__ ( self ):
-		print("LEN")
 		return len(self._all)
 
 

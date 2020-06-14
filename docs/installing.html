@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installing &mdash; PyAlly 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+        <script src="static/jquery.js"></script>
+        <script src="static/underscore.js"></script>
+        <script src="static/doctools.js"></script>
+        <script src="static/language_data.js"></script>
+    
+    <script type="text/javascript" src="static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Ally Object" href="ally.html" />
+    <link rel="prev" title="PyAlly Trading Library" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PyAlly
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-the-library">Get the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#first-steps">First Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#keys-environment-variables">Keys: Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#keys-json-file">Keys: JSON file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#keys-passing-directly">Keys: Passing Directly</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ally.html">Ally Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyAlly</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Installing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/installing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installing">
+<h1>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>A new API project needs to be created through the account page on Ally’s website,
+and the project keys imported so that they can be used with the module.</p>
+</div>
+<div class="section" id="get-the-library">
+<h2>Get the Library<a class="headerlink" href="#get-the-library" title="Permalink to this headline">¶</a></h2>
+<p>To install the library, just use pip</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install pyally
+</pre></div>
+</div>
+<p>Log into <a class="reference external" href="https://secure.ally.com">Ally Invest</a>, go to the specific account page, click Tools-&gt;API</p>
+<img alt="https://github.com/alienbrett/PyAlly/blob/master/resources/tools.PNG?raw=true" src="https://github.com/alienbrett/PyAlly/blob/master/resources/tools.PNG?raw=true" />
+<p>Fill out the API token application as a Personal Application</p>
+<img alt="https://github.com/alienbrett/PyAlly/blob/master/resources/new_application.PNG?raw=true" src="https://github.com/alienbrett/PyAlly/blob/master/resources/new_application.PNG?raw=true" />
+<p>It’s <strong>strongly recommended</strong> to store the keys in environment variables.</p>
+<img alt="https://github.com/alienbrett/PyAlly/blob/master/resources/details.PNG?raw=true" src="https://github.com/alienbrett/PyAlly/blob/master/resources/details.PNG?raw=true" />
+<p>To do this, insert the following into <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export ALLY_CONSUMER_KEY=XXXXXXXXXXXXXXXXXXXXXXXX</span>
+<span class="go">export ALLY_CONSUMER_SECRET=XXXXXXXXXXXXXXXXXXXXX</span>
+<span class="go">export ALLY_OAUTH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXX</span>
+<span class="go">export ALLY_OAUTH_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX</span>
+<span class="go">export ALLY_ACCOUNT_NBR=12345678</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="first-steps">
+<h2>First Steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h2>
+<p>To import the library, just run</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ally</span>
+</pre></div>
+</div>
+<p>We need to pass the API keys to the pyally object on instantiation. This can be done in a few ways:</p>
+</div>
+<div class="section" id="keys-environment-variables">
+<h2>Keys: Environment Variables<a class="headerlink" href="#keys-environment-variables" title="Permalink to this headline">¶</a></h2>
+<p>It’s <strong>strongly recommended</strong> that the API keys be stored as environment variables.
+This is more secure than other methods, as it conceals the credentials of ally account if
+the code is leaked or distributed. If the account variables are specified as recommended this way,
+instantiation is easy:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Ally</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>And you’re done!</strong></p>
+</div>
+<div class="section" id="keys-json-file">
+<h2>Keys: JSON file<a class="headerlink" href="#keys-json-file" title="Permalink to this headline">¶</a></h2>
+<p>The object creator also accepts a json file holding the dict keys, and
+this is about as secure as the environment variable method.
+Place the API keys into a JSON file (this looks very similar to a python dict):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s1">&#39;ALLY_RESOURCE_OWNER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_RESOURCE_OWNER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CLIENT_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CLIENT_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_ACCOUNT_NBR&#39;</span><span class="p">:</span><span class="n">XXXX</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Then the object can be instantiated like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Ally</span><span class="p">(</span><span class="s1">&#39;/path/to/params.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="keys-passing-directly">
+<h2>Keys: Passing Directly<a class="headerlink" href="#keys-passing-directly" title="Permalink to this headline">¶</a></h2>
+<p>Variables can be passed in on instantiation. This way, no account variables need to be set.
+Keep in mind that this is much less secure for distributable applications, since anyone with these keys
+will have access to the account with which they’re associated.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ALLY_RESOURCE_OWNER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_RESOURCE_OWNER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CLIENT_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CLIENT_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_ACCOUNT_NBR&#39;</span><span class="p">:</span><span class="n">XXXX</span>
+<span class="p">}</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Ally</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now you’re ready to make API calls with your new object and start trading.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ally.html" class="btn btn-neutral float-right" title="Ally Object" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="PyAlly Trading Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Brett Graves
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -40,9 +40,59 @@ class Status ( Endpoint ):
 
 
 	
-def clock ( *args, **kwargs ):
+def clock (*args):
+	"""Return the current market clock.
+
+	Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
+	including the next time that the market clock changes status.
+
+	Returns:
+		A dictionary with timestamp, current market status, and any error information.
+
+	Example:
+
+.. code-block:: python
+
+	
+	# Equivalent to the static function
+	#   ally.Info.clock()
+	a.clock()
+
+	# => {
+		'date': '2020-06-14 18:03:58.0-04:00',
+		'unixtime': '1592172240.069',
+		'status': {
+			'current': 'close',
+			'next': 'pre',
+			'change_at': '08:00:00'
+		},
+		'error': 'Success',
+	}
+
+	"""
 	return Clock().request()
 
-def status ( *args, **kwargs ):
+def status (*args):
+	"""Return the status of the API service.
+
+	Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.
+
+	Returns:
+		A dictionary with current time, and the status of the API service.
+	
+	Example:
+
+.. code-block:: python
+	
+	# Equivalent to the static function
+	#   ally.Info.status()
+	a.status()
+
+	# => {
+		'time': 'Sun, 14, Jun 2020 18:17:06 GMT',
+		'error': 'Success'
+	}
+
+	"""
 	return Status().request()
 

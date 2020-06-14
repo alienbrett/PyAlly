@@ -11,10 +11,12 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   getting.started
+   installing
    ally
    account
    trading
    quote
+   watchlist
+   info
    support
 

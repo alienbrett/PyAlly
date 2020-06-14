@@ -21,8 +21,6 @@
 # SOFTWARE.
 
 from ..Api		import AuthenticatedEndpoint, RequestType
-from .template	import template
-
 
 
 
@@ -118,13 +116,11 @@ class Quote ( AuthenticatedEndpoint ):
 		import pandas as pd
 
 		# Create dataframe from our dataset
-		df = pd.DataFrame( raw ).apply(
+		df = pd.DataFrame( raw ).replace({'na':None}).apply(
 			# And also cast relevent fields to numeric values
 			pd.to_numeric,
 			errors='ignore'
-		)
-		df = df.set_index('symbol')
-		df = df.replace ({'na':None})
+		).set_index('symbol')
 
 		return df
 
@@ -132,4 +128,61 @@ class Quote ( AuthenticatedEndpoint ):
 
 
 
-quote = template(Quote)
+def quote ( self, symbols: list =[], fields: list =[], dataframe=True ):
+	"""Gets the most current market data on the price of a symbol.
+
+	Args:
+		symbols: string or list of strings, each string a symbol to be queried.
+			Notice symbols=['spy'], symbols='spy both work
+		fields: string or list of strings, each string a field to be grabbed.
+			By default, get all fields
+		dataframe: flag, specifies whether to return data in pandas dataframe
+			or flat list of dictionaries.
+	
+	Returns:
+		Depends on dataframe flag. Will return pandas dataframe, or possibly
+		list of dictionaries, each one a single quote.
+	
+	Examples:
+
+.. code-block:: python
+	
+	# Get the quotes in dataframe format
+	#  Each row will only have elements bid, ask, and last
+	quotes = a.quote(
+		symbols=['spy','gLD','F','Ibm'], # not case sensitive
+		fields=['bid','ask,'last'],
+	)
+	# Access a specific symbol by the dataframe
+	print(quotes.loc['SPY'])
+
+
+
+.. code-block:: python
+	
+	# Get the quotes in dataframe format
+	quotes = a.quote(
+		'AAPL',
+		dataframe=False
+	)
+	# Access a specific symbol in the dict
+	print(quotes['AAPL'])
+
+	"""
+
+	result = Quote(
+		auth		= self.auth,
+		account_nbr	= self.account_nbr,
+		symbols		= symbols,
+		fields		= fields
+	).request()
+
+
+	if dataframe:
+		try:
+			result = Quote.DataFrame ( result )
+		except:
+			raise
+	
+
+	return result

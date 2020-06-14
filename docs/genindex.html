@@ -79,11 +79,13 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="getting.started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ally.html">Ally Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
 
@@ -154,24 +156,32 @@
  <a href="#_"><strong>_</strong></a>
  | <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ally.html#ally.Ally.__init__">__init__() (ally.Ally method)</a>
+
+      <ul>
+        <li><a href="trading.html#ally.Order.Order.__init__">(ally.Order.Order method)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="account.html#ally.Ally">Ally (class in ally)</a>, <a href="ally.html#ally.Ally">[1]</a>, <a href="trading.html#ally.Ally">[2]</a>
+      <li><a href="account.html#ally.Ally">Ally (class in ally)</a>, <a href="ally.html#ally.Ally">[1]</a>, <a href="quote.html#ally.Ally">[2]</a>, <a href="trading.html#ally.Ally">[3]</a>
 </li>
       <li>
     ally.Ally
@@ -183,10 +193,10 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    ally.Order
+    ally.Info
 
       <ul>
-        <li><a href="trading.html#module-ally.Order">module</a>
+        <li><a href="info.html#module-ally.Info">module</a>
 </li>
       </ul></li>
   </ul></td>
@@ -196,6 +206,14 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="account.html#ally.Ally.balances">balances() (ally.Ally method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="info.html#ally.Info.clock">clock() (in module ally.Info)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -221,7 +239,7 @@
       <ul>
         <li><a href="ally.html#module-ally.Ally">ally.Ally</a>
 </li>
-        <li><a href="trading.html#module-ally.Order">ally.Order</a>
+        <li><a href="info.html#module-ally.Info">ally.Info</a>
 </li>
       </ul></li>
   </ul></td>
@@ -230,7 +248,19 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="trading.html#ally.Order.Order">Order (class in ally.Order)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="trading.html#ally.Ally.orders">orders() (ally.Ally method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="quote.html#ally.Ally.quote">quote() (ally.Ally method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -238,7 +268,31 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="trading.html#ally.Order.Order.set_account">set_account() (ally.Order.Order method)</a>
+</li>
+      <li><a href="info.html#ally.Info.status">status() (in module ally.Info)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="quote.html#ally.Ally.stream">stream() (ally.Ally method)</a>
+</li>
       <li><a href="trading.html#ally.Ally.submit">submit() (ally.Ally method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="quote.html#ally.Ally.timesales">timesales() (ally.Ally method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="watchlist.html#ally.Watchlist.Watchlist">Watchlist (class in ally.Watchlist)</a>
 </li>
   </ul></td>
 </tr></table>

@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 from ..Api		import AuthenticatedEndpoint, RequestType
-from .template	import template
 
 
 
@@ -73,6 +72,7 @@ class Timesales ( AuthenticatedEndpoint ):
 			'startdate':startdate,
 			'enddate':enddate
 		}
+		print(params)
 		
 		data = None
 		return params, data
@@ -91,11 +91,72 @@ class Timesales ( AuthenticatedEndpoint ):
 			pd.to_numeric,
 			errors='ignore'
 		)
-		# df = df.set_index('symbol')
 		return df
 
 
 
 
 
-timesales = template(Timesales)
+
+def timesales ( self, symbols: str, startdate: str, enddate: str,
+	interval: str = '5min', dataframe=True ):
+	"""Gets the most current market data on the price of a symbol.
+
+	Gets a dataset of price points and other information for a symbol.
+	Option symbols unfortunately are not accessible from this interface,
+	so only stocks can be used.
+
+	Must specify the start and end date on the range requested.
+	The API can only return 5 days of intraday prices, the 5 most
+	recent trading days, the current day included. Partial data
+	will be returned for the current day, if the query occurs
+	during the trading hours of a trading day.
+
+	Start and end date should take the form "2019-12-31". This
+	interface will be preserved, but datetime instances may be accepted
+	in the future as well.
+
+	Args:
+		symbols: single symbol to query historical quotes on
+		startdate: string, the start date of interval
+		enddate: string, end date of the interval
+		interval: string, specify the size of each time interval.
+			Must be one of ('1min','5min','15min')
+		dataframe: flag, specifies whether to return data in pandas dataframe
+			or flat list of dictionaries.
+	
+	Returns:
+		Depends on dataframe flag. Will return pandas dataframe, or possibly
+		list of dictionaries, each one a single quote.
+	
+
+	Examples:
+		
+.. code-block:: python
+
+	gld_history = a.timesales (
+		symbols = 'gld',
+		startdate = '2020-08-21',
+		enddate = '2020-08-19',
+	)
+	print(gld_history.loc[0])
+
+	"""
+	result = Timesales(
+		auth		= self.auth,
+		account_nbr	= self.account_nbr,
+		symbols		= symbols,
+		interval	= interval,
+		startdate	= startdate,
+		enddate		= enddate
+	).request()
+
+
+	if dataframe:
+		try:
+			result = Timesales.DataFrame ( result )
+		except:
+			raise
+	
+
+	return result
