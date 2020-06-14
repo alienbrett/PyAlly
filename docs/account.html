@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Trading" href="trading.html" />
-    <link rel="prev" title="Getting Started" href="getting.started.html" /> 
+    <link rel="prev" title="Ally Object" href="ally.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,8 +82,10 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting.started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ally.html">Ally Object</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
 
@@ -153,15 +155,8 @@
 <h1>Account<a class="headerlink" href="#account" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="ally.Ally">
-<em class="property">class </em><code class="sig-prename descclassname">ally.</code><code class="sig-name descname">Ally</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates orders, and queries account and trade information from Ally API.</p>
-<dl class="simple">
-<dt>Submit orders on behalf of this trading account. Also able to modify and cancel</dt><dd><p>existing orders, given a specific orderid string.</p>
-</dd>
-<dt>Request quotes, either 5 day rolling historical intraday, current market quotes,</dt><dd><p>or stream quotes continuously with generator.</p>
-</dd>
-</dl>
-<dl class="py method">
+<em class="property">class </em><code class="sig-prename descclassname">ally.</code><code class="sig-name descname">Ally</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
 <dt id="ally.Ally.balances">
 <code class="sig-name descname">balances</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.balances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets current cash and various account metrics.</p>
@@ -239,7 +234,7 @@ cost of acquisition, etc.</p>
         <a href="trading.html" class="btn btn-neutral float-right" title="Trading" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="getting.started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ally.html" class="btn btn-neutral float-left" title="Ally Object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

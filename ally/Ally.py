@@ -43,14 +43,6 @@ _all_params = (
 
 
 class Ally:
-	"""Creates orders, and queries account and trade information from Ally API.
-
-	Submit orders on behalf of this trading account. Also able to modify and cancel
-		existing orders, given a specific orderid string.
-
-	Request quotes, either 5 day rolling historical intraday, current market quotes,
-		or stream quotes continuously with generator.
-	"""
 
 	# Import all our class methods
 	from .Account	import (
@@ -88,25 +80,64 @@ class Ally:
 
 
 
-	def __init__ ( self, params = None, timeout=1.0 ):
+	def __init__ ( self, params = None, timeout : float = 1.0 ):
+		"""Manages all facets of your Ally Invest account.
 
-		"""Provide API keys in the form of:
-		- A dictionary: { ALLY_OAUTH_SECRET: ...}
-		- A string: (filename to json file containing api keys)
-		- None (default): Grab the api keys from environment variables
+		Manage your account
+			Track the current and past state of your account. Visit the Account_ page for full details.
+			
+			* Balances (gets all current cash and margin balances)
+			
+			* History (gets full history of all trades, dividends, and cash transfers of the account)
 
-		For any of the mediums above, be sure to provide all of the keys:
-			params = { 
-				'ALLY_OAUTH_SECRET'		: ...,
-				'ALLY_OAUTH_TOKEN'		: ...,
-				'ALLY_CONSUMER_SECRET'	: ...,
-				'ALLY_CONSUMER_KEY'		: ...,
-				'ALLY_ACCOUNT_NBR'		: ...
-			}
+			* Holdings (gets list of all currently-held non-cash positions, and profitability information)
+			
+		Get quotes
+			Specified in-detail in Quotes_. Supports 3 types of quote-gathering:
 
-		Also optionally specify timeout period for API requests
-			Requests will be automatically retried if connection doesn't succeed
+			* Real-time quotes
 
+			* Timesales (historical intraday prices over rolling 5 day window)
+
+			* Quote Streaming (get quotes for up to 256 symbols in real-time, as prices update)
+
+		Place trades
+			Trades can be placed, modified (after being created locally, and even after submitting), or cancelled.
+			Order objects described in Trading_ in detail.
+
+
+		Arguments:
+			``timeout``: float, number of seconds to wait before failing unresponsive api call
+
+			``params``: provide keys in the form of:
+
+				#. A dictionary: { ALLY_OAUTH_SECRET: ...}
+
+				#. A string: (filename to json file containing api keys)
+
+				#. None (default): Grab the api keys from environment variables
+
+				For any of the mediums above, be sure to provide all of the keys:
+
+	.. code-block:: python
+
+				params = { 
+					'ALLY_OAUTH_SECRET': ...,
+					'ALLY_OAUTH_TOKEN': ...,
+					'ALLY_CONSUMER_SECRET': ...,
+					'ALLY_CONSUMER_KEY': ...,
+					'ALLY_ACCOUNT_NBR': ...
+				}
+
+
+
+
+
+	.. py:module:: ally.Ally
+
+	.. _Trading: trading.html
+	.. _Quotes: quotes.html
+	.. _Account: account.html
 		"""
 
 

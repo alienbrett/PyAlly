@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Account" href="account.html" />
+    <link rel="next" title="Ally Object" href="ally.html" />
     <link rel="prev" title="PyAlly Trading Library" href="index.html" /> 
 </head>
 
@@ -85,11 +85,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing">Installing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#first-steps">First Steps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api-keys-from-environment-variables-easy">API Keys from Environment Variables (Easy)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api-keys-from-from-file">API Keys from From File</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#as-parameters-insecure">As Parameters (Insecure)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#keys-environment-variables">Keys: Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#keys-json-file">Keys: JSON file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#keys-passing-directly">Keys: Passing Directly</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="ally.html">Ally Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -187,47 +188,28 @@ and the project keys imported so that they can be used with the module.</p>
 </div>
 <div class="section" id="first-steps">
 <h2>First Steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h2>
-<p>To import the library, just run
-.. code-block:: python</p>
-<blockquote>
-<div><p>import ally</p>
-</div></blockquote>
-<p>We need to pass the API keys to the pyally object on instantiation. This can be done in a few ways:</p>
-<ul>
-<li><p>Using environment variables (Recommended)</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>This is easy to use and more secure than directly passing the keys</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>JSON file importing</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>The object creator also accepts a json file holding the dict keys. This is about as secure as the environment variable method.</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>Directly passing the keys</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>We hard-code a dict of API keys into the script and pass on instantiation. This method isn’t preferred and isn’t secure, especially for distributed projects.</p></li>
-</ul>
-</div></blockquote>
-</li>
-</ul>
+<p>To import the library, just run</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ally</span>
+</pre></div>
 </div>
-<div class="section" id="api-keys-from-environment-variables-easy">
-<h2>API Keys from Environment Variables (Easy)<a class="headerlink" href="#api-keys-from-environment-variables-easy" title="Permalink to this headline">¶</a></h2>
-<p>It’s <strong>strongly recommended</strong> that the API keys be stored as environment variables. If the account variables are specified as recommended, instantiation is easy:</p>
+<p>We need to pass the API keys to the pyally object on instantiation. This can be done in a few ways:</p>
+</div>
+<div class="section" id="keys-environment-variables">
+<h2>Keys: Environment Variables<a class="headerlink" href="#keys-environment-variables" title="Permalink to this headline">¶</a></h2>
+<p>It’s <strong>strongly recommended</strong> that the API keys be stored as environment variables.
+This is more secure than other methods, as it conceals the credentials of ally account if
+the code is leaked or distributed. If the account variables are specified as recommended this way,
+instantiation is easy:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Ally</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><strong>And you’re done!</strong></p>
 </div>
-<div class="section" id="api-keys-from-from-file">
-<h2>API Keys from From File<a class="headerlink" href="#api-keys-from-from-file" title="Permalink to this headline">¶</a></h2>
-<p>Parameters can also be read from a JSON file: <code class="docutils literal notranslate"><span class="pre">/path/to/params.json</span></code></p>
+<div class="section" id="keys-json-file">
+<h2>Keys: JSON file<a class="headerlink" href="#keys-json-file" title="Permalink to this headline">¶</a></h2>
+<p>The object creator also accepts a json file holding the dict keys, and
+this is about as secure as the environment variable method.
+Place the API keys into a JSON file (this looks very similar to a python dict):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s1">&#39;ALLY_RESOURCE_OWNER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
     <span class="s1">&#39;ALLY_RESOURCE_OWNER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
@@ -242,8 +224,8 @@ and the project keys imported so that they can be used with the module.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="as-parameters-insecure">
-<h2>As Parameters (Insecure)<a class="headerlink" href="#as-parameters-insecure" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="keys-passing-directly">
+<h2>Keys: Passing Directly<a class="headerlink" href="#keys-passing-directly" title="Permalink to this headline">¶</a></h2>
 <p>Variables can be passed in on instantiation. This way, no account variables need to be set.
 Keep in mind that this is much less secure for distributable applications, since anyone with these keys
 will have access to the account with which they’re associated.</p>
@@ -269,7 +251,7 @@ will have access to the account with which they’re associated.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="account.html" class="btn btn-neutral float-right" title="Account" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ally.html" class="btn btn-neutral float-right" title="Ally Object" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="PyAlly Trading Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

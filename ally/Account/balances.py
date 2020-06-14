@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 from ..Api		import AccountEndpoint, RequestType
-from .template	import template
 from .utils		import _dot_flatten
 
 

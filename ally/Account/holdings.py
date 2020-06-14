@@ -22,7 +22,6 @@
 
 from ..Api import AccountEndpoint, RequestType
 from ..utils import option_format
-from .template import template
 
 
 

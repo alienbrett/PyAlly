@@ -114,8 +114,30 @@ class Submission ( AccountEndpoint ):
 
 
 
-def submit ( self, order, **kwargs ):
-	"""Use self.auth to query for current account holdings
+def submit ( self, order, preview: bool = True ):
+	"""Submits an order object to Ally's servers for execution.
+
+	Given an instantiated ally object, send an order up
+	to the API for execution right now. The original order passed
+	in to this function will have a new attribute, order.orderid
+	(if preview=False), which will encode the order's ID in Ally's system.
+	Modifying or cancelling this order will affect this orderid unless it was
+	otherwise modified.
+
+	Args:
+		order: An ally.Order.Order instance
+		preview: Specify whether to actually submit the order for execution,
+			or just to see mock execution info including quotes, from Ally.
+	
+	Returns:
+		An order ID string, the same added to the order object (if preview=False)
+		or a dictionary with contingent market execution data (if preview=True)
+	
+
+	Raises:
+		ExecutionException: Will return verbatim error from Ally's API if a problem with
+			the order is encountered.
+
 	"""
 
 	# Add the account number to this order
@@ -128,7 +150,7 @@ def submit ( self, order, **kwargs ):
 	result = Submission(
 		auth		= self.auth,
 		account_nbr = self.account_nbr,
-		**kwargs
+		preview		= preview
 	).request()
 
 	return result

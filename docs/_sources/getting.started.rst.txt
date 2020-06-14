@@ -50,6 +50,7 @@ First Steps
 
 
 To import the library, just run
+
 .. code-block:: python
 
    import ally
@@ -57,24 +58,15 @@ To import the library, just run
 
 We need to pass the API keys to the pyally object on instantiation. This can be done in a few ways:
 
-* Using environment variables (Recommended)
-
-   * This is easy to use and more secure than directly passing the keys
-
-* JSON file importing
-
-   * The object creator also accepts a json file holding the dict keys. This is about as secure as the environment variable method.
-
-* Directly passing the keys
-
-   * We hard-code a dict of API keys into the script and pass on instantiation. This method isn't preferred and isn't secure, especially for distributed projects.
 
 
+Keys: Environment Variables
+---------------------------
 
-API Keys from Environment Variables (Easy)
-------------------------------------------
-
-It's **strongly recommended** that the API keys be stored as environment variables. If the account variables are specified as recommended, instantiation is easy:
+It's **strongly recommended** that the API keys be stored as environment variables.
+This is more secure than other methods, as it conceals the credentials of ally account if
+the code is leaked or distributed. If the account variables are specified as recommended this way,
+instantiation is easy:
 
 .. code-block:: python
 
@@ -85,10 +77,12 @@ It's **strongly recommended** that the API keys be stored as environment variabl
 
 
 
-API Keys from From File
------------------------
+Keys: JSON file
+---------------
 
-Parameters can also be read from a JSON file: ``/path/to/params.json``
+The object creator also accepts a json file holding the dict keys, and 
+this is about as secure as the environment variable method.
+Place the API keys into a JSON file (this looks very similar to a python dict):
 
 .. code-block:: python
 
@@ -110,12 +104,14 @@ Then the object can be instantiated like:
 
 
 
-As Parameters (Insecure)
-------------------------
+Keys: Passing Directly
+----------------------
 
 Variables can be passed in on instantiation. This way, no account variables need to be set.
 Keep in mind that this is much less secure for distributable applications, since anyone with these keys
 will have access to the account with which they're associated.
+
+
 
 .. code-block:: python
 

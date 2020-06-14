@@ -12,7 +12,9 @@ Contents
    :maxdepth: 2
 
    getting.started
+   ally
    account
    trading
+   quote
    support
 

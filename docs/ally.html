@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Trading &mdash; PyAlly 1.0.0 documentation</title>
+  <title>Ally Object &mdash; PyAlly 1.0.0 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Quotes" href="quote.html" />
-    <link rel="prev" title="Account" href="account.html" /> 
+    <link rel="next" title="Account" href="account.html" />
+    <link rel="prev" title="Getting Started" href="getting.started.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,10 +82,9 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting.started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ally.html">Ally Object</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ally Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Trading</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
 
@@ -132,13 +131,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Trading</li>
+      <li>Ally Object</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/trading.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/ally.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -151,57 +150,60 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="trading">
-<h1>Trading<a class="headerlink" href="#trading" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="ally-object">
+<h1>Ally Object<a class="headerlink" href="#ally-object" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="ally.Ally">
 <em class="property">class </em><code class="sig-prename descclassname">ally.</code><code class="sig-name descname">Ally</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="ally.Ally.orders">
-<code class="sig-name descname">orders</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.orders" title="Permalink to this definition">¶</a></dt>
-<dd><p>View all recent orders in the last 24 hours.</p>
-<p>Calls accounts/./orders.json from the Ally API.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A list of Order objects. Attributes can be viewed in the
-same way as orders created by the user.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="ally.Ally.submit">
-<code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">order</span></em>, <em class="sig-param"><span class="n">preview</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.submit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Submits an order object to Ally’s servers for execution.</p>
-<p>Given an instantiated ally object, send an order up
-to the API for execution right now. The original order passed
-in to this function will have a new attribute, order.orderid
-(if preview=False), which will encode the order’s ID in Ally’s system.
-Modifying or cancelling this order will affect this orderid unless it was
-otherwise modified.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>order</strong> – An ally.Order.Order instance</p></li>
-<li><p><strong>preview</strong> – Specify whether to actually submit the order for execution,
-or just to see mock execution info including quotes, from Ally.</p></li>
+<dt id="ally.Ally.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages all facets of your Ally Invest account.</p>
+<blockquote>
+<div><dl>
+<dt>Manage your account</dt><dd><p>Track the current and past state of your account. Visit the <a class="reference external" href="account.html">Account</a> page for full details.</p>
+<ul class="simple">
+<li><p>Balances (gets all current cash and margin balances)</p></li>
+<li><p>History (gets full history of all trades, dividends, and cash transfers of the account)</p></li>
+<li><p>Holdings (gets list of all currently-held non-cash positions, and profitability information)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>An order ID string, the same added to the order object (if preview=False)
-or a dictionary with contingent market execution data (if preview=True)</p>
+<dt>Get quotes</dt><dd><p>Specified in-detail in <a class="reference external" href="quotes.html">Quotes</a>. Supports 3 types of quote-gathering:</p>
+<ul class="simple">
+<li><p>Real-time quotes</p></li>
+<li><p>Timesales (historical intraday prices over rolling 5 day window)</p></li>
+<li><p>Quote Streaming (get quotes for up to 256 symbols in real-time, as prices update)</p></li>
+</ul>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>ExecutionException</strong> – Will return verbatim error from Ally’s API if a problem with
-    the order is encountered.</p>
+<dt>Place trades</dt><dd><p>Trades can be placed, modified (after being created locally, and even after submitting), or cancelled.
+Order objects described in <a class="reference external" href="trading.html">Trading</a> in detail.</p>
+</dd>
+<dt>Arguments:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">timeout</span></code>: float, number of seconds to wait before failing unresponsive api call</p>
+<p><code class="docutils literal notranslate"><span class="pre">params</span></code>: provide keys in the form of:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>A dictionary: { ALLY_OAUTH_SECRET: …}</p></li>
+<li><p>A string: (filename to json file containing api keys)</p></li>
+<li><p>None (default): Grab the api keys from environment variables</p></li>
+</ol>
+<p>For any of the mediums above, be sure to provide all of the keys:</p>
+</div></blockquote>
 </dd>
 </dl>
-</dd></dl>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;ALLY_OAUTH_SECRET&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+        <span class="s1">&#39;ALLY_OAUTH_TOKEN&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+        <span class="s1">&#39;ALLY_CONSUMER_SECRET&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+        <span class="s1">&#39;ALLY_CONSUMER_KEY&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+        <span class="s1">&#39;ALLY_ACCOUNT_NBR&#39;</span><span class="p">:</span> <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<span class="target" id="module-ally.Ally"></span></dd></dl>
 
 </dd></dl>
 
-<span class="target" id="module-ally.Order"></span><p>Manage account orders.</p>
-<p>More stuff goes here</p>
 </div>
 
 
@@ -212,10 +214,10 @@ or a dictionary with contingent market execution data (if preview=True)</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="quote.html" class="btn btn-neutral float-right" title="Quotes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="account.html" class="btn btn-neutral float-right" title="Account" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="account.html" class="btn btn-neutral float-left" title="Account" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="getting.started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

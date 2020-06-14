@@ -53,8 +53,15 @@ class OutstandingOrders ( AccountEndpoint ):
 
 
 
-def orders ( self, **kwargs ):
-	"""Use self.auth to query for current account holdings
+def orders ( self ):
+	"""View all recent orders in the last 24 hours.
+
+	Calls accounts/./orders.json from the Ally API.
+	
+	Returns:
+		A list of Order objects. Attributes can be viewed in the
+		same way as orders created by the user.
+	
 	"""
 	result = OutstandingOrders(
 		auth		= self.auth,
