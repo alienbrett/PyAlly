@@ -166,4 +166,32 @@ class History ( AccountEndpoint ):
 
 
 
-history = template(History)
+def history ( self, dataframe: bool = True ):
+	"""Gets the transaction history for the account.
+
+	Calls the 'accounts/./history.json' endpoint to get list of all trade
+	and cash  movement history for an account. This includes dividends, cash
+	deposits and withdrawals, and all trades, including pricing information about
+	each trade.
+
+	Args:
+		dataframe: Specify an output format
+	
+	Returns:
+		A pandas dataframe by default,
+			otherwise a flat list of dictionaries.
+
+	"""
+	result = History(
+		auth = self.auth,
+		account_nbr = self.account_nbr
+	).request()
+
+
+	if dataframe:
+		try:
+			result = History.DataFrame ( result )
+		except:
+			pass
+
+	return result

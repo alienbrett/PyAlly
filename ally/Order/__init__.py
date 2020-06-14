@@ -20,6 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""Manage account orders.
+
+More stuff goes here
+
+"""
+
 from .Outstanding	import orders
 from .Submit		import submit
 from .order			import Order
+from .classes		import *

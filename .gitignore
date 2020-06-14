@@ -16,3 +16,4 @@ build/*
 pyally.egg-info/
 pyally.egg-info/*
 venv/
+sphinx/_build/
