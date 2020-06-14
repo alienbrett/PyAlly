@@ -22,3 +22,6 @@ help:
 github:
 	@make html
 	@cp -a _build/html/. ../docs
+	@find ../docs -type f -exec sed -i 's/_static/static/g' {} +
+	@mv ../docs/_static/ ../docs/static/
+	@touch ../docs/.nojekyll
