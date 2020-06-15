@@ -1,5 +1,7 @@
 # PyAlly Trading Library
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/037c01d127d845b6892416f199747f52)](https://app.codacy.com/manual/alienbrett/PyAlly?utm_source=github.com&utm_medium=referral&utm_content=alienbrett/PyAlly&utm_campaign=Badge_Grade_Settings)
+
 Take control of your [Ally bank](https://www.ally.com/api/invest/documentation/getting-started/) finances through Python.
 Buy stocks and options in an instant, and stay up-to-date with your investments.
 
