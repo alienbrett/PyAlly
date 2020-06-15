@@ -1,25 +1,33 @@
-# PyAlly 1.0.0
-Python3 wrapper for [Ally Invest brokerage API](https://www.ally.com/api/invest/documentation/getting-started/ "Ally Invest API")
+# PyAlly Trading Library
+
+Take control of your [Ally bank](https://www.ally.com/api/invest/documentation/getting-started/) finances through Python.
+Buy stocks and options in an instant, and stay up-to-date with your investments.
 
 Ally Bank's investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.
 
 After setting up API keys, PyAlly can provide the basic/essential Ally brokerage transaction functions from a simple python request.
 
+Make sure to [read the docs](https://https://alienbrett.github.io/PyAlly)!
 
-## [Documentation](https://github.com/alienbrett/PyAlly/wiki)
-* **Getting Started**
-    * [Getting Started](https://github.com/alienbrett/PyAlly/wiki/Getting-Started)
-    * [Account Operations](https://github.com/alienbrett/PyAlly/wiki/Account-Operations)
-* **Getting Data**
-    * [Quotes](https://github.com/alienbrett/PyAlly/wiki/Getting-Quotes)
-    * [Options Info](https://github.com/alienbrett/PyAlly/wiki/Option-Contracts)
-* **Orders**
-    * [Creating an Order](https://github.com/alienbrett/PyAlly/wiki/Order-Creation)
-    * [Submitting an Order](https://github.com/alienbrett/PyAlly/wiki/Order-operations)
-* **Other**
-    * [Utility](https://github.com/alienbrett/PyAlly/wiki/Utility-Functions)
-    * [Watchlists](https://github.com/alienbrett/PyAlly/wiki/Watchlist-Operations)
-	* [Toplists](https://github.com/alienbrett/PyAlly/wiki/Top-Lists)
+
+## Version 1.0.1
+
+The lastest redesign preserves many features of the old interface, and incorporates a few new ones.
+Version 1.0 has been designed around a simple interface which should make modifying orders easier, and many operations more pythonic.
+Please note that this version breaks compatibility with all V0.X.X.
+
+* Added pythonic methods for manipulating account watchlists
+* Added quote streaming support
+* Simplified account operation methods
+* Many new order operations. Orders can now be modified or cancelled in an intuitive way
+
+
+## Planned Features
+
+* Intelligent rate limiting
+* Option searching
+* Toplists
+* News
 
 
 

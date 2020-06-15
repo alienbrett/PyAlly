@@ -16,7 +16,6 @@ setuptools.setup(
 		install_requires=[
 			'requests-oauthlib',
 			'requests',
-			'retry',
 			'pytz'
 		],
         classifiers=[

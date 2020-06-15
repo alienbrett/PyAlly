@@ -22,7 +22,6 @@
 
 # from requests.exceptions import ConnectionError, HTTPError, Timeout
 from enum					import Enum
-from retry					import retry
 from requests				import Request, Session
 from requests.exceptions	import HTTPError,Timeout
 from .utils					import (

@@ -65,8 +65,7 @@ def orders ( self ):
 	"""
 	result = OutstandingOrders(
 		auth		= self.auth,
-		account_nbr = self.account_nbr,
-		**kwargs
+		account_nbr = self.account_nbr
 	).request()
 
 	return result
