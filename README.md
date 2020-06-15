@@ -7,7 +7,7 @@ Ally Bank's investment platform is perfect for smaller investors who value a mat
 
 After setting up API keys, PyAlly can provide the basic/essential Ally brokerage transaction functions from a simple python request.
 
-Make sure to [read the docs](https://https://alienbrett.github.io/PyAlly)!
+Make sure to [read the docs](https://alienbrett.github.io/PyAlly)!
 
 
 ## Version 1.0.1
