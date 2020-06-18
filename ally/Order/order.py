@@ -64,61 +64,66 @@ class Order:
 
 
 	
-	def __init__ ( self,buysell: str =None, symbol: str =None, price=None, qty: int =None,
-		time: int =None, account=None, type_=OType.Order, orderid=None, fixml=None ):
-		"""Create an order.
+	def __init__ ( self,
+		buysell: str =None,
+		symbol: str =None,
+		price=None,
+		qty: int =None,
+		time: int =None,
+		account=None,
+		type_=OType.Order,
+		orderid=None,
+		fixml=None
+	):
+		"""Creates an order.
 
 		Args:
 
-			buysell:
-				single string
-		buysell:
-			Specify the postion desired.
+			buysell
+				Specify the postion desired.
 
-			- 'buy' 		Buy to open a long position
-			- 'sell'		Sell to close a long position
-			- 'sellshort'	Sell to open a short position
-			- 'buycover'	Buy to close a short position
-		
+				- 'buy' 		Buy to open a long position
+				- 'sell'		Sell to close a long position
+				- 'sellshort'	Sell to open a short position
+				- 'buycover'	Buy to close a short position
+				
 
-		symbol:
-			Enter the symbol of the instrument to be traded.
-			  You can use ally.utils.option_format(...)
-				to generate the OCC-standard option symbol
+			symbol
+				Enter the symbol of the instrument to be traded.  You can use ally.utils.option_format(...) to generate the OCC-standard option symbol.
 
-			- 'spy'					Equivalent to 'SPY'
-			- 'SPY200529C00305000'	SPY 2020-05-29 Call @ $305.00
+				- 'spy'					Equivalent to 'SPY'
+				- 'SPY200529C00305000'	SPY 2020-05-29 Call @ $305.00
+				
 
+			price
+				Specify the pricing options for execution.
 
-		price:
-			Specify the pricing options for execution.
+				- Market()					Market (whatever price the market gives you)
+				- Limit(123.45)				Limit (execute trade no less-favorably than value)
+				- Stop(123.45)				Stop (execute a market order once the price passes this value)
+				- StopLimit (				Stop Limit (Once the stop price is reached, submit a limit order)
+					limpx = 123.45,
+					stoppx = 120.00
+				)
+				- StopLoss (				Stop Loss order (same as trailing stop)
+					pct = True, [default]		specify whether to treat stop as percent or dollar value
+					stop=5.0
+				)
 
-			- Market()					Market (whatever price the market gives you)
-			- Limit(123.45)				Limit (execute trade no less-favorably than value)
-			- Stop(123.45)				Stop (execute a market order once the price passes this value)
-			- StopLimit (				Stop Limit (Once the stop price is reached, submit a limit order)
-				limpx = 123.45,
-				stoppx = 120.00
-			)
-			- StopLoss (				Stop Loss order (same as trailing stop)
-				pct = True, [default]		specify whether to treat stop as percent or dollar value
-				stop=5.0
-			)
+			
+			qty
+				Specify the number of shares (or contracts, for options)
+					to be purchased.
 
-		
-		qty:
-			Specify the number of shares (or contracts, for options)
-				to be purchased.
-
-			- 10	Accepts integers, no fractions though
+				- 10	Accepts integers, no fractions though
 
 
-		time:
-			Specify the time-in-force of the order.
+			time
+				Specify the time-in-force of the order.
 
-			- 'day'				# Good-For-Day
-			- 'gtc'				# Good-'till-Cancelled
-			- 'marketonclose'	# Market-On-Close
+				- 'day'				# Good-For-Day
+				- 'gtc'				# Good-'till-Cancelled
+				- 'marketonclose'	# Market-On-Close
 
 
 
@@ -127,6 +132,7 @@ class Order:
 		self.otype		= type_
 		self.account	= None
 		self.orderid	= None
+		self._status	= None
 
 		self.instrument	= None
 		self.pricing	= None
@@ -157,7 +163,8 @@ class Order:
 
 	@property
 	def convert_buysell ( self ):
-		# Process buysell a wee bit
+		"""Turns buysell type into string.
+		"""
 		x = {}
 
 
@@ -186,8 +193,9 @@ class Order:
 
 	@property
 	def fixml ( self ):
-		"""Compile the object into FIXML string
-		Should not affect internal state of object
+		"""Compiles the object into FIXML string.
+
+		Does not affect internal state of object
 		"""
 		
 		d = {}
@@ -235,9 +243,12 @@ class Order:
 
 	@property
 	def status ( self ):
-		"""Return information about the execution state of this order
+		"""Execution status of this order.
+
+		None implies that this order hasn't been submitted for execution yet.
+
 		"""
-		pass
+		return self._status
 
 
 
@@ -245,7 +256,16 @@ class Order:
 
 
 	def set_buysell ( self, buysell ):
-		## Accept buysell information from string or enum
+		"""Specify the side of this order.
+
+		Can be viewed at obj.buysell
+
+		Args:
+
+			buysell: one of ('buy','sell','sellshort','buycover'), or the corresponding enum types.
+
+		"""
+
 		if isinstance(buysell, str):
 			buysell	= Order._side_dict[buysell.lower()]
 
@@ -256,8 +276,10 @@ class Order:
 
 
 	def set_orderid ( self, orderid ):
-		"""Install this orderid
+		"""Specifies the order's ID.
+
 		Can be viewed at obj.orderid
+
 		"""
 		self.orderid = orderid
 
@@ -266,8 +288,13 @@ class Order:
 
 
 	def set_account ( self, account ):
-		"""Set the account number for an order, so that orders
-		are accepted properly
+		"""Specifies the account used to execute an order.
+
+		Users shouldn't really need to use this under normal circumstances, this
+		is handled by the ally object.
+
+		Can be viewed at obj.account
+
 		"""
 		self.account = int(str(account)[:8])
 
@@ -276,7 +303,12 @@ class Order:
 
 
 
-	def set_symbol ( self, symbol ):
+	def set_symbol ( self, symbol: str ):
+		"""Sets the order's instrument.
+
+		Can be viewed at obj.instrument
+
+		"""
 		if len(symbol) > 15:
 			# Almost certainly an option, if not unintelligible
 
@@ -313,6 +345,16 @@ class Order:
 
 
 	def set_time ( self, time ):
+		"""Sets the order's time-in-force.
+
+		Can be viewed at obj.time
+
+		Args:
+
+			time: must be one of ('day','gtc','onclose'), or the corresponding enums instances.
+
+		"""
+
 		# Handle strings
 		if isinstance(time, str):
 			time = Order._time_dict[time.lower()]
@@ -323,12 +365,28 @@ class Order:
 
 
 	def set_quantity ( self, qty ):
+		"""Sets the order quantity.
+
+		Can be viewed at obj.quantity
+
+		"""
+
 		self.quantity		= int(qty)
 
 
 
 
 	def set_pricing ( self, priceobj ):
+		"""Sets the pricing information of an order.
+
+		Can be viewed at obj.pricing
+
+		Args:
+			
+			priceobj: Must be one of [ally.Order.Market(), ally.Order.Limit(x), ally.Order.Stop(x), ally.Order.StopLimit(x,y), ally.Order.TrailingStop(x,y)]
+
+		"""
+
 		self.pricing = priceobj
 
 
@@ -448,7 +506,7 @@ class Order:
 		instrmt = o.pop('Instrmt')
 		self.imply_fixml_instrument(instrmt)
 
-		# print(o)
+		self._status = o
 	
 
 

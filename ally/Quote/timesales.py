@@ -72,7 +72,6 @@ class Timesales ( AuthenticatedEndpoint ):
 			'startdate':startdate,
 			'enddate':enddate
 		}
-		print(params)
 		
 		data = None
 		return params, data

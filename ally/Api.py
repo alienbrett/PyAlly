@@ -146,7 +146,6 @@ class Endpoint:
 		"""
 		x = self._fetch_raw()
 
-		# print(x.status)
 		x.raise_for_status()
 
 		return self.extract ( x )

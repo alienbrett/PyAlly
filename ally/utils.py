@@ -27,8 +27,34 @@ nonspace = re.compile(r'\S')
 
 ############################################################################
 def option_format(symbol="", exp_date="1970-01-01", strike=0, direction=""):
-	"""Given some parameters, return the OCC standardized option name
-	direction should contain 'C' for a call, or 'P' for a put (lowercase is fine)
+	"""Returns the OCC standardized option name.
+	
+	Args:
+
+		symbol: the underlying symbol, case insensitive
+		exp_date: date of expiration, in string-form.
+		strike: strike price of the option
+		direction: 'C' or 'call' or the like, for call, otherwise 'p' or 'Put' for put
+	
+	Returns:
+		
+		OCC string, like 'IBM201231C00301000'
+
+
+	.. code-block:: python
+		
+		# Construct the option's OCC symbol
+		>>> ibm_call = ally.utils.option_format(
+			exp_date = '2020-12-31',
+			symbol = 'IBM', # case insensitive
+			direction = 'call',
+			strike = 301
+		)
+
+		>>> ibm_call
+		'IBM201231C00301000'
+
+
 	"""
 	if not (check(symbol) and check(exp_date) and check(str(strike)) and check(direction)):
 		return ""

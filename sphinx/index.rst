@@ -8,6 +8,8 @@ Ally Bank's investment platform is perfect for smaller investors who value a mat
 
 After setting up API keys, PyAlly can provide the basic/essential Ally brokerage transaction functions from a simple python request.
 
+The project can be cloned from github_ or installed through pip on pypi_.
+
 
 Contents
 --------
@@ -79,3 +81,7 @@ If you're dying to buy me a beer, I accept venmo at @alienbrett. That said, feel
 .. _`Tianyu`: https://github.com/Tianyu00
 
 .. _`send me an email`: mailto:alienbrett648@gmail.com
+
+.. _github: https://github.com/alienbrett/PyAlly
+
+.. _pypi: https://pypi.org/project/pyally/
