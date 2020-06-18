@@ -73,7 +73,7 @@ class Ally:
 		"""Try to load params from a json file
 		Account number is now mandatory
 		"""
-		with open(params, 'r') as f:
+		with open(fname, 'r') as f:
 			return load(f)
 
 
