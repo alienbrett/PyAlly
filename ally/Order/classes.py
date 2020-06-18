@@ -111,6 +111,9 @@ class Market(Pricing):
 	type_	= PriceType.Market
 	_data	= { 'Typ': '1' }
 	def __str__(self):
+		"""Creates market price object.
+
+		"""
 		return 'Market'
 	
 
@@ -120,6 +123,13 @@ class Limit(Pricing):
 	_data	= { 'Typ': '2' }
 
 	def __init__ ( self, limpx ):
+		"""Creates a limit price object.
+
+		Args:
+			
+			limpx: the stop price
+
+		"""
 		self.px = round(float(limpx),2)
 		self._data['Px'] = str(self.px)
 	def __str__(self):
@@ -132,6 +142,14 @@ class Stop(Pricing):
 	_data	= { 'Typ': '3' }
 
 	def __init__ ( self, stoppx ):
+		"""Creates a stop price object.
+
+		Args:
+			
+			stoppx: the stop price
+
+		"""
+
 		self.stoppx = round(float(stoppx),2)	
 		self._data['StopPx'] = str(self.stoppx)
 	def __str__(self):
@@ -144,6 +162,13 @@ class StopLimit(Pricing):
 	_data	= { 'Typ': '4' }
 
 	def __init__ ( self, limpx, stoppx ):
+		"""Stop-limit price object.
+
+		Args:
+
+			limpx: limit price, to be used once stop price was reached
+			stoppx: stop price, to trigger limit price
+		"""
 		self.px		= round(float(limpx),2)
 		self.stoppx	= round(float(stoppx),2)
 		self._data['Px']		= str(self.px)
@@ -158,10 +183,13 @@ class TrailingStop(Pricing):
 	_data	= { 'Typ': 'P' }
 
 	def __init__ ( self, use_pct, offset ):
-		"""Create trailing stop order
-		use_pct:
-			- True	# Interpret 1.0 offset as 1%
-			- False	# Interpret 1.0 offset as $1.00
+		"""Trailing stop price object.
+
+		Args:
+			
+			use_pct: if true, treat offset as percent. Otherwise, treat it as a dollar quantity
+			offset: the trailing stop offset
+
 		"""
 		self.use_pct 	= use_pct
 		self.offset		= offset

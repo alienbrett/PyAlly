@@ -172,5 +172,23 @@ Orders can be revised once submitted but before execution like so:
 
 
 
+Pricing Types
+---------------
+
+The Ally API supports 5 price types in total.
+
+.. autoclass:: ally.Order.Market
+   :members: __init__
+
+.. autoclass:: ally.Order.Limit
+   :members: __init__
+
+.. autoclass:: ally.Order.Stop
+   :members: __init__
+
+.. autoclass:: ally.Order.StopLimit
+   :members: __init__
 
 
+.. autoclass:: ally.Order.TrailingStop
+   :members: __init__

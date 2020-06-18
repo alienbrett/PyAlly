@@ -90,6 +90,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#dealing-with-options">Dealing With Options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#changing-order-parameters">Changing Order Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#modifying-and-cancelling-outstanding-orders">Modifying and Cancelling Outstanding Orders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pricing-types">Pricing Types</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
@@ -432,6 +433,91 @@ limit at $18, good-til-cancelled.</p>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">submit</span> <span class="p">(</span> <span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="pricing-types">
+<h2>Pricing Types<a class="headerlink" href="#pricing-types" title="Permalink to this headline">¶</a></h2>
+<p>The Ally API supports 5 price types in total.</p>
+<dl class="py class">
+<dt id="ally.Order.Market">
+<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Market</code><a class="headerlink" href="#ally.Order.Market" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="ally.Order.Market.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Market.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ally.Order.Limit">
+<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Limit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">limpx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Limit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="ally.Order.Limit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">limpx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Limit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a limit price object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>limpx</strong> – the stop price</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ally.Order.Stop">
+<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Stop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stoppx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Stop" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="ally.Order.Stop.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stoppx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Stop.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a stop price object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stoppx</strong> – the stop price</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ally.Order.StopLimit">
+<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">StopLimit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">limpx</span></em>, <em class="sig-param"><span class="n">stoppx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.StopLimit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="ally.Order.StopLimit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">limpx</span></em>, <em class="sig-param"><span class="n">stoppx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.StopLimit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop-limit price object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>limpx</strong> – limit price, to be used once stop price was reached</p></li>
+<li><p><strong>stoppx</strong> – stop price, to trigger limit price</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ally.Order.TrailingStop">
+<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">TrailingStop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">use_pct</span></em>, <em class="sig-param"><span class="n">offset</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.TrailingStop" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="ally.Order.TrailingStop.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">use_pct</span></em>, <em class="sig-param"><span class="n">offset</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.TrailingStop.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trailing stop price object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>use_pct</strong> – if true, treat offset as percent. Otherwise, treat it as a dollar quantity</p></li>
+<li><p><strong>offset</strong> – the trailing stop offset</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
