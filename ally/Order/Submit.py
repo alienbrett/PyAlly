@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 from ..Api			import AccountEndpoint, RequestType
-# from .order			import orderReqType, injectAccount
 from ..exception	import OrderException, ExecutionException
 from .order			import Order
 
@@ -70,8 +69,8 @@ class Submission ( AccountEndpoint ):
 
 		if not self._preview:
 			# Get the ID we were promissed
-			self._order._id = response['clientorderid']
-			return self._order._id
+			self._order.orderid = response['clientorderid']
+			return self._order.orderid
 
 		else:
 			return response
@@ -82,16 +81,12 @@ class Submission ( AccountEndpoint ):
 
 
 
-	def req_body ( self, **kwargs ):
+	def req_body ( self, order, **kwargs ):
 		"""Return get params together with post body data
 		"""
 
 		# Get our order
-		self._order = kwargs['order']
-
-		# Update account info
-		# self._acct	= kwargs['account']
-		# self._order.set_account(self._acct)
+		self._order = order
 
 		# Let FIXML handle this bullshit
 		data = self._order.fixml
@@ -114,7 +109,7 @@ class Submission ( AccountEndpoint ):
 
 
 
-def submit ( self, order, preview: bool = True ):
+def submit ( self, order, preview: bool = True, type_ = None ):
 	"""Submits an order object to Ally's servers for execution.
 
 	Given an instantiated ally object, send an order up
@@ -128,6 +123,7 @@ def submit ( self, order, preview: bool = True ):
 		order: An ally.Order.Order instance
 		preview: Specify whether to actually submit the order for execution,
 			or just to see mock execution info including quotes, from Ally.
+		type_: Cancels or modifies the order, if not None
 	
 	Returns:
 		An order ID string, the same added to the order object (if preview=False)
@@ -140,17 +136,17 @@ def submit ( self, order, preview: bool = True ):
 
 	"""
 
+	if type_ is not None:
+		order.otype = type_
+
 	# Add the account number to this order
 	order.set_account(self.account_nbr)
-
-	# Throw order into the right place
-	kwargs['order'] = order
-	
 
 	result = Submission(
 		auth		= self.auth,
 		account_nbr = self.account_nbr,
-		preview		= preview
+		preview		= preview,
+		order		= order
 	).request()
 
 	return result

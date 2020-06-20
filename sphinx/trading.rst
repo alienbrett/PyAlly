@@ -133,27 +133,36 @@ And the order type (Order, Cancel or Modify) can be set as so:
 Modifying and Cancelling Outstanding Orders
 -----------------------------------------------
 
-Cancelling an order is very simple:
+Cancelling an order is very simple, and can be done in one of three ways:
+
+* (Easiest) Inline method. Cancel or modify from the submit function.
+The function will do the rest for you.
+
+.. code-block:: python
+
+	>>> a.submit(
+		o,
+		preview = False,
+		type_ = ally.Order.OType.Cancel # Either OType.Cancel, or OType.Modify
+	)
+
+
+* Directly modify existing order
+
+.. code-block:: python
+
+	>>> o.otype = ally.Order.OType.Cancel
+	>>> a.submit( o, preview=False )
+
+* Construct new cancel order object
 
 .. code-block:: python
 	
-	>>> a.submit(o, preview = False)
-	'SVI-12345678'
-
-	# Oops, now I want to cancel
 	>>> cxl = ally.Order.Order(
 		orderid = o.orderid,
 		type_ = ally.Order.OType.Cancel
 	)
-
-	# Submit this new order
 	>>> a.submit ( cxl, preview=False )
-
-
-	# Can also be accomplished by modifying the existing order
-	>>> o.otype = ally.Order.OType.Cancel
-
-	>>> a.submit( o, preview=False )
 
 
 
@@ -164,11 +173,8 @@ Orders can be revised once submitted but before execution like so:
 	# Modify an attribute of this order
 	>>> o.set_pricing( ally.Order.Limit(8) )
 
-	# Set the order to 'Modify', not 'Order'
-	>>> o.otype = ally.Order.OType.Modify
-
 	# Submit to ally for revision
-	>>> a.submit ( o, preview=False )
+	>>> a.submit ( o, preview=False, type_ = ally.Order.OType.Modify )
 
 
 

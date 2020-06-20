@@ -27,7 +27,7 @@ Contents
    support
 
 
-Version 1.0.1
+Version 1.0.2
 ----------------
 
 The lastest redesign preserves many features of the old interface, and incorporates a few new ones.

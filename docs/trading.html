@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Trading &mdash; PyAlly 1.0.1 documentation</title>
+  <title>Trading &mdash; PyAlly 1.0.2 documentation</title>
   
 
   
@@ -402,35 +402,41 @@ limit at $18, good-til-cancelled.</p>
 </div>
 <div class="section" id="modifying-and-cancelling-outstanding-orders">
 <h2>Modifying and Cancelling Outstanding Orders<a class="headerlink" href="#modifying-and-cancelling-outstanding-orders" title="Permalink to this headline">¶</a></h2>
-<p>Cancelling an order is very simple:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">preview</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
-<span class="go">&#39;SVI-12345678&#39;</span>
-
-<span class="go"># Oops, now I want to cancel</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cxl</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">Order</span><span class="p">(</span>
+<p>Cancelling an order is very simple, and can be done in one of three ways:</p>
+<ul class="simple">
+<li><p>(Easiest) Inline method. Cancel or modify from the submit function.</p></li>
+</ul>
+<p>The function will do the rest for you.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+<span class="go">        o,</span>
+<span class="go">        preview = False,</span>
+<span class="go">        type_ = ally.Order.OType.Cancel # Either OType.Cancel, or OType.Modify</span>
+<span class="go">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Directly modify existing order</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">otype</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">OType</span><span class="o">.</span><span class="n">Cancel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span> <span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Construct new cancel order object</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cxl</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">Order</span><span class="p">(</span>
 <span class="go">        orderid = o.orderid,</span>
 <span class="go">        type_ = ally.Order.OType.Cancel</span>
 <span class="go">)</span>
-
-<span class="go"># Submit this new order</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span> <span class="p">(</span> <span class="n">cxl</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span>
-
-
-<span class="go"># Can also be accomplished by modifying the existing order</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">otype</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">OType</span><span class="o">.</span><span class="n">Cancel</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span> <span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span>
 </pre></div>
 </div>
 <p>Orders can be revised once submitted but before execution like so:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modify an attribute of this order</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">set_pricing</span><span class="p">(</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">Limit</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="p">)</span>
 
-<span class="c1"># Set the order to &#39;Modify&#39;, not &#39;Order&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">otype</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">OType</span><span class="o">.</span><span class="n">Modify</span>
-
 <span class="c1"># Submit to ally for revision</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">submit</span> <span class="p">(</span> <span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">submit</span> <span class="p">(</span> <span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">type_</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">OType</span><span class="o">.</span><span class="n">Modify</span> <span class="p">)</span>
 </pre></div>
 </div>
 </div>

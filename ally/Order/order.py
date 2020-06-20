@@ -208,22 +208,31 @@ class Order:
 		if self.orderid is not None:
 			d['OrigID'] = self.orderid
 
-
+		# Get instrument data
 		if self.instrument is not None:
 			d.update(self.instrument.fixml)
 
+		# Get fixml fields from our pricing object
 		if self.pricing is not None:
 			d.update(self.pricing.fixml)
 			d.update(self.pricing.attributes)
 
+		# Perform logic to transform our buy-sell into fixml fields
 		d.update(self.convert_buysell)
 
+		# Include Time fields
 		if self.time is not None:
-			d['TmInForce'] = self.time.value
+			# For cancel requests, tminforce = 0
+			if self.otype.value == OType.Cancel.value:
+				d['TmInForce'] = '0'
+			else:
+				d['TmInForce'] = self.time.value
 
+		# Include order quantity
 		if self.quantity != 0:
 			d['OrdQty'] = { 'Qty': self.quantity }
 		
+
 
 		# Properly format our order
 		order = {
@@ -418,7 +427,8 @@ class Order:
 
 
 	def __str__(self):
-		return '{0} {1} units of "{2}" {3}, {4}'.format(
+		return '({0}) {1} {2} units of "{3}" {4}, {5}'.format(
+			self.otype,
 			self.buysell,
 			self.quantity,
 			self.instrument,
