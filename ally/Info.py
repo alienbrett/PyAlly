@@ -20,6 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""Gets information from the API service not directly tied to a particular account.
+
+"""
+
+
 from .Api import Endpoint, RequestType
 
 
@@ -40,7 +45,7 @@ class Status ( Endpoint ):
 
 
 	
-def clock (*args):
+def clock ():
 	"""Return the current market clock.
 
 	Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
@@ -72,7 +77,7 @@ def clock (*args):
 	"""
 	return Clock().request()
 
-def status (*args):
+def status ():
 	"""Return the status of the API service.
 
 	Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.

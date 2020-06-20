@@ -20,6 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""ally.Ally module.
+
+Controls the Ally() account class, the bread and butter of the library.
+"""
+
 
 from os			import environ
 from json		import load
@@ -44,7 +49,9 @@ _all_params = (
 
 class Ally:
 
-	# Import all our class methods
+	# No docstring
+	""
+
 	from .Account	import (
 		holdings,
 		balances,

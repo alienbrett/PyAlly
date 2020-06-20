@@ -20,10 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Ally module
-=========================
-Foo and Bar
+"""Ally module.
+
+Take control of your Ally Bank finances through Python.
+Buy stocks and options in an instant, and stay up-to-date with your investments.
+
+Ally Bank's investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.
+
+After setting up API keys, PyAlly can provide the basic/essential Ally brokerage transaction functions from a simple python request.
+
+Make sure to read the docss at https://alienbrett.github.io/PyAlly
 """
 from .Ally			import Ally
 from .				import utils, Info, exception, Order, Account

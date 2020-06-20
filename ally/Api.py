@@ -19,23 +19,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+"""Contrls the API functions, used for almost every feature of the library.
 
-# from requests.exceptions import ConnectionError, HTTPError, Timeout
-from enum					import Enum
-from requests				import Request, Session
-from requests.exceptions	import HTTPError,Timeout
-from .utils					import (
-	pretty_print_POST,
-	JSONStreamParser
-)
-import datetime
-import logging
-
-
-
-
-
-"""
 - Auth-less request,
 	* (market clock, etc)
 	* should be a class method
@@ -53,6 +38,20 @@ import logging
 	* 180 per minute, user info like balance, summary, etc
 
 """
+from enum					import Enum
+from requests				import Request, Session
+from requests.exceptions	import HTTPError,Timeout
+from .utils					import (
+	pretty_print_POST,
+	JSONStreamParser
+)
+import datetime
+import logging
+
+
+
+
+
 
 
 
@@ -70,6 +69,8 @@ class RequestType(Enum):
 
 
 class Endpoint:
+	"""Base abstract module from which all other account endpoints inherit.
+	"""
 
 	# Host
 	_host = 'https://api.tradeking.com/v1/'
@@ -207,7 +208,7 @@ class AuthenticatedEndpoint ( Endpoint ):
 
 
 class AccountEndpoint ( AuthenticatedEndpoint ):
-	"""Also automatically resolve url to include account number
+	"""Authenticated endpoint + account information
 	"""
 	def resolve ( self, **kwargs):
 		"""Inject the account number into the call
@@ -220,7 +221,7 @@ class AccountEndpoint ( AuthenticatedEndpoint ):
 
 
 class StreamEndpoint ( AuthenticatedEndpoint ):
-	"""Stream an endpoint
+	"""Streams an endpoint.
 	"""
 	_host		= 'https://stream.tradeking.com/v1/'
 	def request ( self=None ):
@@ -255,7 +256,7 @@ class StreamEndpoint ( AuthenticatedEndpoint ):
 
 
 def setTimeout ( t ):
-	"""Used to set the global request response timeout variable
+	"""Sets the global request response timeout variable
 	"""
 	if t is not None:
 		_timeout = float(t)
