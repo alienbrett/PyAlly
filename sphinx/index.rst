@@ -60,6 +60,7 @@ Contributors
 * `Rob Valadez`_
 * `Julian Traversa`_
 * `Tianyu`_
+* `Salient`_
 
 
 Message me on Github or `send me an email`_ if you enjoyed the project or thought it could be improved.
@@ -79,6 +80,8 @@ If you're dying to buy me a beer, I accept venmo at @alienbrett. That said, feel
 .. _`Rob Valadez`: https://github.com/Rob-Valdez
 
 .. _`Julian Traversa`: https://github.com/JTraversa
+
+.. _`Salient`: https://github.com/Salient
 
 .. _`Tianyu`: https://github.com/Tianyu00
 
