@@ -154,17 +154,18 @@ class Endpoint:
 
 		x = self._fetch_raw()
 
-		# Give the rate manager the information we learned
-		RateLimit.normal_update ( dict(x.headers), self._type )
-
 		# Did Ally just complain?
 		if x.status_code == 429:
 			RateLimit.force_update ( self._type )
+		else:
 
-		# All errors, including as noted
-		x.raise_for_status()
+			# All errors, including as noted
+			x.raise_for_status()
 
-		return self.extract ( x )
+			# Give the rate manager the information we learned
+			RateLimit.normal_update ( dict(x.headers), self._type )
+
+			return self.extract ( x )
 
 
 

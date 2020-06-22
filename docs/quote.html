@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quotes &mdash; PyAlly 1.0.2 documentation</title>
+  <title>Quotes &mdash; PyAlly 1.0.3 documentation</title>
   
 
   
@@ -165,15 +165,25 @@
 <dd><p>Gets the most current market data on the price of a symbol.</p>
 <blockquote>
 <div><dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>symbols: string or list of strings, each string a symbol to be queried.</dt><dd><p>Notice symbols=[‘spy’], symbols=’spy both work</p>
-</dd>
-<dt>fields: string or list of strings, each string a field to be grabbed.</dt><dd><p>By default, get all fields</p>
-</dd>
-<dt>dataframe: flag, specifies whether to return data in pandas dataframe</dt><dd><p>or flat list of dictionaries.</p>
+<dt>Args:</dt><dd><p>symbols:</p>
+<blockquote>
+<div><p>string or list of strings, each string a symbol to be queried.
+Notice symbols=[‘spy’], symbols=’spy both work</p>
+</div></blockquote>
+<p>fields:</p>
+<blockquote>
+<div><p>string or list of strings, each string a field to be grabbed.
+By default, get all fields</p>
+</div></blockquote>
+<p>dataframe:</p>
+<blockquote>
+<div><p>flag, specifies whether to return data in pandas dataframe
+or flat list of dictionaries.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>block:</dt><dd><p>Specify whether to block thread if request exceeds rate limit</p>
 </dd>
 </dl>
-<p>block: Specify whether to block thread if request exceeds rate limit</p>
 </dd>
 <dt>Returns:</dt><dd><p>Depends on dataframe flag. Will return pandas dataframe, or possibly
 list of dictionaries, each one a single quote.</p>
@@ -214,7 +224,8 @@ symbols, and the stream object establishes a connection with the API servers,
 then starts returning symbol-keyed quote objects in real-time.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
-<dt>symbols: string or list of strings, each string a symbol to be queried.</dt><dd><p>Notice symbols=[‘spy’], symbols=’spy both work.</p>
+<dt>symbols:</dt><dd><p>string or list of strings, each string a symbol to be queried.
+Notice symbols=[‘spy’], symbols=’spy both work.</p>
 </dd>
 </dl>
 </dd>
@@ -246,15 +257,17 @@ during the trading hours of a trading day.</p>
 interface will be preserved, but datetime instances may be accepted
 in the future as well.</p>
 <dl>
-<dt>Args:</dt><dd><p>symbols: single symbol to query historical quotes on
-startdate: string, the start date of interval
-enddate: string, end date of the interval
-interval: string, specify the size of each time interval.</p>
-<blockquote>
-<div><p>Must be one of (‘1min’,’5min’,’15min’)</p>
-</div></blockquote>
-<dl class="simple">
-<dt>dataframe: flag, specifies whether to return data in pandas dataframe</dt><dd><p>or flat list of dictionaries.</p>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>symbols:</dt><dd><p>single symbol to query historical quotes on</p>
+</dd>
+<dt>startdate:</dt><dd><p>string, the start date of interval</p>
+</dd>
+<dt>enddate:</dt><dd><p>string, end date of the interval</p>
+</dd>
+<dt>interval:</dt><dd><p>string, specify the size of each time interval.
+Must be one of (‘1min’,’5min’,’15min’)</p>
+</dd>
+<dt>dataframe:</dt><dd><p>flag, specifies whether to return data in pandas dataframe or flat list of dictionaries.</p>
 </dd>
 </dl>
 <p>block: Specify whether to block thread if request exceeds rate limit</p>

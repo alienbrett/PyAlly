@@ -42,7 +42,7 @@ from .utils		import transposeTree, parseTree
 
 
 class Order:
-	
+
 	_otype_dict_reverse = {
 		OType.Order.value	: "Order",
 		OType.Modify.value	: "OrdCxlRplcReq",
@@ -63,7 +63,7 @@ class Order:
 	}
 
 
-	
+
 	def __init__ ( self,
 		buysell: str =None,
 		symbol: str =None,
@@ -81,16 +81,17 @@ class Order:
 
 			buysell:
 				Specify the postion desired.
-				
+
 
 			symbol:
 				Enter the symbol of the instrument to be traded.
 				You can use ally.utils.option_format(...) to generate the OCC-standard option symbol.
-				
 
-			price: Specify the pricing options for execution.
 
-			
+			price:
+				Specify the pricing options for execution.
+
+
 			qty:
 				Specify the number of shares (or contracts, for options) to be purchased.
 				Accepts integers, not fractions.
@@ -161,7 +162,7 @@ class Order:
 
 
 
-	
+
 
 	@property
 	def fixml ( self ):
@@ -169,7 +170,7 @@ class Order:
 
 		Does not affect internal state of object
 		"""
-		
+
 		d = {}
 
 		# Store account information for this call
@@ -203,7 +204,7 @@ class Order:
 		# Include order quantity
 		if self.quantity != 0:
 			d['OrdQty'] = { 'Qty': self.quantity }
-		
+
 
 
 		# Properly format our order
@@ -218,7 +219,7 @@ class Order:
 			name='FIXML',	# Name of root tag
 			stringify=True	# Please give us a string
 		)
-	
+
 
 
 
@@ -243,7 +244,9 @@ class Order:
 
 		Args:
 
-			buysell: one of ('buy','sell','sellshort','buycover'), or the corresponding enum types.
+			buysell:
+				one of ('buy','sell','sellshort','buycover'),
+				or the corresponding enum types.
 
 		"""
 
@@ -317,9 +320,9 @@ class Order:
 
 			except:
 				raise
-	
+
 		self.instrument = Stock(symbol=symbol)
-	
+
 
 
 
@@ -332,7 +335,8 @@ class Order:
 
 		Args:
 
-			time: must be one of ('day','gtc','onclose'), or the corresponding enums instances.
+			time:
+				must be one of ('day','gtc','onclose'), or the corresponding enums instances.
 
 		"""
 
@@ -363,8 +367,14 @@ class Order:
 		Can be viewed at obj.pricing
 
 		Args:
-			
-			priceobj: Must be one of [ally.Order.Market(), ally.Order.Limit(x), ally.Order.Stop(x), ally.Order.StopLimit(x,y), ally.Order.TrailingStop(x,y)]
+
+			priceobj:
+				Must be one of
+				ally.Order.Market(),
+				ally.Order.Limit(x),
+				ally.Order.Stop(x),
+				ally.Order.StopLimit(x,y),
+				ally.Order.TrailingStop(x,y)
 
 		"""
 
@@ -390,9 +400,9 @@ class Order:
 				strike		= strike,
 				direction	= direction
 			)
-					
+
 		self.set_symbol ( sym )
-	
+
 
 
 
@@ -412,7 +422,7 @@ class Order:
 
 
 
-	
+
 	def _from_str ( self, fixml ):
 		"""Constructer 1)
 		Read FIXML string into this object
@@ -444,7 +454,7 @@ class Order:
 		elif side == '5':
 			self.set_buysell('sellshort')
 
-		
+
 		# Time In Force (Day, GTC, OnClose)
 		tminforce = o.pop('TmInForce')
 		if tminforce == '0':
@@ -489,7 +499,7 @@ class Order:
 		self.imply_fixml_instrument(instrmt)
 
 		self._status = o
-	
+
 
 
 
@@ -505,7 +515,7 @@ class Order:
 			- 'sell'		Sell to close a long position
 			- 'sellshort'	Sell to open a short position
 			- 'buycover'	Buy to close a short position
-		
+
 
 		symbol:
 			Enter the symbol of the instrument to be traded.
@@ -531,7 +541,7 @@ class Order:
 				stop=5.0
 			)
 
-		
+
 		qty:
 			Specify the number of shares (or contracts, for options)
 				to be purchased.
@@ -546,7 +556,7 @@ class Order:
 			- 'gtc'				# Good-'till-Cancelled
 			- 'marketonclose'	# Market-On-Close
 		"""
-	
+
 
 		# BUYSELL INFO
 		if buysell is not None:

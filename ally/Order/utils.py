@@ -29,7 +29,7 @@ def shouldIgnore ( s ):
 	"__xxxxx...", prepended by two '_' chars
 	"""
 	return len(s) > 1 and s[:2] == '__'
-	
+
 
 
 
@@ -41,7 +41,7 @@ def woodChipper ( tree ):
 	trees	= []
 
 	for k,v in tree.items():
-		
+
 		if not shouldIgnore(k):
 
 			# Pull out the subtrees
@@ -52,7 +52,7 @@ def woodChipper ( tree ):
 			# Pull out the leaves
 			else:
 				leaves.append ( (k,str(v)) )
-	
+
 
 	return leaves, trees
 
@@ -75,7 +75,7 @@ def _transposeTreeHelper ( tree, name="unnamed_tree", work=None ):
 		name,
 		attrib = dict(leaves)
 	)
-		
+
 
 	# Now add all of our branches
 	for name, subtree in trees:

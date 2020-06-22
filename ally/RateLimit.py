@@ -63,10 +63,10 @@ def extract_ratelimit ( headers_dict ):
 	"""Returns rate limit dict, extracted from full headers.
 	"""
 	return {
-		'used'		: int(headers_dict.get('X-RateLimit-Used')),
-		'expire'	: float(headers_dict.get('X-RateLimit-Expire')),
-		'limit'		: int(headers_dict.get('X-RateLimit-Limit')),
-		'remain'	: int(headers_dict.get('X-RateLimit-Remaining'))
+		'used'		: int(headers_dict.get('X-RateLimit-Used',0)),
+		'expire'	: float(headers_dict.get('X-RateLimit-Expire',0)),
+		'limit'		: int(headers_dict.get('X-RateLimit-Limit', 0)),
+		'remain'	: int(headers_dict.get('X-RateLimit-Remaining',0))
 	}
 
 def absolute_ally_time ( ally_time):
@@ -86,6 +86,8 @@ def absolute_ally_time ( ally_time):
 		tzinfo=timezone.utc
 	)
 
+	# API clock is off by around 1 minute. This corrects
+	# TODO: let ally devs know that their api clock is wrong
 	return texp + timedelta( seconds=60.2 )
 
 
@@ -106,8 +108,8 @@ def wait_until_ally_time ( req_type ):
 	"""Blocks thread until certain type's reported expire time.
 
 	Args:
-
-		req_type: RequestType
+		req_type:
+			RequestType
 
 	"""
 	# Get our stuff in utc
@@ -131,9 +133,11 @@ def check ( req_type: RequestType, block: bool ):
 	"""Validates whether rate limit exceeded
 
 	Args:
+		req_type:
+			RequestType enum value
 
-		req_type: RequestType enum value
-		block: Whether or not to block thread, or raise exception
+		block:
+			Whether or not to block thread, or raise exception
 
 	Returns:
 
@@ -153,9 +157,11 @@ def normal_update ( headers_dict, req_type ):
 	"""Updates internal rate limit state, so that calls to check() are informed
 
 	Args:
+		headers_dict:
+			raw headers for a specific request
 
-		headers_dict: raw headers for a specific request
-		req_type: one of RequestType enum
+		req_type:
+			one of RequestType enum
 
 	"""
 	rl = extract_ratelimit (headers_dict)
@@ -189,7 +195,8 @@ def force_update ( req_type ):
 	This should be called on HTTP 429 error, so that we cool down for the rest of the period.
 
 	Args:
-		req_type: RequestType value
+		req_type:
+			RequestType value
 
 	"""
 	update_vals (
@@ -205,7 +212,8 @@ def snapshot ( req_type ):
 	"""Returns all relevent rate limit information for a given request type.
 
 	Args:
-		req_type: one of RequestType.{Order,Quote,Info}
+		req_type:
+			one of RequestType.{Order,Quote,Info}
 
 	Returns:
 		dictionary, with keys ['used','remaining','expiration']
