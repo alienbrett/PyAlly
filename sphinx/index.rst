@@ -28,7 +28,7 @@ Contents
    support
 
 
-Version 1.0.2
+Version 1.0.3
 ----------------
 
 The lastest redesign preserves many features of the old interface, and incorporates a few new ones.
@@ -37,6 +37,7 @@ Please note that this version breaks compatibility with all V0.X.X.
 
 * Added pythonic methods for manipulating account watchlists
 * Added quote streaming support
+* Added rate limit functionality
 * Simplified account operation methods
 * Many new order operations. Orders can now be modified or cancelled in an intuitive way
 
