@@ -44,6 +44,13 @@ class ExecutionException(Exception):
 	pass
 
 
+
+class RateLimitException(Exception):
+	"""API service rate limit exhaustion.
+	"""
+	pass
+
+
 # Order formatting exceptions
 
 class TimeInForceException(Exception):
@@ -52,4 +59,3 @@ class TimeInForceException(Exception):
 
 class PriceException(Exception):
 	pass
-

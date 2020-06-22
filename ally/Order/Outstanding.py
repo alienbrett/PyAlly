@@ -53,19 +53,26 @@ class OutstandingOrders ( AccountEndpoint ):
 
 
 
-def orders ( self ):
+def orders ( self, block: bool = True ):
 	"""View all recent orders in the last 24 hours.
 
 	Calls accounts/./orders.json from the Ally API.
-	
+
+	Args:
+		block: Specify whether to block thread if request exceeds rate limit
+
 	Returns:
 		A list of Order objects. Attributes can be viewed in the
 		same way as orders created by the user.
-	
+
+	Raises:
+		RateLimitException: If block=False, rate limit problems will be raised
+
 	"""
 	result = OutstandingOrders(
 		auth		= self.auth,
-		account_nbr = self.account_nbr
+		account_nbr = self.account_nbr,
+		block		= block
 	).request()
 
 	return result

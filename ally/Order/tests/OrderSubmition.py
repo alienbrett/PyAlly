@@ -49,7 +49,7 @@ class TestOrderSubmition(XMLTestCase):
 			time = 'gtc',
 			symbol = 'gld',
 			qty = 10,
-			price = Limit(160)
+			price = Limit(1.0)
 		)
 
 		# Log the currently outstanding orders

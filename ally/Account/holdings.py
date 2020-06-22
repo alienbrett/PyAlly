@@ -31,7 +31,7 @@ from ..utils import option_format
 class Holdings ( AccountEndpoint ):
 	_type		= RequestType.Info
 	_resource	= 'accounts/{0}/holdings.json'
-	
+
 
 	@staticmethod
 	def _flatten_holding ( holding ):
@@ -70,7 +70,7 @@ class Holdings ( AccountEndpoint ):
 		"""
 		response = response.json()['response']
 		holdings = response['accountholdings']['holding']
-		
+
 		return list( map( Holdings._flatten_holding, holdings ) )
 
 
@@ -78,13 +78,13 @@ class Holdings ( AccountEndpoint ):
 	def DataFrame ( raw ):
 		import pandas as pd
 		return pd.DataFrame( raw )
-		
 
 
 
 
 
-def holdings ( self, dataframe: bool = True ):
+
+def holdings ( self, dataframe: bool = True, block: bool = True ):
 	"""Gets all current account holdings.
 
 	Calls the 'accounts/./history.json' endpoint to get list of all current account
@@ -93,14 +93,16 @@ def holdings ( self, dataframe: bool = True ):
 
 	Args:
 		dataframe: Specify an output format
-	
+		block: Specify whether to block thread if request exceeds rate limit
+
 	Returns:
 		A pandas dataframe by default,
 			otherwise a flat list of dictionaries.
 	"""
 	result = Holdings(
-		auth = self.auth,
-		account_nbr = self.account_nbr
+		auth		= self.auth,
+		account_nbr	= self.account_nbr,
+		block		= block
 	).request()
 
 

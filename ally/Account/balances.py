@@ -28,7 +28,7 @@ from .utils		import _dot_flatten
 class Balances ( AccountEndpoint ):
 	_type		= RequestType.Info
 	_resource	= 'accounts/{0}/balances.json'
-	
+
 
 
 
@@ -37,7 +37,7 @@ class Balances ( AccountEndpoint ):
 		"""
 		response = response.json()['response']
 		balances = response['accountbalance']
-		
+
 		d = {
 			k: v
 			for k,v in _dot_flatten( balances ).items()
@@ -54,28 +54,37 @@ class Balances ( AccountEndpoint ):
 
 		return pd.DataFrame.from_dict ( raw )
 
-		
 
 
 
 
 
-def balances ( self, dataframe: bool = True ):
+
+def balances ( self, dataframe: bool = True, block: bool = True ):
 	"""Gets current cash and various account metrics.
 
 	Calls the 'accounts/./balances.json' endpoint to get the current list of balances.
 	This includes margin amounts, cash, etc.
 
 	Args:
+
 		dataframe: Specify an output format
-	
+		block: Specify whether to block thread if request exceeds rate limit
+
+
 	Returns:
+
 		A pandas dataframe with 1 row by default,
 			otherwise a flat dictionary.
+
+	Raises:
+
+		RateLimitException: If block=False, rate limit problems will be raised
 	"""
 	result = Balances(
 		auth = self.auth,
-		account_nbr = self.account_nbr
+		account_nbr = self.account_nbr,
+		block = block
 	).request()
 
 

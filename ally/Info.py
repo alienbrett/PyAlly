@@ -44,21 +44,28 @@ class Status ( Endpoint ):
 
 
 
-	
-def clock ():
+
+def clock ( block: bool = True):
 	"""Return the current market clock.
 
 	Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
 	including the next time that the market clock changes status.
 
+	Args:
+		block: Specify whether to block thread if request exceeds rate limit
+
+
 	Returns:
 		A dictionary with timestamp, current market status, and any error information.
+
+	Raises:
+		RateLimitException: If block=False, rate limit problems will be raised
 
 	Example:
 
 .. code-block:: python
 
-	
+
 	# Equivalent to the static function
 	#   ally.Info.clock()
 	a.clock()
@@ -75,20 +82,26 @@ def clock ():
 	}
 
 	"""
-	return Clock().request()
+	return Clock().request(block=block)
 
-def status ():
+def status ( block: bool = True ):
 	"""Return the status of the API service.
 
 	Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.
 
+	Args:
+		block: Specify whether to block thread if request exceeds rate limit
+
 	Returns:
 		A dictionary with current time, and the status of the API service.
-	
+
+	Raises:
+		RateLimitException: If block=False, rate limit problems will be raised
+
 	Example:
 
 .. code-block:: python
-	
+
 	# Equivalent to the static function
 	#   ally.Info.status()
 	a.status()
@@ -99,5 +112,5 @@ def status ():
 	}
 
 	"""
-	return Status().request()
+	return Status().request(block=block)
 

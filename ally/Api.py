@@ -31,25 +31,17 @@
 	* etc
 	* should be object method
 
-
-- Rate limits
-	* 40 per minute, order submission (including submit, modify, cancel)
-	* 60 per minute, market quotes
-	* 180 per minute, user info like balance, summary, etc
-
 """
-from enum					import Enum
 from requests				import Request, Session
 from requests.exceptions	import HTTPError,Timeout
+from .						import RateLimit
+from .classes				import RequestType
 from .utils					import (
 	pretty_print_POST,
 	JSONStreamParser
 )
 import datetime
-import logging
-
-
-
+import json
 
 
 
@@ -58,12 +50,15 @@ import logging
 # Global timeout variable
 _timeout = 1.0
 
+def setTimeout ( t ):
+	"""Sets the global request response timeout variable
+	"""
+	if t is not None:
+		_timeout = float(t)
 
 
-class RequestType(Enum):
-	Order	= 1
-	Quote	= 2
-	Info	= 3
+
+
 
 
 
@@ -74,7 +69,7 @@ class Endpoint:
 
 	# Host
 	_host = 'https://api.tradeking.com/v1/'
-	
+
 	# One of RequestType
 	_type = None
 
@@ -88,7 +83,7 @@ class Endpoint:
 	_results = None
 
 	req = None
-	
+
 
 
 
@@ -96,7 +91,7 @@ class Endpoint:
 	@classmethod
 	def url ( cls ):
 		return cls._host + cls._resource
-	
+
 
 
 
@@ -142,11 +137,31 @@ class Endpoint:
 
 
 
-	def request ( self=None ):
-		"""Execute an entire loop, and aggregate results
+	def request ( self=None, block: bool =True ):
+		"""Gets data from API server.
+
+		Args:
+
+			block: specify whether to block on rate limit exhaustion or raise exception
+
+		Raises:
+
+			ally.exceptions.RateLimitException: if 429 or we expect 429 encountered
 		"""
+
+		# Let ratelimit handle raise or block
+		RateLimit.check ( self._type, block=block )
+
 		x = self._fetch_raw()
 
+		# Give the rate manager the information we learned
+		RateLimit.normal_update ( dict(x.headers), self._type )
+
+		# Did Ally just complain?
+		if x.status_code == 429:
+			RateLimit.force_update ( self._type )
+
+		# All errors, including as noted
 		x.raise_for_status()
 
 		return self.extract ( x )
@@ -154,7 +169,6 @@ class Endpoint:
 
 
 
-	
 
 	def __init__ ( self, auth = None, **kwargs ):
 		"""Create and send request
@@ -173,7 +187,7 @@ class Endpoint:
 
 
 		req_auth = None if auth is None else auth.auth
-		
+
 		# Create a prepped request
 		self.req = self.s.prepare_request(
 			Request(
@@ -248,15 +262,3 @@ class StreamEndpoint ( AuthenticatedEndpoint ):
 				finally:
 					del it
 					break
-
-
-
-
-
-
-
-def setTimeout ( t ):
-	"""Sets the global request response timeout variable
-	"""
-	if t is not None:
-		_timeout = float(t)

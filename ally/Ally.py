@@ -92,13 +92,13 @@ class Ally:
 
 		Manage your account
 			Track the current and past state of your account. Visit the Account_ page for full details.
-			
+
 			* Balances (gets all current cash and margin balances)
-			
+
 			* History (gets full history of all trades, dividends, and cash transfers of the account)
 
 			* Holdings (gets list of all currently-held non-cash positions, and profitability information)
-			
+
 		Get quotes
 			Specified in-detail in Quotes_. Supports 3 types of quote-gathering:
 
@@ -163,7 +163,7 @@ class Ally:
 		# Use environment variables
 		else:
 			params = self._param_load_environ()
-			
+
 
 		# Check that we have all the parameters we need
 		for t in _all_params:

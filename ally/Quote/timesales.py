@@ -98,7 +98,7 @@ class Timesales ( AuthenticatedEndpoint ):
 
 
 def timesales ( self, symbols: str, startdate: str, enddate: str,
-	interval: str = '5min', dataframe=True ):
+	interval: str = '5min', dataframe=True, block: bool = True ):
 	"""Gets the most current market data on the price of a symbol.
 
 	Gets a dataset of price points and other information for a symbol.
@@ -123,11 +123,14 @@ def timesales ( self, symbols: str, startdate: str, enddate: str,
 			Must be one of ('1min','5min','15min')
 		dataframe: flag, specifies whether to return data in pandas dataframe
 			or flat list of dictionaries.
+		block: Specify whether to block thread if request exceeds rate limit
 	
 	Returns:
 		Depends on dataframe flag. Will return pandas dataframe, or possibly
 		list of dictionaries, each one a single quote.
-	
+
+	Raises:
+		RateLimitException: If block=False, rate limit problems will be raised
 
 	Examples:
 		
@@ -147,7 +150,8 @@ def timesales ( self, symbols: str, startdate: str, enddate: str,
 		symbols		= symbols,
 		interval	= interval,
 		startdate	= startdate,
-		enddate		= enddate
+		enddate		= enddate,
+		block		= block
 	).request()
 
 
