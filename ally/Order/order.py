@@ -79,53 +79,25 @@ class Order:
 
 		Args:
 
-			buysell
+			buysell:
 				Specify the postion desired.
-
-				- 'buy' 		Buy to open a long position
-				- 'sell'		Sell to close a long position
-				- 'sellshort'	Sell to open a short position
-				- 'buycover'	Buy to close a short position
 				
 
-			symbol
-				Enter the symbol of the instrument to be traded.  You can use ally.utils.option_format(...) to generate the OCC-standard option symbol.
-
-				- 'spy'					Equivalent to 'SPY'
-				- 'SPY200529C00305000'	SPY 2020-05-29 Call @ $305.00
+			symbol:
+				Enter the symbol of the instrument to be traded.
+				You can use ally.utils.option_format(...) to generate the OCC-standard option symbol.
 				
 
-			price
-				Specify the pricing options for execution.
-
-				- Market()					Market (whatever price the market gives you)
-				- Limit(123.45)				Limit (execute trade no less-favorably than value)
-				- Stop(123.45)				Stop (execute a market order once the price passes this value)
-				- StopLimit (				Stop Limit (Once the stop price is reached, submit a limit order)
-					limpx = 123.45,
-					stoppx = 120.00
-				)
-				- StopLoss (				Stop Loss order (same as trailing stop)
-					pct = True, [default]		specify whether to treat stop as percent or dollar value
-					stop=5.0
-				)
+			price: Specify the pricing options for execution.
 
 			
-			qty
-				Specify the number of shares (or contracts, for options)
-					to be purchased.
-
-				- 10	Accepts integers, no fractions though
+			qty:
+				Specify the number of shares (or contracts, for options) to be purchased.
+				Accepts integers, not fractions.
 
 
 			time
 				Specify the time-in-force of the order.
-
-				- 'day'				# Good-For-Day
-				- 'gtc'				# Good-'till-Cancelled
-				- 'marketonclose'	# Market-On-Close
-
-
 
 
 		"""

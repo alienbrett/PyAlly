@@ -94,6 +94,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -221,55 +222,13 @@ set or modifed before submitting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>buysell</strong> – <p>Specify the postion desired.</p>
-<ul>
-<li><p>’buy’                 Buy to open a long position</p></li>
-<li><p>’sell’                Sell to close a long position</p></li>
-<li><p>’sellshort’   Sell to open a short position</p></li>
-<li><p>’buycover’    Buy to close a short position</p></li>
-</ul>
-</p></li>
-<li><p><strong>symbol</strong> – <p>Enter the symbol of the instrument to be traded.  You can use ally.utils.option_format(…) to generate the OCC-standard option symbol.</p>
-<ul>
-<li><p>’spy’                                 Equivalent to ‘SPY’</p></li>
-<li><p>’SPY200529C00305000’  SPY 2020-05-29 Call &#64; $305.00</p></li>
-</ul>
-</p></li>
-<li><p><strong>price</strong> – <p>Specify the pricing options for execution.</p>
-<ul>
-<li><p>Market()                                      Market (whatever price the market gives you)</p></li>
-<li><p>Limit(123.45)                         Limit (execute trade no less-favorably than value)</p></li>
-<li><p>Stop(123.45)                          Stop (execute a market order once the price passes this value)</p></li>
-<li><dl class="simple">
-<dt>StopLimit (                           Stop Limit (Once the stop price is reached, submit a limit order)</dt><dd><p>limpx = 123.45,
-stoppx = 120.00</p>
-</dd>
-</dl>
-</li>
-</ul>
-<p>)
-- StopLoss (                            Stop Loss order (same as trailing stop)</p>
-<blockquote>
-<div><p>pct = True, [default]           specify whether to treat stop as percent or dollar value
-stop=5.0</p>
-</div></blockquote>
-<p>)</p>
-</p></li>
-<li><p><strong>qty</strong> – <dl class="simple">
-<dt>Specify the number of shares (or contracts, for options)</dt><dd><p>to be purchased.</p>
-</dd>
-</dl>
-<ul>
-<li><p>10    Accepts integers, no fractions though</p></li>
-</ul>
-</p></li>
-<li><p><strong>time</strong> – <p>Specify the time-in-force of the order.</p>
-<ul>
-<li><p>’day’                         # Good-For-Day</p></li>
-<li><p>’gtc’                         # Good-‘till-Cancelled</p></li>
-<li><p>’marketonclose’       # Market-On-Close</p></li>
-</ul>
-</p></li>
+<li><p><strong>buysell</strong> – Specify the postion desired.</p></li>
+<li><p><strong>symbol</strong> – Enter the symbol of the instrument to be traded.
+You can use ally.utils.option_format(…) to generate the OCC-standard option symbol.</p></li>
+<li><p><strong>price</strong> – Specify the pricing options for execution.</p></li>
+<li><p><strong>qty</strong> – Specify the number of shares (or contracts, for options) to be purchased.
+Accepts integers, not fractions.</p></li>
+<li><p><strong>time</strong> – Specify the time-in-force of the order.</p></li>
 </ul>
 </dd>
 </dl>

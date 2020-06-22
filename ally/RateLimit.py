@@ -19,7 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-"""Contrls the API rate limiting
+"""Controls the API rate limiting
 
 - Rate limits
 	* 40 per minute, order submission (including submit, modify, cancel)
@@ -32,6 +32,8 @@ from datetime	import datetime, timezone, timedelta
 import json
 import time
 import pytz
+
+__all__ = ['query']
 
 
 nytz = pytz.timezone('America/New_York')
@@ -95,25 +97,6 @@ def update_vals ( r, req_type_val ):
 	_rl_remaining[req_type_val]		= r['remain']
 	_rl_used[req_type_val]			= r['used']
 
-
-
-
-def absolute_ally_time ( ally_time):
-	"""Returns datetime instance of ally's reported time.
-
-	Args:
-
-		ally_time: float timestamp, the time reported by ally
-
-	Returns:
-
-		datetime object, timezone-aware
-	"""
-	texp = datetime.fromtimestamp(
-		ally_time
-	).replace(
-		tzinfo=timezone.utc
-	)
 
 
 ########### METHODS
@@ -187,17 +170,15 @@ def normal_update ( headers_dict, req_type ):
 
 	a_time = absolute_ally_time (rl['expire'])
 
-
 	if our_expire is None or our_expire < a_time:
 
 		# Store the new date, and all new values
 		_rl_exp_datetime[req_type.value]	= a_time
 		update_vals ( rl, req_type.value )
 
-	else:
-		# Only decrement
-		if _rl_used[req_type.value] < rl['used']:
-			update_vals ( rl, req_type.value )
+	# Only decrement
+	elif _rl_used[req_type.value] < rl['used']:
+		update_vals ( rl, req_type.value )
 
 
 
@@ -208,8 +189,8 @@ def force_update ( req_type ):
 	This should be called on HTTP 429 error, so that we cool down for the rest of the period.
 
 	Args:
-
 		req_type: RequestType value
+
 	"""
 	update_vals (
 		{
@@ -218,3 +199,32 @@ def force_update ( req_type ):
 		},
 		req_type.value
 	)
+
+
+def snapshot ( req_type ):
+	"""Returns all relevent rate limit information for a given request type.
+
+	Args:
+		req_type: one of RequestType.{Order,Quote,Info}
+
+	Returns:
+		dictionary, with keys ['used','remaining','expiration']
+
+	Example:
+
+.. code-block:: python
+
+	>>> ally.RateLimit.snapshot(ally.RequestType.Quote)
+
+	{'expiration': datetime.datetime(2020, 6, 22, 17, 5, 42, 55080, tzinfo=datetime.timezone.utc),
+	'remaining': 56,
+	'used': 4}
+
+	"""
+
+	return {
+		'expiration': _rl_exp_datetime.get(req_type.value),
+		'remaining': _rl_remaining.get(req_type.value),
+		'used': _rl_used.get(req_type.value)
+	}
+

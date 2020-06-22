@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Support &mdash; PyAlly 1.0.2 documentation</title>
+  <title>Rate Limiting &mdash; PyAlly 1.0.2 documentation</title>
   
 
   
@@ -35,7 +35,8 @@
   <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Info" href="info.html" /> 
+    <link rel="next" title="Watchlists" href="watchlist.html" />
+    <link rel="prev" title="Quotes" href="quote.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,10 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
 
             
@@ -134,13 +135,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Support</li>
+      <li>Rate Limiting</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/support.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/ratelimit.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -153,12 +154,55 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="support">
-<h1>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h1>
-<p>If you find issues or need help with using the project, please check to see if there’s an open
-issue on <a class="reference external" href="https://github.com/alienbrett/PyAlly/issues">Github</a>, and if not, open a new issue on the page.</p>
-<p>The community is pretty active and hopefully there will be someone to answer,
-but feel free to <a class="reference external" href="mailto:alienbrett648&#37;&#52;&#48;gmail&#46;com">send me an email</a> and I’ll get back with an update as soon as I can.</p>
+  <div class="section" id="rate-limiting">
+<h1>Rate Limiting<a class="headerlink" href="#rate-limiting" title="Permalink to this headline">¶</a></h1>
+<p>Ally imposes rate limits for each account, “designed to protect accounts from abuse and servers from load.”</p>
+<p>PyAlly has thread-safe systems in place to respect these limits,
+and provides information and flexibility when dealing with these limits.</p>
+<p>Every function avaliable in the library has a <code class="docutils literal notranslate"><span class="pre">block</span></code> keyword that modifies the behavior of the
+function when the rate limit has been exceeded. When true, the function
+will block the calling thread until the API will accept the call, should the function
+encounter a rate limit exception.
+When false, the function will raise a <code class="docutils literal notranslate"><span class="pre">ally.exceptions.RateLimitException</span></code>. The user
+can then build custom logic around rate limit failures.</p>
+<p>Also, users can accesss the current state of the rate limits. Rate limit information
+is held on a module-level, and provides only a single set of limits shared across
+all <code class="docutils literal notranslate"><span class="pre">ally.Ally()</span></code> instances.</p>
+<p>Rate limit information can be queried with the <code class="docutils literal notranslate"><span class="pre">ally.RateLimit.snapshot()</span></code> function:</p>
+<span class="target" id="module-ally.RateLimit"></span><p>Controls the API rate limiting</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Rate limits</dt><dd><ul>
+<li><p>40 per minute, order submission (including submit, modify, cancel)</p></li>
+<li><p>60 per minute, market quotes</p></li>
+<li><p>180 per minute, user info like balance, summary, etc</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="py function">
+<dt id="ally.RateLimit.snapshot">
+<code class="sig-prename descclassname">ally.RateLimit.</code><code class="sig-name descname">snapshot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">req_type</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.RateLimit.snapshot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all relevent rate limit information for a given request type.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>req_type: one of RequestType.{Order,Quote,Info}</p>
+</dd>
+<dt>Returns:</dt><dd><p>dictionary, with keys [‘used’,’remaining’,’expiration’]</p>
+</dd>
+</dl>
+<p>Example:</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ally</span><span class="o">.</span><span class="n">RateLimit</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">ally</span><span class="o">.</span><span class="n">RequestType</span><span class="o">.</span><span class="n">Quote</span><span class="p">)</span>
+
+<span class="go">{&#39;expiration&#39;: datetime.datetime(2020, 6, 22, 17, 5, 42, 55080, tzinfo=datetime.timezone.utc),</span>
+<span class="go">&#39;remaining&#39;: 56,</span>
+<span class="go">&#39;used&#39;: 4}</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </div>
 
 
@@ -169,8 +213,10 @@ but feel free to <a class="reference external" href="mailto:alienbrett648&#37;&#
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="watchlist.html" class="btn btn-neutral float-right" title="Watchlists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="info.html" class="btn btn-neutral float-left" title="Info" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="quote.html" class="btn btn-neutral float-left" title="Quotes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

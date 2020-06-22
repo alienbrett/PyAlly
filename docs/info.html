@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Info</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -155,15 +156,30 @@
             
   <div class="section" id="module-ally.Info">
 <span id="info"></span><h1>Info<a class="headerlink" href="#module-ally.Info" title="Permalink to this headline">¶</a></h1>
+<p>Gets information from the API service not directly tied to a particular account.</p>
+<dl class="py class">
+<dt id="ally.Info.Clock">
+<em class="property">class </em><code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">Clock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Clock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="ally.Info.Status">
+<em class="property">class </em><code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">Status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py function">
 <dt id="ally.Info.clock">
-<code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">clock</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.clock" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">clock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.clock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the current market clock.</p>
 <blockquote>
 <div><p>Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
 including the next time that the market clock changes status.</p>
 <dl class="simple">
+<dt>Args:</dt><dd><p>block: Specify whether to block thread if request exceeds rate limit</p>
+</dd>
 <dt>Returns:</dt><dd><p>A dictionary with timestamp, current market status, and any error information.</p>
+</dd>
+<dt>Raises:</dt><dd><p>RateLimitException: If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
 <p>Example:</p>
@@ -188,12 +204,16 @@ including the next time that the market clock changes status.</p>
 
 <dl class="py function">
 <dt id="ally.Info.status">
-<code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">status</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the status of the API service.</p>
 <blockquote>
 <div><p>Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.</p>
 <dl class="simple">
+<dt>Args:</dt><dd><p>block: Specify whether to block thread if request exceeds rate limit</p>
+</dd>
 <dt>Returns:</dt><dd><p>A dictionary with current time, and the status of the API service.</p>
+</dd>
+<dt>Raises:</dt><dd><p>RateLimitException: If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
 <p>Example:</p>

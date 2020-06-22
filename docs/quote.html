@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Watchlists" href="watchlist.html" />
+    <link rel="next" title="Rate Limiting" href="ratelimit.html" />
     <link rel="prev" title="Trading" href="trading.html" /> 
 </head>
 
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quotes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -160,10 +161,10 @@
 <em class="property">class </em><code class="sig-prename descclassname">ally.</code><code class="sig-name descname">Ally</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
 <dt id="ally.Ally.quote">
-<code class="sig-name descname">quote</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbols</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">fields</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.quote" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">quote</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbols</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">fields</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.quote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the most current market data on the price of a symbol.</p>
 <blockquote>
-<div><dl class="simple">
+<div><dl>
 <dt>Args:</dt><dd><dl class="simple">
 <dt>symbols: string or list of strings, each string a symbol to be queried.</dt><dd><p>Notice symbols=[‘spy’], symbols=’spy both work</p>
 </dd>
@@ -172,9 +173,12 @@
 <dt>dataframe: flag, specifies whether to return data in pandas dataframe</dt><dd><p>or flat list of dictionaries.</p>
 </dd>
 </dl>
+<p>block: Specify whether to block thread if request exceeds rate limit</p>
 </dd>
 <dt>Returns:</dt><dd><p>Depends on dataframe flag. Will return pandas dataframe, or possibly
 list of dictionaries, each one a single quote.</p>
+</dd>
+<dt>Raises:</dt><dd><p>RateLimitException: If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
 <p>Examples:</p>
@@ -227,7 +231,7 @@ then starts returning symbol-keyed quote objects in real-time.</p>
 
 <dl class="py method">
 <dt id="ally.Ally.timesales">
-<code class="sig-name descname">timesales</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbols</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">startdate</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">enddate</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'5min'</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.timesales" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">timesales</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbols</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">startdate</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">enddate</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'5min'</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.timesales" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the most current market data on the price of a symbol.</p>
 <blockquote>
 <div><p>Gets a dataset of price points and other information for a symbol.
@@ -253,9 +257,12 @@ interval: string, specify the size of each time interval.</p>
 <dt>dataframe: flag, specifies whether to return data in pandas dataframe</dt><dd><p>or flat list of dictionaries.</p>
 </dd>
 </dl>
+<p>block: Specify whether to block thread if request exceeds rate limit</p>
 </dd>
 <dt>Returns:</dt><dd><p>Depends on dataframe flag. Will return pandas dataframe, or possibly
 list of dictionaries, each one a single quote.</p>
+</dd>
+<dt>Raises:</dt><dd><p>RateLimitException: If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
 <p>Examples:</p>
@@ -282,7 +289,7 @@ list of dictionaries, each one a single quote.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="watchlist.html" class="btn btn-neutral float-right" title="Watchlists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ratelimit.html" class="btn btn-neutral float-right" title="Rate Limiting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="trading.html" class="btn btn-neutral float-left" title="Trading" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

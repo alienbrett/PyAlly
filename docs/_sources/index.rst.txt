@@ -22,6 +22,7 @@ Contents
    account
    trading
    quote
+   ratelimit
    watchlist
    info
    support
