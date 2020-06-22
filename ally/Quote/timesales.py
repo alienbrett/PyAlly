@@ -58,7 +58,7 @@ class Timesales ( AuthenticatedEndpoint ):
 		symbols	= kwargs.get('symbols',"")
 
 		# Interval
-		interval = kwargs.get('interval','5min')	
+		interval = kwargs.get('interval','5min')
 
 		# Start date
 		startdate = kwargs.get('startdate')
@@ -72,7 +72,7 @@ class Timesales ( AuthenticatedEndpoint ):
 			'startdate':startdate,
 			'enddate':enddate
 		}
-		
+
 		data = None
 		return params, data
 
@@ -116,15 +116,24 @@ def timesales ( self, symbols: str, startdate: str, enddate: str,
 	in the future as well.
 
 	Args:
-		symbols: single symbol to query historical quotes on
-		startdate: string, the start date of interval
-		enddate: string, end date of the interval
-		interval: string, specify the size of each time interval.
+		symbols:
+			single symbol to query historical quotes on
+
+		startdate:
+			string, the start date of interval
+
+		enddate:
+			string, end date of the interval
+
+		interval:
+			string, specify the size of each time interval.
 			Must be one of ('1min','5min','15min')
-		dataframe: flag, specifies whether to return data in pandas dataframe
-			or flat list of dictionaries.
+
+		dataframe:
+			flag, specifies whether to return data in pandas dataframe or flat list of dictionaries.
+
 		block: Specify whether to block thread if request exceeds rate limit
-	
+
 	Returns:
 		Depends on dataframe flag. Will return pandas dataframe, or possibly
 		list of dictionaries, each one a single quote.
@@ -133,7 +142,7 @@ def timesales ( self, symbols: str, startdate: str, enddate: str,
 		RateLimitException: If block=False, rate limit problems will be raised
 
 	Examples:
-		
+
 .. code-block:: python
 
 	gld_history = a.timesales (

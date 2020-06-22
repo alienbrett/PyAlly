@@ -50,9 +50,9 @@ class Stream ( StreamEndpoint ):
 		else:
 			# We were passed list
 			fmt_symbols = ','.join(symbols)
-			
 
-			
+
+
 		# Store symbols, so we can zip them back up with
 		#  the response object
 		symbols = [ s.upper() for s in symbols ]
@@ -63,7 +63,7 @@ class Stream ( StreamEndpoint ):
 
 		# Create request POST data
 		data = { 'symbols':fmt_symbols }
-			
+
 		params = None
 		return params, data
 
@@ -83,14 +83,15 @@ def stream ( self, symbols: list =[] ):
 	then starts returning symbol-keyed quote objects in real-time.
 
 	Args:
-		symbols: string or list of strings, each string a symbol to be queried.
+		symbols:
+			string or list of strings, each string a symbol to be queried.
 			Notice symbols=['spy'], symbols='spy both work.
-	
+
 	Returns:
 		A generator
 
 	Example:
-		
+
 .. code-block:: python
 
 		for quote in a.stream('tsla'):

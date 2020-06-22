@@ -52,7 +52,8 @@ def clock ( block: bool = True):
 	including the next time that the market clock changes status.
 
 	Args:
-		block: Specify whether to block thread if request exceeds rate limit
+		block:
+			Specify whether to block thread if request exceeds rate limit
 
 
 	Returns:
@@ -90,7 +91,8 @@ def status ( block: bool = True ):
 	Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.
 
 	Args:
-		block: Specify whether to block thread if request exceeds rate limit
+		block:
+			Specify whether to block thread if request exceeds rate limit
 
 	Returns:
 		A dictionary with current time, and the status of the API service.

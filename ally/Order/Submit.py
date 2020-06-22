@@ -120,11 +120,18 @@ def submit ( self, order, preview: bool = True, type_ = None, block: bool = True
 	otherwise modified.
 
 	Args:
-		order: An ally.Order.Order instance
-		preview: Specify whether to actually submit the order for execution,
+		order:
+			An ally.Order.Order instance
+
+		preview:
+			Specify whether to actually submit the order for execution,
 			or just to see mock execution info including quotes, from Ally.
-		type_: Cancels or modifies the order, if not None
-		block: Specify whether to block thread if request exceeds rate limit
+
+		type_:
+			Cancels or modifies the order, if not None
+
+		block:
+			Specify whether to block thread if request exceeds rate limit
 
 	Returns:
 		An order ID string, the same added to the order object (if preview=False)

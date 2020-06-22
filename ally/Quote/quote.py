@@ -132,13 +132,23 @@ def quote ( self, symbols: list =[], fields: list =[], dataframe=True, block: bo
 	"""Gets the most current market data on the price of a symbol.
 
 	Args:
-		symbols: string or list of strings, each string a symbol to be queried.
+		symbols:
+
+			string or list of strings, each string a symbol to be queried.
 			Notice symbols=['spy'], symbols='spy both work
-		fields: string or list of strings, each string a field to be grabbed.
+
+		fields:
+
+			string or list of strings, each string a field to be grabbed.
 			By default, get all fields
-		dataframe: flag, specifies whether to return data in pandas dataframe
+
+		dataframe:
+
+			flag, specifies whether to return data in pandas dataframe
 			or flat list of dictionaries.
-		block: Specify whether to block thread if request exceeds rate limit
+
+		block:
+			Specify whether to block thread if request exceeds rate limit
 
 	Returns:
 		Depends on dataframe flag. Will return pandas dataframe, or possibly
