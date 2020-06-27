@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Info &mdash; PyAlly 1.0.3 documentation</title>
+  <title>Info &mdash; PyAlly 1.0.4 documentation</title>
   
 
   
@@ -175,7 +175,10 @@
 <div><p>Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
 including the next time that the market clock changes status.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>block: Specify whether to block thread if request exceeds rate limit</p>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>block:</dt><dd><p>Specify whether to block thread if request exceeds rate limit</p>
+</dd>
+</dl>
 </dd>
 <dt>Returns:</dt><dd><p>A dictionary with timestamp, current market status, and any error information.</p>
 </dd>
@@ -209,7 +212,10 @@ including the next time that the market clock changes status.</p>
 <blockquote>
 <div><p>Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>block: Specify whether to block thread if request exceeds rate limit</p>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>block:</dt><dd><p>Specify whether to block thread if request exceeds rate limit</p>
+</dd>
+</dl>
 </dd>
 <dt>Returns:</dt><dd><p>A dictionary with current time, and the status of the API service.</p>
 </dd>
