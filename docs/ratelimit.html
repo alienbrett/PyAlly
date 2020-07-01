@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Rate Limiting &mdash; PyAlly 1.0.3 documentation</title>
+  <title>Rate Limiting &mdash; PyAlly 1.0.4 documentation</title>
   
 
   
@@ -187,7 +187,10 @@ all <code class="docutils literal notranslate"><span class="pre">ally.Ally()</sp
 <dd><p>Returns all relevent rate limit information for a given request type.</p>
 <blockquote>
 <div><dl class="simple">
-<dt>Args:</dt><dd><p>req_type: one of RequestType.{Order,Quote,Info}</p>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>req_type:</dt><dd><p>one of RequestType.{Order,Quote,Info}</p>
+</dd>
+</dl>
 </dd>
 <dt>Returns:</dt><dd><p>dictionary, with keys [‘used’,’remaining’,’expiration’]</p>
 </dd>

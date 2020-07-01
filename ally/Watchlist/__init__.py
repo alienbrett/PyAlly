@@ -51,24 +51,25 @@ class WatchlistWrapper ( MutableSet ):
 
 	def __iter__ ( self ):
 		return self._syms.__iter__()
-	
+
 
 	def __contains__ ( self, x ):
 		return self._syms.contains(x)
-	
+
 
 	def __len__ ( self ):
 		return self._syms.__len__()
-	
+
 
 	def add ( self, x ):
 		if x not in self._syms:
 			result = AppendWatchlist(
-				auth				= self._auth(),
+				auth			= self._auth(),
+				watchlist_name		= self._name,
 				watchlist_symbols	= x
 			).request()
 
-			
+
 	def discard ( self, x ):
 		if x in self._syms:
 			result = DeleteFromWatchlist(
@@ -76,7 +77,7 @@ class WatchlistWrapper ( MutableSet ):
 				watchlist_name		= self._name,
 				watchlist_symbol	= x
 			).request()
-		
+
 
 
 
@@ -90,9 +91,9 @@ class Watchlist ( MutableMapping ):
 	functionality and mimics python datatypes.
 
 	Examples:
-		
+
 .. code-block:: python
-	
+
 	# See all of your watchlists
 	list(a.watchlists)
 
@@ -107,17 +108,17 @@ class Watchlist ( MutableMapping ):
 	# => ['aapl, 'googl',...]
 
 .. code-block:: python
-	
+
 	# Create a watchlist, and initialize with symbols
 	a.watchlist['new-watchlist'] = ['aapl,'googl',...]
 
 .. code-block:: python
-	
+
 	# Remove a symbol from a watchlist
 	a.watchlist['new-watchlist'].pop('aapl')
 
 .. code-block:: python
-	
+
 	# Delete a watchlist
 	a.watchlist.pop('new-watchlist')
 
@@ -147,15 +148,15 @@ class Watchlist ( MutableMapping ):
 		).request()
 
 
-		
+
 	def __delitem__ ( self, name ):
 		DeleteWatchlist(
 			auth				= self._auth(),
 			watchlist_name		= name
 		).request()
-		
 
-	
+
+
 	@property
 	def _all ( self ):
 		"""Reusable way to get all watchlists
@@ -177,8 +178,8 @@ class Watchlist ( MutableMapping ):
 
 	def __str__ ( self ):
 		return str(self._all)
-		
-		
+
+
 
 	def __iter__ ( self ):
 		"""Return list to run ove
@@ -186,9 +187,9 @@ class Watchlist ( MutableMapping ):
 		so that python3 will handle it how we want
 		"""
 		return self._all.__iter__()
-	
-	
-		
+
+
+
 
 	def __len__ ( self ):
 		return len(self._all)
@@ -198,5 +199,3 @@ class Watchlist ( MutableMapping ):
 
 	def __init__ ( self, parent ):
 		self._auth = weakref.ref(parent.auth)
-		
-	
