@@ -23,6 +23,7 @@
 import unittest
 from ally.tests import *
 from ally.Order.tests import *
+from ally.utils.tests import *
 
 
 if __name__ == '__main__':
