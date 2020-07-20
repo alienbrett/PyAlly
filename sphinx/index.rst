@@ -28,7 +28,7 @@ Contents
    support
 
 
-Version 1.0.4
+Version 1.0.5
 ----------------
 
 The lastest redesign preserves many features of the old interface, and incorporates a few new ones.
@@ -39,13 +39,13 @@ Please note that this version breaks compatibility with all V0.X.X.
 * Added quote streaming support
 * Added rate limit functionality
 * Simplified account operation methods
+* Intelligent rate limiting
 * Many new order operations. Orders can now be modified or cancelled in an intuitive way
 
 
 Planned Features
 --------------------
 
-* Intelligent rate limiting
 * Option searching
 * Toplists
 * News

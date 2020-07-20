@@ -36,8 +36,8 @@ import pytz
 __all__ = ['query']
 
 
-nytz = pytz.timezone('America/New_York')
-gmtz = pytz.timezone('UTC')
+# nytz = pytz.timezone('America/New_York')
+# gmtz = pytz.timezone('UTC')
 
 
 

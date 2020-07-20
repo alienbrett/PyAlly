@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
         name="pyally",
-        version="1.0.4",
+        version="1.0.5",
         author="Brett Graves",
         author_email="alienbrett648@gmail.com",
         description="Ally Invest API Wrapper",

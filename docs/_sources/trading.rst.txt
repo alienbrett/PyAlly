@@ -24,7 +24,7 @@ Submit a Stock Order
 Buy 8 shares of AAPL at market price, good for the day.
 
 .. code-block:: python
-	
+
 	>>> o = ally.Order.Order(
 		buysell = 'buy',
 		symbol = 'aapl', # case insensitive
@@ -78,7 +78,7 @@ Short sell 1 contract (with contract size 100 shares) of the IBM call specified 
 limit at $18, good-til-cancelled.
 
 .. code-block:: python
-	
+
 
 	>>> o = ally.Order.Order(
 		buysell = 'sellshort',
@@ -115,7 +115,7 @@ Modifying orders, outstanding or local orders, is easy as well.
 
 
 Any of these functions can be used to modify the order's parameters:
-	
+
 .. autoclass:: ally.Order.Order
    :members: set_buysell, set_instrument, set_time, set_pricing, set_orderid
    :noindex:
@@ -136,6 +136,7 @@ Modifying and Cancelling Outstanding Orders
 Cancelling an order is very simple, and can be done in one of three ways:
 
 * (Easiest) Inline method. Cancel or modify from the submit function.
+
 The function will do the rest for you.
 
 .. code-block:: python
@@ -157,7 +158,7 @@ The function will do the rest for you.
 * Construct new cancel order object
 
 .. code-block:: python
-	
+
 	>>> cxl = ally.Order.Order(
 		orderid = o.orderid,
 		type_ = ally.Order.OType.Cancel
@@ -169,7 +170,7 @@ The function will do the rest for you.
 Orders can be revised once submitted but before execution like so:
 
 .. code-block:: python
-	
+
 	# Modify an attribute of this order
 	>>> o.set_pricing( ally.Order.Limit(8) )
 
