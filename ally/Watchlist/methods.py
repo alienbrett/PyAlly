@@ -99,7 +99,7 @@ class DeleteWatchlist ( Endpoint ):
 	_resource	= 'watchlists/{0}.json'
 	_method		= 'DELETE'
 
-	
+
 
 class DeleteFromWatchlist ( WatchlistEndpoint ):
 	"""Delete selected symbols from a watchlist
@@ -158,7 +158,8 @@ class AppendWatchlist ( WatchlistEndpoint ):
 	"""Append some symbols to a watchlist
 	"""
 	_type		= RequestType.Info
-	_resource	= 'watchlists/{0}.json'
+	_resource	= 'watchlists/{0}/symbols.json'
+	_method		= 'POST'
 
 	def req_body ( self, **kwargs ):
 		"""Return get params together with post body data
