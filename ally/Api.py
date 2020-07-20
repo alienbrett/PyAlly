@@ -127,16 +127,6 @@ class Endpoint:
 
 
 
-
-
-	def _fetch_raw ( self, stream=False ):
-		return self.s.send(
-			self.req,
-			stream=stream
-		)
-
-
-
 	def request ( self=None, block: bool =True ):
 		"""Gets data from API server.
 
@@ -152,7 +142,8 @@ class Endpoint:
 		# Let ratelimit handle raise or block
 		RateLimit.check ( self._type, block=block )
 
-		x = self._fetch_raw()
+		# use current session instance to send prepared request
+		x = self.s.send(self.req)
 
 		# Did Ally just complain?
 		if x.status_code == 429:
@@ -205,8 +196,6 @@ class Endpoint:
 
 
 
-
-
 class AuthenticatedEndpoint ( Endpoint ):
 	"""Simple class, just require auth. Non-auth is non-optional
 	"""
@@ -243,7 +232,8 @@ class StreamEndpoint ( AuthenticatedEndpoint ):
 		"""Execute an entire loop, and aggregate results
 		"""
 
-		x = self._fetch_raw(stream=True)
+		# use current session instance to send prepared request
+		x = self.s.send(self.req,stream=True)
 
 		x.raise_for_status()
 
