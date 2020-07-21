@@ -36,8 +36,7 @@ import pytz
 __all__ = ['query']
 
 
-nytz = pytz.timezone('America/New_York')
-gmtz = pytz.timezone('UTC')
+centraltz = pytz.timezone('America/Chicago')
 
 
 
@@ -81,10 +80,9 @@ def absolute_ally_time ( ally_time):
 		datetime object, timezone-aware
 	"""
 	texp = datetime.fromtimestamp(
-		ally_time
-	).replace(
-		tzinfo=timezone.utc
-	)
+		ally_time,
+		tz=centraltz
+	).replace(tzinfo=timezone.utc)
 
 	# API clock is off by around 1 minute. This corrects
 	# TODO: let ally devs know that their api clock is wrong
@@ -113,7 +111,7 @@ def wait_until_ally_time ( req_type ):
 
 	"""
 	# Get our stuff in utc
-	now = datetime.now().replace( tzinfo=timezone.utc )
+	now = datetime.now( tz=timezone.utc )
 
 	# Get the time we have stored
 	a_time = _rl_exp_datetime[req_type.value]
@@ -122,7 +120,6 @@ def wait_until_ally_time ( req_type ):
 	if a_time is None:
 		a_time = now + timedelta(seconds=60.5)
 
-	print("Waiting until {}".format(str(a_time)))
 	# Block thread
 	time.sleep( (a_time - now).total_seconds() )
 
