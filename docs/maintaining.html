@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Rate Limiting &mdash; PyAlly 1.0.5 documentation</title>
+  <title>Maintaining &mdash; PyAlly 1.0.5 documentation</title>
   
 
   
@@ -35,8 +35,7 @@
   <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Watchlists" href="watchlist.html" />
-    <link rel="prev" title="Quotes" href="quote.html" /> 
+    <link rel="prev" title="Support" href="support.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,11 +85,15 @@
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="maintaining.html">Maintaining</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Maintaining</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#updating-and-deploying-documentation">Updating and Deploying Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-release">Creating a Release</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -136,13 +139,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Rate Limiting</li>
+      <li>Maintaining</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/ratelimit.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/maintaining.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -155,58 +158,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="rate-limiting">
-<h1>Rate Limiting<a class="headerlink" href="#rate-limiting" title="Permalink to this headline">¶</a></h1>
-<p>Ally imposes rate limits for each account, “designed to protect accounts from abuse and servers from load.”</p>
-<p>PyAlly has thread-safe systems in place to respect these limits,
-and provides information and flexibility when dealing with these limits.</p>
-<p>Every function avaliable in the library has a <code class="docutils literal notranslate"><span class="pre">block</span></code> keyword that modifies the behavior of the
-function when the rate limit has been exceeded. When true, the function
-will block the calling thread until the API will accept the call, should the function
-encounter a rate limit exception.
-When false, the function will raise a <code class="docutils literal notranslate"><span class="pre">ally.exceptions.RateLimitException</span></code>. The user
-can then build custom logic around rate limit failures.</p>
-<p>Also, users can accesss the current state of the rate limits. Rate limit information
-is held on a module-level, and provides only a single set of limits shared across
-all <code class="docutils literal notranslate"><span class="pre">ally.Ally()</span></code> instances.</p>
-<p>Rate limit information can be queried with the <code class="docutils literal notranslate"><span class="pre">ally.RateLimit.snapshot()</span></code> function:</p>
-<span class="target" id="module-ally.RateLimit"></span><p>Controls the API rate limiting</p>
-<ul class="simple">
-<li><dl class="simple">
-<dt>Rate limits</dt><dd><ul>
-<li><p>40 per minute, order submission (including submit, modify, cancel)</p></li>
-<li><p>60 per minute, market quotes</p></li>
-<li><p>180 per minute, user info like balance, summary, etc</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-<dl class="py function">
-<dt id="ally.RateLimit.snapshot">
-<code class="sig-prename descclassname">ally.RateLimit.</code><code class="sig-name descname">snapshot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">req_type</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.RateLimit.snapshot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns all relevent rate limit information for a given request type.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>req_type:</dt><dd><p>one of RequestType.{Order,Quote,Info}</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>dictionary, with keys [‘used’,’remaining’,’expiration’]</p>
-</dd>
-</dl>
-<p>Example:</p>
-</div></blockquote>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ally</span><span class="o">.</span><span class="n">RateLimit</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">ally</span><span class="o">.</span><span class="n">RequestType</span><span class="o">.</span><span class="n">Quote</span><span class="p">)</span>
-
-<span class="go">{&#39;expiration&#39;: datetime.datetime(2020, 6, 22, 17, 5, 42, 55080, tzinfo=datetime.timezone.utc),</span>
-<span class="go">&#39;remaining&#39;: 56,</span>
-<span class="go">&#39;used&#39;: 4}</span>
+  <div class="section" id="maintaining">
+<h1>Maintaining<a class="headerlink" href="#maintaining" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="updating-and-deploying-documentation">
+<h2>Updating and Deploying Documentation<a class="headerlink" href="#updating-and-deploying-documentation" title="Permalink to this headline">¶</a></h2>
+<p>To create a fully-functional fork of the repository in your Github,
+<a class="reference external" href="https://docs.github.com/en/github/working-with-github-pages/creating-a-github-pages-site">set up a Github Pages project</a> for the new repository. When setting it up, associate the page
+with the <cite>master</cite> branch. The documentation will now be available publicly.</p>
+<p>Edit the files in the <code class="docutils literal notranslate"><span class="pre">sphinx/</span></code> directory how you see fit. Documentation for individual classes and files
+might be found in the source, since documentation is partially autogenerated from comments in the actual code.</p>
+<p>The documentation must then be generated. Change directories to the <code class="docutils literal notranslate"><span class="pre">sphinx/</span></code> folder, then run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">github</span></code>.
+This will build the html web files for the online documentation and place them in the <code class="docutils literal notranslate"><span class="pre">docs/</span></code> folder. Add the
+files in the <code class="docutils literal notranslate"><span class="pre">docs/</span></code> and <code class="docutils literal notranslate"><span class="pre">sphinx/</span></code> in a new commit and push to master. The changes will be reflected on
+your project Github page.</p>
+</div>
+<div class="section" id="creating-a-release">
+<h2>Creating a Release<a class="headerlink" href="#creating-a-release" title="Permalink to this headline">¶</a></h2>
+<p>It’s important to run the unit tests for the package before pushing a full release:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 ally/tests.py
 </pre></div>
 </div>
-</dd></dl>
-
+<p>To create a release, make sure to change the version number in 4 different files:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">README.md</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinx/index.rst</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinx/conf.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup.py</span></code></p></li>
+</ul>
+<p>Once this is done, all the documentation pages will reflect the new version, and the package release
+will respect this as well.</p>
+<p>Make sure to add new contributers to the <code class="docutils literal notranslate"><span class="pre">sphinx/index.rst</span></code> and <code class="docutils literal notranslate"><span class="pre">README.md</span></code> pages, if applicable.</p>
+<p>To build the package and upload to Pypi, run the commands from the root directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 setup.py sdist bdist_wheel
+twine upload dist/*
+</pre></div>
+</div>
+<p>The code will now be reflected in Pypi, available for public use.</p>
+</div>
 </div>
 
 
@@ -217,10 +205,8 @@ all <code class="docutils literal notranslate"><span class="pre">ally.Ally()</sp
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="watchlist.html" class="btn btn-neutral float-right" title="Watchlists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="quote.html" class="btn btn-neutral float-left" title="Quotes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="support.html" class="btn btn-neutral float-left" title="Support" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -26,6 +26,7 @@ Contents
    watchlist
    info
    support
+   maintaining
 
 
 Version 1.0.5
