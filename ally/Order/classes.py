@@ -85,7 +85,9 @@ class PriceType(Enum):
 
 
 class Pricing:
-	_tag = {}
+
+	def __init__(self):
+		self._tag = {}
 
 	@property
 	def attributes(self):
@@ -95,7 +97,7 @@ class Pricing:
 	@property
 	def fixml(self):
 		return self._tag
-	
+
 	def __eq__(self, other):
 		if isinstance(other, Pricing):
 			return \
@@ -104,63 +106,66 @@ class Pricing:
 			(other._tag == self._tag)
 		return False
 
-		
+
 
 
 class Market(Pricing):
-	type_	= PriceType.Market
-	_data	= { 'Typ': '1' }
+	def __init__(self):
+		self.type_	= PriceType.Market
+		self._data	= { 'Typ': '1' }
+
 	def __str__(self):
 		"""Creates market price object.
 
 		"""
 		return 'Market'
-	
+
 
 
 class Limit(Pricing):
-	type_	= PriceType.Limit
-	_data	= { 'Typ': '2' }
-
 	def __init__ ( self, limpx ):
 		"""Creates a limit price object.
 
 		Args:
-			
+
 			limpx: the stop price
 
 		"""
 		self.px = round(float(limpx),2)
-		self._data['Px'] = str(self.px)
+		self.type_	= PriceType.Limit
+		self._data	= {
+			'Typ': '2',
+			'Px': str(self.px)
+		}
+
 	def __str__(self):
 		return 'Limit ${:.3f}'.format(self.px)
 
 
 
 class Stop(Pricing):
-	type_	= PriceType.Stop
-	_data	= { 'Typ': '3' }
 
 	def __init__ ( self, stoppx ):
 		"""Creates a stop price object.
 
 		Args:
-			
+
 			stoppx: the stop price
 
 		"""
 
-		self.stoppx = round(float(stoppx),2)	
-		self._data['StopPx'] = str(self.stoppx)
+		self.stoppx = round(float(stoppx),2)
+		self.type_	= PriceType.Stop
+		self._data	= {
+			'Typ': '3',
+			'StopPx': str(self.stoppx)
+		}
 	def __str__(self):
 		return 'Stop ${:.3f}'.format(self.stoppx)
 
 
 
 class StopLimit(Pricing):
-	type_	= PriceType.StopLimit
-	_data	= { 'Typ': '4' }
-
 	def __init__ ( self, limpx, stoppx ):
 		"""Stop-limit price object.
 
@@ -171,22 +176,25 @@ class StopLimit(Pricing):
 		"""
 		self.px		= round(float(limpx),2)
 		self.stoppx	= round(float(stoppx),2)
-		self._data['Px']		= str(self.px)
-		self._data['StopPx']	= str(self.stoppx)
+		self.type	= PriceType.StopLimit
+		self._data	= {
+			'Typ': '4',
+			'StopPx': str(self.stoppx),
+			'Px': str(self.px)
+		}
+
 	def __str__ ( self ):
 		return 'StopLimit (Stop ${0:.3f}, Limit ${1:.3f})'.format(self.px,self.stoppx)
 
 
 
 class TrailingStop(Pricing):
-	type_	= PriceType.TrailingStop
-	_data	= { 'Typ': 'P' }
 
 	def __init__ ( self, use_pct, offset ):
 		"""Trailing stop price object.
 
 		Args:
-			
+
 			use_pct: if true, treat offset as percent. Otherwise, treat it as a dollar quantity
 			offset: the trailing stop offset
 
@@ -198,6 +206,8 @@ class TrailingStop(Pricing):
 			'PegPxTyp': 1,
 			'OfstVal': self.offset
 		}}
+		self.type_	= PriceType.TrailingStop
+		self._data	= { 'Typ': 'P' }
 
 	def __str__ ( self ):
 		return 'Trailing Stop {0}{1}{2}'.format(
@@ -212,8 +222,8 @@ class TrailingStop(Pricing):
 
 
 class Option(Instrument):
-	type_='OPTION'
 	def __init__(self, underlying, exp_date, strike, direction ):
+		self.type		='OPTION'
 		self.underlying = underlying.upper()
 		self.exp_date	= exp_date
 		self.strike		= strike
@@ -226,7 +236,7 @@ class Option(Instrument):
 			strike		= self.strike,
 			direction	= self.direction
 		)
-	
+
 	@property
 	def fixml ( self ):
 		return {
@@ -240,8 +250,8 @@ class Option(Instrument):
 		}
 
 class Stock(Instrument):
-	type_='STOCK'
 	def __init__(self,symbol):
+		self.type	='STOCK'
 		self.symbol = symbol.upper()
 
 	@property
