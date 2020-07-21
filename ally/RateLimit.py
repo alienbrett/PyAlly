@@ -36,7 +36,12 @@ import pytz
 __all__ = ['query']
 
 
+<<<<<<< HEAD
 centraltz = pytz.timezone('America/Chicago')
+=======
+# nytz = pytz.timezone('America/New_York')
+# gmtz = pytz.timezone('UTC')
+>>>>>>> d2a77375232a376f83beee888a95704c66225023
 
 
 
