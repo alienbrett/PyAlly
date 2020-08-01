@@ -86,7 +86,7 @@ If you're dying to buy me a beer, I accept venmo at @alienbrett. That said, feel
 
 .. _`Tianyu`: https://github.com/Tianyu00
 
-.. _`mm0`: https://github.com/mm0
+.. _`Matt Margolin`: https://github.com/mm0
 
 .. _`send me an email`: mailto:alienbrett648@gmail.com
 

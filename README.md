@@ -42,7 +42,7 @@ Please note that this version breaks compatibility with all V0.X.X.
 * [Julian Traversa](https://github.com/JTraversa)
 * [Tianyu](https://github.com/Tianyu00)
 * [Salient](https://github.com/Salient)
-* [mm0](https://github.com/mm0)
+* [Matt Margolin](https://github.com/mm0)
 
 Message me on Github or [send an email](mailto:alienbrett648@gmail.com) if you enjoyed the project or thought it could be improved. I do my best to code with quality but sometimes it is easier said than done. Anyone with an interest with an eye for detail is welcome to contribute.
 
