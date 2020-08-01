@@ -29,7 +29,7 @@ Contents
    maintaining
 
 
-Version 1.0.7
+Version 1.0.6
 ----------------
 
 The lastest redesign preserves many features of the old interface, and incorporates a few new ones.
