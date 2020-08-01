@@ -216,10 +216,10 @@ instantiation is easy:</p>
 this is about as secure as the environment variable method.
 Place the API keys into a JSON file (this looks very similar to a python dict):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s1">&#39;ALLY_RESOURCE_OWNER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_RESOURCE_OWNER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_CLIENT_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_CLIENT_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CONSUMER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CONSUMER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_OAUTH_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_OAUTH_TOKEN</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
     <span class="s1">&#39;ALLY_ACCOUNT_NBR&#39;</span><span class="p">:</span><span class="n">XXXX</span>
 <span class="p">}</span>
 </pre></div>
@@ -235,10 +235,10 @@ Place the API keys into a JSON file (this looks very similar to a python dict):<
 Keep in mind that this is much less secure for distributable applications, since anyone with these keys
 will have access to the account with which they’re associated.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;ALLY_RESOURCE_OWNER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_RESOURCE_OWNER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_CLIENT_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_CLIENT_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CONSUMER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CONSUMER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_OAUTH_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_OAUTH_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
     <span class="s1">&#39;ALLY_ACCOUNT_NBR&#39;</span><span class="p">:</span><span class="n">XXXX</span>
 <span class="p">}</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Ally</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>

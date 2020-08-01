@@ -29,7 +29,7 @@ Contents
    maintaining
 
 
-Version 1.0.6
+Version 1.0.7
 ----------------
 
 The lastest redesign preserves many features of the old interface, and incorporates a few new ones.
@@ -85,6 +85,8 @@ If you're dying to buy me a beer, I accept venmo at @alienbrett. That said, feel
 .. _`Salient`: https://github.com/Salient
 
 .. _`Tianyu`: https://github.com/Tianyu00
+
+.. _`mm0`: https://github.com/mm0
 
 .. _`send me an email`: mailto:alienbrett648@gmail.com
 
