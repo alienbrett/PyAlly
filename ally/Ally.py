@@ -58,6 +58,8 @@ class Ally:
 		history
 	)
 	from .Info		import clock, status
+	from .News 		import newssearch, article
+	from .Option 	import search, OptionSearchQuery
 	from .Order		import submit, orders
 	from .Quote		import quote, stream, timesales
 
