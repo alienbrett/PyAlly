@@ -136,7 +136,7 @@ class Search ( AuthenticatedEndpoint ):
 			params['fids'] = fmt_fields
 
 		if queries != []:
-			params['query']="AND".join([x.get_formatted_query_str() for x in queries])
+			params['query']=" AND ".join([x.get_formatted_query_str() for x in queries])
 
 
 		print(params)
