@@ -111,6 +111,7 @@ class Pricing:
 
 class Market(Pricing):
 	def __init__(self):
+		super().__init__()
 		self.type_	= PriceType.Market
 		self._data	= { 'Typ': '1' }
 
@@ -131,6 +132,7 @@ class Limit(Pricing):
 			limpx: the stop price
 
 		"""
+		super().__init__()
 		self.px = round(float(limpx),2)
 		self.type_	= PriceType.Limit
 		self._data	= {
@@ -153,7 +155,7 @@ class Stop(Pricing):
 			stoppx: the stop price
 
 		"""
-
+		super().__init__()
 		self.stoppx = round(float(stoppx),2)
 		self.type_	= PriceType.Stop
 		self._data	= {
@@ -174,6 +176,7 @@ class StopLimit(Pricing):
 			limpx: limit price, to be used once stop price was reached
 			stoppx: stop price, to trigger limit price
 		"""
+		super().__init__()
 		self.px		= round(float(limpx),2)
 		self.stoppx	= round(float(stoppx),2)
 		self.type	= PriceType.StopLimit
