@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Account &mdash; PyAlly 1.0.6 documentation</title>
+  <title>Option &mdash; PyAlly 1.0.6 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Trading" href="trading.html" />
-    <link rel="prev" title="Ally Object" href="ally.html" /> 
+    <link rel="next" title="Rate Limiting" href="ratelimit.html" />
+    <link rel="prev" title="Quotes" href="quote.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,10 +83,10 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ally.html">Ally Object</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Account</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Option</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
@@ -137,13 +137,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Account</li>
+      <li>Option</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/account.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/option.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -156,83 +156,67 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="account">
-<h1>Account<a class="headerlink" href="#account" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="option">
+<h1>Option<a class="headerlink" href="#option" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="ally.Ally">
 <em class="property">class </em><code class="sig-prename descclassname">ally.</code><code class="sig-name descname">Ally</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="ally.Ally.balances">
-<code class="sig-name descname">balances</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.balances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets current cash and various account metrics.</p>
-<p>Calls the ‘accounts/./balances.json’ endpoint to get the current list of balances.
-This includes margin amounts, cash, etc.</p>
+<dt id="ally.Ally.expirations">
+<code class="sig-name descname">expirations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span></em>, <em class="sig-param"><span class="n">useDatetime</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.expirations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets list of available expiration dates for a symbol.</p>
+<p>Calls the ‘market/options/expirations.json’ endpoint to get list of all
+exp_dates available for some given equity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataframe</strong> – Specify an output format</p></li>
+<li><p><strong>symbol</strong> – Specify the stock symbol against which to query</p></li>
+<li><p><strong>useDatetime</strong> – Specify whether to return datetime objects, or strings</p></li>
 <li><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A pandas dataframe with 1 row by default,</dt><dd><p>otherwise a flat dictionary.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>List of dates (datetime obj, or string)</p>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">expirations</span><span class="p">(</span><span class="s1">&#39;spy&#39;</span><span class="p">)</span>
+<span class="c1"># [ datetime.datetime(2022, 3, 18, 0, 0), ... ]</span>
+
+<span class="n">a</span><span class="o">.</span><span class="n">expirations</span><span class="p">(</span><span class="s1">&#39;spy&#39;</span><span class="p">,</span> <span class="n">useDatetime</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="c1"># [ &#39;2022-03-18&#39;, ... ]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Ally.history">
-<code class="sig-name descname">history</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.history" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the transaction history for the account.</p>
-<p>Calls the ‘accounts/./history.json’ endpoint to get list of all trade
-and cash  movement history for an account. This includes dividends, cash
-deposits and withdrawals, and all trades, including pricing information about
-each trade.</p>
+<dt id="ally.Ally.strikes">
+<code class="sig-name descname">strikes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.strikes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets list of available strike prices for a symbol.</p>
+<p>Calls the ‘market/options/strikes.json’ endpoint to get list of all
+strikes available for some given equity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataframe</strong> – Specify an output format</p></li>
+<li><p><strong>symbol</strong> – Specify the stock symbol against which to query</p></li>
 <li><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Pandas dataframe by default, otherwise a flat list of dictionaries.</p>
+<dd class="field-even"><p>List of strikes (float)</p>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="ally.Ally.holdings">
-<code class="sig-name descname">holdings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.holdings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets all current account holdings.</p>
-<p>Calls the ‘accounts/./history.json’ endpoint to get list of all current account
-holdings, including stocks and options. This also includes current market value,
-cost of acquisition, etc.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dataframe</strong> – Specify an output format</p></li>
-<li><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A pandas dataframe by default,</dt><dd><p>otherwise a flat list of dictionaries.</p>
-</dd>
-</dl>
-</p>
-</dd>
-</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">strikes</span><span class="p">(</span><span class="s1">&#39;spy&#39;</span><span class="p">)</span>
+<span class="c1"># [ 5.0, 10.0, ... ]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -247,10 +231,10 @@ cost of acquisition, etc.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="trading.html" class="btn btn-neutral float-right" title="Trading" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ratelimit.html" class="btn btn-neutral float-right" title="Rate Limiting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ally.html" class="btn btn-neutral float-left" title="Ally Object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="quote.html" class="btn btn-neutral float-left" title="Quotes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

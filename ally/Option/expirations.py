@@ -89,6 +89,15 @@ def expirations ( self, symbol, useDatetime = True, block: bool = True ):
 	Raises:
 		RateLimitException: If block=False, rate limit problems will be raised
 
+	Example:
+		.. code-block:: python
+
+		   a.expirations('spy')
+		   # [ datetime.datetime(2022, 3, 18, 0, 0), ... ]
+
+		   a.expirations('spy', useDatetime = False)
+		   # [ '2022-03-18', ... ]
+
 	"""
 	# Create request
 	req = Expirations(

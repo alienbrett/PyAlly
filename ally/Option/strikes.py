@@ -79,6 +79,12 @@ def strikes ( self, symbol, block: bool = True ):
 	Raises:
 		RateLimitException: If block=False, rate limit problems will be raised
 
+	Example:
+		.. code-block:: python
+
+		   a.strikes('spy')
+		   # [ 5.0, 10.0, ... ]
+
 	"""
 	result = Strikes(
 		auth		= self.auth,
