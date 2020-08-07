@@ -20,7 +20,45 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .expirations	import expirations
-from .strikes		import strikes
-from .search		import search
-from .classes		import *
+class DateRelation:
+
+
+	def __init__ (self):
+		self._rel = None
+
+	def __gt__ ( self, date ):
+
+		import datetime
+		if isinstance ( date, datetime.datetime ):
+			date = date.strftime('%Y-%m-%d')
+
+		self._rel = ('>', date)
+		return self
+
+	def __lt__ ( self, date ):
+
+		import datetime
+		if isinstance ( date, datetime.datetime ):
+			date = date.strftime('%Y-%m-%d')
+
+		self._rel = ('<', date)
+		return self
+
+	def __str__ ( self ):
+		return str(self._rel)
+
+
+
+
+class DateAgg:
+	def __init__( self ):
+
+		self._dates = []
+
+	def __add__ (self, relation):
+
+		self._dates.append ( relation )
+		return self
+
+	def __str__ ( self ):
+		return str(self._dates)

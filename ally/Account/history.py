@@ -177,7 +177,8 @@ def history ( self, dataframe: bool = True, block: bool = True ):
 		block: Specify whether to block thread if request exceeds rate limit
 
 	Returns:
-		Pandas dataframe by default, otherwise a flat list of dictionaries.
+		Default: Pandas dataframe
+		Otherwise: flat list of dictionaries
 
 	Raises:
 		RateLimitException: If block=False, rate limit problems will be raised
