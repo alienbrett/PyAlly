@@ -124,10 +124,8 @@ class History ( AccountEndpoint ):
 		response = response.json()['response']
 		history = response['transactions']['transaction']
 
-		# print(response.status)
-		
+
 		return [ History._process ( x ) for x in history ]
-		# return history
 
 
 
@@ -158,6 +156,7 @@ class History ( AccountEndpoint ):
 			pd.to_numeric,
 			errors='ignore'
 		)
+		df['date'] = pd.to_datetime(df['date'])
 		return df
 
 
