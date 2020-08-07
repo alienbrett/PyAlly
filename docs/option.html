@@ -235,7 +235,15 @@ provided. Specify a single value or a list of values to expand the size of the s
 </dd>
 <dt>Raises:</dt><dd><p>RateLimitException: If block=False, rate limit problems will be raised</p>
 </dd>
-<dt>Example:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<dt>Example:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+             <span class="s1">&#39;spy&#39;</span><span class="p">,</span>
+             <span class="n">query</span><span class="o">=</span><span class="p">[</span>
+                     <span class="s1">&#39;xdate-eq:20200814&#39;</span><span class="p">,</span>    <span class="c1"># Only consider contracts expiring on 2020-08-14</span>
+                     <span class="s1">&#39;put_call-eq:put&#39;</span><span class="p">,</span>              <span class="c1"># Only conside puts</span>
+                     <span class="s1">&#39;strikeprice-lte:350&#39;</span><span class="p">,</span>  <span class="c1"># Only consider strikes &lt;= $350</span>
+                     <span class="s1">&#39;strikeprice-gte:315&#39;</span>   <span class="c1"># Only consider strikes &gt;= $315</span>
+             <span class="p">]</span>
+     <span class="p">)</span>
 </pre></div>
 </div>
 </dd>

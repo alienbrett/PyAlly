@@ -137,7 +137,7 @@ def search ( self, symbol, query=[], fields=[], dataframe=True, block: bool = Tr
 	Example:
 		.. code-block:: python
 
-			a.search(
+	 	   a.search(
 				'spy',
 				query=[
 					'xdate-eq:20200814',	# Only consider contracts expiring on 2020-08-14
