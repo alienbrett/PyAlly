@@ -59,7 +59,7 @@ class Ally:
 	)
 	from .Info		import clock, status
 	from .Order		import submit, orders
-	from .Quote		import quote, stream, timesales
+	from .Quote		import quote, stream, timesales, toplists
 	from .Option	import strikes, expirations, search
 	from .News		import searchNews, lookupNews
 

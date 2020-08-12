@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Ally Object &mdash; PyAlly 1.0.6 documentation</title>
+  <title>News Searching &mdash; PyAlly 1.0.6 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Account" href="account.html" />
-    <link rel="prev" title="Installing" href="installing.html" /> 
+    <link rel="next" title="Rate Limiting" href="ratelimit.html" />
+    <link rel="prev" title="Option" href="option.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,12 +82,12 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Ally Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ally.html">Ally Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="option.html">Option</a></li>
-<li class="toctree-l1"><a class="reference internal" href="news.html">News Searching</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">News Searching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
@@ -138,13 +138,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Ally Object</li>
+      <li>News Searching</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/ally.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/news.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -157,57 +157,70 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="ally-object">
-<h1>Ally Object<a class="headerlink" href="#ally-object" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="news-searching">
+<h1>News Searching<a class="headerlink" href="#news-searching" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="ally.Ally">
 <em class="property">class </em><code class="sig-prename descclassname">ally.</code><code class="sig-name descname">Ally</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="ally.Ally.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Manages all facets of your Ally Invest account.</p>
-<blockquote>
-<div><dl>
-<dt>Manage your account</dt><dd><p>Track the current and past state of your account. Visit the <a class="reference external" href="account.html">Account</a> page for full details.</p>
-<ul class="simple">
-<li><p>Balances (gets all current cash and margin balances)</p></li>
-<li><p>History (gets full history of all trades, dividends, and cash transfers of the account)</p></li>
-<li><p>Holdings (gets list of all currently-held non-cash positions, and profitability information)</p></li>
+<dt id="ally.Ally.lookupNews">
+<code class="sig-name descname">lookupNews</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">articleId</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.lookupNews" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks up the news text for a given article.</p>
+<p>Calls the ‘market/news/{}.json’ endpoint to the news story with a given id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>articleId</strong> – Specify the articleID requested</p></li>
+<li><p><strong>dataframe</strong> – whether to return results as dataframe</p></li>
+<li><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p></li>
 </ul>
 </dd>
-<dt>Get quotes</dt><dd><p>Specified in-detail in <a class="reference external" href="quotes.html">Quotes</a>. Supports 3 types of quote-gathering:</p>
-<ul class="simple">
-<li><p>Real-time quotes</p></li>
-<li><p>Timesales (historical intraday prices over rolling 5 day window)</p></li>
-<li><p>Quote Streaming (get quotes for up to 256 symbols in real-time, as prices update)</p></li>
-</ul>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe, or dict</p>
 </dd>
-<dt>Place trades</dt><dd><p>Trades can be placed, modified (after being created locally, and even after submitting), or cancelled.
-Order objects described in <a class="reference external" href="trading.html">Trading</a> in detail.</p>
-</dd>
-<dt>Arguments:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">timeout</span></code>: float, number of seconds to wait before failing unresponsive api call</p>
-<p><code class="docutils literal notranslate"><span class="pre">params</span></code>: provide keys in the form of:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>A dictionary: { ALLY_OAUTH_SECRET: …}</p></li>
-<li><p>A string: (filename to json file containing api keys)</p></li>
-<li><p>None (default): Grab the api keys from environment variables</p></li>
-</ol>
-<p>For any of the mediums above, be sure to provide all of the keys:</p>
-</div></blockquote>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
-</div></blockquote>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;ALLY_OAUTH_SECRET&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
-        <span class="s1">&#39;ALLY_OAUTH_TOKEN&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
-        <span class="s1">&#39;ALLY_CONSUMER_SECRET&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
-        <span class="s1">&#39;ALLY_CONSUMER_KEY&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
-        <span class="s1">&#39;ALLY_ACCOUNT_NBR&#39;</span><span class="p">:</span> <span class="o">...</span>
-<span class="p">}</span>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">lookupNews</span><span class="p">(</span> <span class="s1">&#39;2938-A2231367-5OLLNQGI9S29FR694AB4IM0OQ&#39;</span> <span class="p">)</span>
 </pre></div>
 </div>
-<span class="target" id="module-ally.Ally"></span></dd></dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Ally.searchNews">
+<code class="sig-name descname">searchNews</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbols</span></em>, <em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.searchNews" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches for news on a set of symbols.</p>
+<p>Calls the ‘market/news/search.json’ endpoint to search for
+news articles related to some set of symbols.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>symbols</strong> – Specify the stock symbols for which to search</p></li>
+<li><p><strong>limit</strong> – (int) maximum number of hits (10 default)</p></li>
+<li><p><strong>dataframe</strong> – whether to return results as dataframe</p></li>
+<li><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe, or list</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">searchNews</span><span class="p">(</span><span class="s1">&#39;spy&#39;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+<span class="c1"># Index([&#39;date&#39;, &#39;headline&#39;, &#39;story&#39;], dtype=&#39;object&#39;)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">index</span>
+<span class="c1"># Index([...], dtype=&#39;object&#39;, name=&#39;id&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -221,10 +234,10 @@ Order objects described in <a class="reference external" href="trading.html">Tra
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="account.html" class="btn btn-neutral float-right" title="Account" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ratelimit.html" class="btn btn-neutral float-right" title="Rate Limiting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="installing.html" class="btn btn-neutral float-left" title="Installing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="option.html" class="btn btn-neutral float-left" title="Option" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

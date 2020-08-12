@@ -96,7 +96,7 @@ def searchNews ( self, symbols, limit=None, dataframe = True, block: bool = True
 		.. code-block:: python
 
 		   df = a.searchNews('spy')
-		   
+
 		   df.columns
 		   # Index(['date', 'headline', 'story'], dtype='object')
 
@@ -108,6 +108,7 @@ def searchNews ( self, symbols, limit=None, dataframe = True, block: bool = True
 		auth		= self.auth,
 		account_nbr	= self.account_nbr,
 		block		= block,
+		limit		= limit,
 		symbols		= symbols
 	).request()
 

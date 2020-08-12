@@ -87,6 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quotes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News Searching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
@@ -288,6 +289,54 @@ list of dictionaries, each one a single quote.</p>
         <span class="n">enddate</span> <span class="o">=</span> <span class="s1">&#39;2020-08-19&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">gld_history</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Ally.toplists">
+<code class="sig-name descname">toplists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">whichList</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">exchange</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Q'</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.toplists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the most recent toplists for a given exchange.</p>
+<blockquote>
+<div><p>Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>whichList:</dt><dd><p>Must be one of {‘toplosers’, ‘toppctlosers’, ‘topvolume’, ‘topactive’, ‘topgainers’, ‘toppctgainers’}</p>
+</dd>
+<dt>exchange:</dt><dd><p>string, one of
+‘A’ (American Stock Exchange)
+‘N’ (NYSE)
+‘Q’ (NASDAQ)
+‘U’ (NASDAQ Bulletin Board)
+‘V’ (NASDAQ OTC Other)</p>
+</dd>
+<dt>dataframe:</dt><dd><p>flag, specifies whether to return data in pandas dataframe
+or flat list of dictionaries.</p>
+</dd>
+<dt>block:</dt><dd><p>Specify whether to block thread if request exceeds rate limit</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Depends on dataframe flag. Will return pandas dataframe, or possibly
+list of dictionaries, each one a single quote.</p>
+</dd>
+</dl>
+<p>Raises:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>RateLimitException:</dt><dd><p>If block=False, rate limit problems will be raised</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Example:</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">toplists</span><span class="p">(</span><span class="s1">&#39;tpopctgainers&#39;</span><span class="p">)</span>
+
+                     <span class="n">chg</span>  <span class="n">chg_sign</span>       <span class="n">last</span>                            <span class="n">name</span>    <span class="n">pchg</span>       <span class="n">pcls</span>  <span class="n">rank</span>        <span class="n">vl</span>
+<span class="n">symbol</span>
+<span class="n">BFRA</span>     <span class="mf">21.3700</span>     <span class="n">u</span>        <span class="mf">41.6900</span>                  <span class="n">BIOFRONTERA</span> <span class="n">AG</span>  <span class="mf">105.17</span>    <span class="mf">20.3200</span>     <span class="mi">1</span>    <span class="mi">279216</span>
+<span class="n">CBMG</span>      <span class="mf">5.0100</span>     <span class="n">u</span>        <span class="mf">19.2800</span>  <span class="n">CELLULAR</span> <span class="n">BIOMEDICINE</span> <span class="n">GROUP</span> <span class="n">INC</span>   <span class="mf">35.11</span>    <span class="mf">14.2700</span>     <span class="mi">2</span>    <span class="mi">793186</span>
 </pre></div>
 </div>
 </dd></dl>
