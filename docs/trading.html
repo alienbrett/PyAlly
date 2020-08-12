@@ -87,6 +87,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Trading</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#submit-a-stock-order">Submit a Stock Order</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viewing-open-orders">Viewing Open Orders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dealing-with-options">Dealing With Options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#changing-order-parameters">Changing Order Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#modifying-and-cancelling-outstanding-orders">Modifying and Cancelling Outstanding Orders</a></li>
@@ -94,6 +95,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News Searching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
@@ -233,6 +236,140 @@ Accepts integers, not fractions.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="viewing-open-orders">
+<h2>Viewing Open Orders<a class="headerlink" href="#viewing-open-orders" title="Permalink to this headline">¶</a></h2>
+<p>View recent orders (open or executed)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">orders</span><span class="p">()</span>
+
+<span class="go"># View a summary of each order</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">os</span> <span class="p">]</span>
+<span class="go">[&#39;(OType.Order) Side.BuyCover 10 units of &quot;GLD&quot; TimeInForce.GTC, Limit $1.000&#39;]</span>
+
+<span class="go"># View the order status of one of the orders</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">status</span>
+<span class="go">{</span>
+<span class="go">        &#39;Stat&#39;: &#39;8&#39;,</span>
+<span class="go">        &#39;RejRsn&#39;: &#39;&#39;,</span>
+<span class="go">        &#39;LeavesQty&#39;: &#39;10.0&#39;,</span>
+<span class="go">        &#39;TrdDt&#39;: &#39;2020-01-01T01:01:00.000-04:00&#39;,</span>
+<span class="go">        &#39;TxnTm&#39;: &#39;2020-01-01T01:01:00.000-04:00&#39;,</span>
+<span class="go">        &#39;Txt&#39;: &#39;The limit price you have entered is significantly away from the current market price.&#39;,</span>
+<span class="go">        &#39;OrdQty&#39;: {},</span>
+<span class="go">        &#39;Comm&#39;: {&#39;Comm&#39;: &#39;0.0&#39;}</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<p>Order objects have a few attributes, most important among them are</p>
+<ul class="simple">
+<li><p>account</p></li>
+<li><p>buysell</p></li>
+<li><p>instrument</p></li>
+<li><p>orderid</p></li>
+<li><p>otype</p></li>
+<li><p>pricing</p></li>
+<li><p>quantity</p></li>
+<li><p>status</p></li>
+<li><p>time</p></li>
+</ul>
+<p>The full class documentation:</p>
+<dl class="py class">
+<dt id="id0">
+<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Order</code><span class="sig-paren">(</span><em class="sig-param">buysell: str = None</em>, <em class="sig-param">symbol: str = None</em>, <em class="sig-param">price=None</em>, <em class="sig-param">qty: int = None</em>, <em class="sig-param">time: int = None</em>, <em class="sig-param">account=None</em>, <em class="sig-param">type_=&lt;OType.Order: 1&gt;</em>, <em class="sig-param">orderid=None</em>, <em class="sig-param">fixml=None</em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="ally.Order.Order.convert_buysell">
+<em class="property">property </em><code class="sig-name descname">convert_buysell</code><a class="headerlink" href="#ally.Order.Order.convert_buysell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns buysell type into string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Order.Order.fixml">
+<em class="property">property </em><code class="sig-name descname">fixml</code><a class="headerlink" href="#ally.Order.Order.fixml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compiles the object into FIXML string.</p>
+<p>Does not affect internal state of object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Order.Order.set_account">
+<code class="sig-name descname">set_account</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">account</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specifies the account used to execute an order.</p>
+<p>Users shouldn’t really need to use this under normal circumstances, this
+is handled by the ally object.</p>
+<p>Can be viewed at obj.account</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Order.Order.set_buysell">
+<code class="sig-name descname">set_buysell</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">buysell</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_buysell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify the side of this order.</p>
+<p>Can be viewed at obj.buysell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buysell</strong> – one of (‘buy’,’sell’,’sellshort’,’buycover’),
+or the corresponding enum types.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Order.Order.set_orderid">
+<code class="sig-name descname">set_orderid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">orderid</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_orderid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specifies the order’s ID.</p>
+<p>Can be viewed at obj.orderid</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Order.Order.set_pricing">
+<code class="sig-name descname">set_pricing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">priceobj</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_pricing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the pricing information of an order.</p>
+<p>Can be viewed at obj.pricing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>priceobj</strong> – Must be one of
+ally.Order.Market(),
+ally.Order.Limit(x),
+ally.Order.Stop(x),
+ally.Order.StopLimit(x,y),
+ally.Order.TrailingStop(x,y)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Order.Order.set_quantity">
+<code class="sig-name descname">set_quantity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qty</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_quantity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the order quantity.</p>
+<p>Can be viewed at obj.quantity</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Order.Order.set_symbol">
+<code class="sig-name descname">set_symbol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_symbol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the order’s instrument.</p>
+<p>Can be viewed at obj.instrument</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Order.Order.set_time">
+<code class="sig-name descname">set_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the order’s time-in-force.</p>
+<p>Can be viewed at obj.time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> – must be one of (‘day’,’gtc’,’onclose’), or the corresponding enums instances.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Order.Order.status">
+<em class="property">property </em><code class="sig-name descname">status</code><a class="headerlink" href="#ally.Order.Order.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execution status of this order.</p>
+<p>None implies that this order hasn’t been submitted for execution yet.</p>
 </dd></dl>
 
 </dd></dl>
