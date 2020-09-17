@@ -12,7 +12,7 @@ After setting up API keys, PyAlly can provide the basic/essential Ally brokerage
 Make sure to [read the docs](https://alienbrett.github.io/PyAlly)!
 
 
-## Version 1.1.0
+## Version 1.1.1
 
 The lastest redesign preserves many features of the old interface, and incorporates a few new ones.
 Version 1.0 has been designed around a simple interface which should make modifying orders easier, and many operations more pythonic.
