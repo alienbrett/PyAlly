@@ -33,7 +33,7 @@ class OptionSearchQuery:
 		'xdate',
 		'xmonth',
 		'xyear',
-		'put_cat',
+		'put_call',
 		'unique'
 	]
 	_query_operators = [
@@ -86,17 +86,11 @@ class Search ( AuthenticatedEndpoint ):
 	def extract ( self, response ):
 		"""Extract certain fields from response
 		"""
-		import pprint
-		pprint.pprint(response.json())
 		response = response.json()['response']
 		quotes = response['quotes']['quote']
 
 		if type(quotes) != type ([]):
 			quotes = [quotes]
-
-		# Zip symbols up with the response
-		for i,d in enumerate(quotes):
-			d['symbol'] = self._symbols[i]
 
 		# and return it to the world
 		return quotes
