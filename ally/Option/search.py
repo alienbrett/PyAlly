@@ -108,7 +108,7 @@ class Search ( AuthenticatedEndpoint ):
 		fields	= kwargs.get('fields',[])
 		queries= kwargs.get('queries',[])
 
-		print(kwargs)
+		# print(kwargs)
 
 		# Correctly format Fields, also store split up fields
 		if type(fields) == type(""):
@@ -133,7 +133,7 @@ class Search ( AuthenticatedEndpoint ):
 			params['query']=" AND ".join([x.get_formatted_query_str() for x in queries])
 
 
-		print(params)
+		# print(params)
 		data = None
 		# return params, data
 		return data, params
