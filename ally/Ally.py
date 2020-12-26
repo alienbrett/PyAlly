@@ -55,7 +55,8 @@ class Ally:
 	from .Account	import (
 		holdings,
 		balances,
-		history
+		history,
+		accounts
 	)
 	from .Info		import clock, status
 	from .Order		import submit, orders

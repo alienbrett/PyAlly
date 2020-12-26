@@ -29,7 +29,6 @@
         <script src="static/jquery.js"></script>
         <script src="static/underscore.js"></script>
         <script src="static/doctools.js"></script>
-        <script src="static/language_data.js"></script>
     
     <script type="text/javascript" src="static/js/theme.js"></script>
 
@@ -197,7 +196,7 @@ set or modifed before submitting.</p>
 <span class="go">)</span>
 
 <span class="go"># Get a summary of this order in human-readable terms</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
 <span class="go">&#39;Side.Buy 8 units of &quot;AAPL&quot; TimeInForce.Day, Market&#39;</span>
 
 <span class="go"># See a hypothetical execution info for this order,</span>
@@ -211,7 +210,7 @@ set or modifed before submitting.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">orderid</span>
 <span class="go">None</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">&#39;SVI-12345678&#39;</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">orderid</span>
@@ -221,10 +220,10 @@ set or modifed before submitting.</p>
 <p>Order information can be passed to the class on instantiation. Notice that any or all fields can be None, and added later.</p>
 <dl class="py class">
 <dt id="ally.Order.Order">
-<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Order</code><span class="sig-paren">(</span><em class="sig-param">buysell: str = None</em>, <em class="sig-param">symbol: str = None</em>, <em class="sig-param">price=None</em>, <em class="sig-param">qty: int = None</em>, <em class="sig-param">time: int = None</em>, <em class="sig-param">account=None</em>, <em class="sig-param">type_=&lt;OType.Order: 1&gt;</em>, <em class="sig-param">orderid=None</em>, <em class="sig-param">fixml=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Order</code><span class="sig-paren">(</span><em class="sig-param">buysell: Optional[str] = None</em>, <em class="sig-param">symbol: Optional[str] = None</em>, <em class="sig-param">price=None</em>, <em class="sig-param">qty: Optional[int] = None</em>, <em class="sig-param">time: Optional[int] = None</em>, <em class="sig-param">account=None</em>, <em class="sig-param">type_=&lt;OType.Order: 1&gt;</em>, <em class="sig-param">orderid=None</em>, <em class="sig-param">fixml=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
 <dt id="ally.Order.Order.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">buysell: str = None</em>, <em class="sig-param">symbol: str = None</em>, <em class="sig-param">price=None</em>, <em class="sig-param">qty: int = None</em>, <em class="sig-param">time: int = None</em>, <em class="sig-param">account=None</em>, <em class="sig-param">type_=&lt;OType.Order: 1&gt;</em>, <em class="sig-param">orderid=None</em>, <em class="sig-param">fixml=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">buysell: Optional[str] = None</em>, <em class="sig-param">symbol: Optional[str] = None</em>, <em class="sig-param">price=None</em>, <em class="sig-param">qty: Optional[int] = None</em>, <em class="sig-param">time: Optional[int] = None</em>, <em class="sig-param">account=None</em>, <em class="sig-param">type_=&lt;OType.Order: 1&gt;</em>, <em class="sig-param">orderid=None</em>, <em class="sig-param">fixml=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an order.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -282,7 +281,7 @@ Accepts integers, not fractions.</p></li>
 <p>The full class documentation:</p>
 <dl class="py class">
 <dt id="id0">
-<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Order</code><span class="sig-paren">(</span><em class="sig-param">buysell: str = None</em>, <em class="sig-param">symbol: str = None</em>, <em class="sig-param">price=None</em>, <em class="sig-param">qty: int = None</em>, <em class="sig-param">time: int = None</em>, <em class="sig-param">account=None</em>, <em class="sig-param">type_=&lt;OType.Order: 1&gt;</em>, <em class="sig-param">orderid=None</em>, <em class="sig-param">fixml=None</em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Order</code><span class="sig-paren">(</span><em class="sig-param">buysell: Optional[str] = None</em>, <em class="sig-param">symbol: Optional[str] = None</em>, <em class="sig-param">price=None</em>, <em class="sig-param">qty: Optional[int] = None</em>, <em class="sig-param">time: Optional[int] = None</em>, <em class="sig-param">account=None</em>, <em class="sig-param">type_=&lt;OType.Order: 1&gt;</em>, <em class="sig-param">orderid=None</em>, <em class="sig-param">fixml=None</em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
 <dt id="ally.Order.Order.convert_buysell">
 <em class="property">property </em><code class="sig-name descname">convert_buysell</code><a class="headerlink" href="#ally.Order.Order.convert_buysell" title="Permalink to this definition">¶</a></dt>
@@ -449,7 +448,7 @@ limit at $18, good-til-cancelled.</p>
 <p>Any of these functions can be used to modify the order’s parameters:</p>
 <dl class="py class">
 <dt>
-<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Order</code><span class="sig-paren">(</span><em class="sig-param">buysell: str = None</em>, <em class="sig-param">symbol: str = None</em>, <em class="sig-param">price=None</em>, <em class="sig-param">qty: int = None</em>, <em class="sig-param">time: int = None</em>, <em class="sig-param">account=None</em>, <em class="sig-param">type_=&lt;OType.Order: 1&gt;</em>, <em class="sig-param">orderid=None</em>, <em class="sig-param">fixml=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ally.Order.</code><code class="sig-name descname">Order</code><span class="sig-paren">(</span><em class="sig-param">buysell: Optional[str] = None</em>, <em class="sig-param">symbol: Optional[str] = None</em>, <em class="sig-param">price=None</em>, <em class="sig-param">qty: Optional[int] = None</em>, <em class="sig-param">time: Optional[int] = None</em>, <em class="sig-param">account=None</em>, <em class="sig-param">type_=&lt;OType.Order: 1&gt;</em>, <em class="sig-param">orderid=None</em>, <em class="sig-param">fixml=None</em><span class="sig-paren">)</span></dt>
 <dd><dl class="py method">
 <dt>
 <code class="sig-name descname">set_buysell</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">buysell</span></em><span class="sig-paren">)</span></dt>
@@ -524,7 +523,7 @@ ally.Order.TrailingStop(x,y)</p>
 <li><p>Directly modify existing order</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">otype</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">OType</span><span class="o">.</span><span class="n">Cancel</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span> <span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="bp">False</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span> <span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -534,7 +533,7 @@ ally.Order.TrailingStop(x,y)</p>
 <span class="go">        orderid = o.orderid,</span>
 <span class="go">        type_ = ally.Order.OType.Cancel</span>
 <span class="go">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span> <span class="p">(</span> <span class="n">cxl</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="bp">False</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">submit</span> <span class="p">(</span> <span class="n">cxl</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span>
 </pre></div>
 </div>
 <p>Orders can be revised once submitted but before execution like so:</p>
@@ -542,7 +541,7 @@ ally.Order.TrailingStop(x,y)</p>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">set_pricing</span><span class="p">(</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">Limit</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="p">)</span>
 
 <span class="c1"># Submit to ally for revision</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">submit</span> <span class="p">(</span> <span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">type_</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">OType</span><span class="o">.</span><span class="n">Modify</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">submit</span> <span class="p">(</span> <span class="n">o</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">type_</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">OType</span><span class="o">.</span><span class="n">Modify</span> <span class="p">)</span>
 </pre></div>
 </div>
 </div>

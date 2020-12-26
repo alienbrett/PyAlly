@@ -29,7 +29,6 @@
         <script src="static/jquery.js"></script>
         <script src="static/underscore.js"></script>
         <script src="static/doctools.js"></script>
-        <script src="static/language_data.js"></script>
     
     <script type="text/javascript" src="static/js/theme.js"></script>
 
@@ -206,16 +205,16 @@ list of dictionaries, each one a single quote.</p>
         <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;bid&#39;</span><span class="p">,</span><span class="s1">&#39;ask,&#39;</span><span class="n">last</span><span class="s1">&#39;],</span>
 <span class="p">)</span>
 <span class="c1"># Access a specific symbol by the dataframe</span>
-<span class="k">print</span><span class="p">(</span><span class="n">quotes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;SPY&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">quotes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;SPY&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the quotes in dataframe format</span>
 <span class="n">quotes</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span>
         <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span>
-        <span class="n">dataframe</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">dataframe</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span>
 <span class="c1"># Access a specific symbol in the dict</span>
-<span class="k">print</span><span class="p">(</span><span class="n">quotes</span><span class="p">[</span><span class="s1">&#39;AAPL&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">quotes</span><span class="p">[</span><span class="s1">&#39;AAPL&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -241,7 +240,7 @@ Notice symbols=[‘spy’], symbols=’spy both work.</p>
 <p>Example:</p>
 </div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">quote</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="s1">&#39;tsla&#39;</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">quote</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">quote</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -291,7 +290,7 @@ list of dictionaries, each one a single quote.</p>
         <span class="n">startdate</span> <span class="o">=</span> <span class="s1">&#39;2020-08-21&#39;</span><span class="p">,</span>
         <span class="n">enddate</span> <span class="o">=</span> <span class="s1">&#39;2020-08-19&#39;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">gld_history</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gld_history</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </dd></dl>

@@ -31,7 +31,7 @@ Contents
    maintaining
 
 
-Version 1.1.0
+Version 1.1.2
 ----------------
 
 The lastest redesign preserves many features of the old interface, and incorporates a few new ones.

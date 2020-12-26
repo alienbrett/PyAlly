@@ -29,7 +29,6 @@
         <script src="static/jquery.js"></script>
         <script src="static/underscore.js"></script>
         <script src="static/doctools.js"></script>
-        <script src="static/language_data.js"></script>
     
     <script type="text/javascript" src="static/js/theme.js"></script>
 
@@ -166,6 +165,32 @@
 <dt id="ally.Ally">
 <em class="property">class </em><code class="sig-prename descclassname">ally.</code><code class="sig-name descname">Ally</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
+<dt id="ally.Ally.accounts">
+<code class="sig-name descname">accounts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets list of available accounts, and some basic metrics for each one.</p>
+<p>Calls the ‘accounts.json’ endpoint to get the current list of accounts.
+This includes account number, cash account balances, and P/L.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataframe</strong> – Specify an output format</p></li>
+<li><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A pandas dataframe by default,</dt><dd><p>otherwise a flat dictionary.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="ally.Ally.balances">
 <code class="sig-name descname">balances</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.balances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets current cash and various account metrics.</p>
