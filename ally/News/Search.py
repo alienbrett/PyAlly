@@ -37,7 +37,7 @@ class SearchNews ( AuthenticatedEndpoint ):
 		"""Return get params together with post body data
 		"""
 
-		if 'symbols' not in kwargs.keys:
+		if 'symbols' not in kwargs.keys():
 			raise KeyError('Please specify symbols, and pass in list of symbols (or string)')
 
 
