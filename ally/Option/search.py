@@ -224,12 +224,12 @@ def search(self, symbol, query: List = [], fields=[], dataframe=True, block: boo
 .. _`the ally website`: https://pypi.org/project/pyally/
 	"""
 	result = Search(
-		auth=self.auth,
-		account_nbr=self.account_nbr,
-		symbol=symbol,
-		fields=fields,
-		query=query,
-		block=block
+		auth                = self.auth,
+		account_nbr         = self.account_nbr,
+		symbol              = symbol,
+		fields              = fields,
+		query               = query,
+		block               = block
 	).request()
 
 	if dataframe:

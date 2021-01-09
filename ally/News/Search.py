@@ -132,7 +132,7 @@ def searchNews ( self, symbols, limit=None, startdate:str= '', enddate:str='', d
 		limit		= limit,
 		startdate 	= startdate,
 		enddate		= enddate,
-        block		= block
+		block		= block
 	).request()
 
 	if dataframe:
