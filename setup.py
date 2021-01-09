@@ -11,7 +11,7 @@ setuptools.setup(
         description="Ally Invest API Wrapper",
         long_description=long_description,
         long_description_content_type="text/markdown",
-        url="https://github.com/alienbrett/PyAlly",
+        url="https://github.com/mm0/PyAlly",
         packages=setuptools.find_packages(),
 		install_requires=[
 			'requests-oauthlib',
