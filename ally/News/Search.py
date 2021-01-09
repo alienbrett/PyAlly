@@ -36,10 +36,28 @@ class SearchNews ( AuthenticatedEndpoint ):
 	def req_body ( self, **kwargs ):
 		"""Return get params together with post body data
 		"""
+
+		if 'symbols' not in kwargs.keys:
+			raise KeyError('Please specify symbols, and pass in list of symbols (or string)')
+
+
+		symbols = kwargs.get('symbols', [])
+
+		# Correctly format Symbols, also store split up symbols
+		if type(symbols) == type(""):
+			# We were passed string
+			fmt_symbols = symbols
+		else:
+			# We were passed list
+			fmt_symbols = ','.join(symbols)
+
 		params = {
-			'symbols':kwargs.get('symbols'),
-			'maxhits':kwargs.get('limit',10)
+			'symbols':fmt_symbols,
+			'maxhits':kwargs.get('limit',10),
+			'startdate':kwargs.get('startdate',[]),
+			'enddate':kwargs.get('enddate',[])
 		}
+
 		return params, None
 
 
@@ -69,8 +87,7 @@ class SearchNews ( AuthenticatedEndpoint ):
 
 
 
-
-def searchNews ( self, symbols, limit=None, dataframe = True, block: bool = True ):
+def searchNews ( self, symbols, limit=None, startdate:str= '', enddate:str='', dataframe = True, block: bool = True ):
 	"""Searches for news on a set of symbols.
 
 	Calls the 'market/news/search.json' endpoint to search for
@@ -80,6 +97,10 @@ def searchNews ( self, symbols, limit=None, dataframe = True, block: bool = True
 		symbols: Specify the stock symbols for which to search
 
 		limit: (int) maximum number of hits (10 default)
+
+		startdate: Earliest date to include in search
+
+		enddate: Last date to include in search
 
 		dataframe: whether to return results as dataframe
 
@@ -107,9 +128,11 @@ def searchNews ( self, symbols, limit=None, dataframe = True, block: bool = True
 	result = SearchNews (
 		auth		= self.auth,
 		account_nbr	= self.account_nbr,
-		block		= block,
+		symbols		= symbols,
 		limit		= limit,
-		symbols		= symbols
+		startdate 	= startdate,
+		enddate		= enddate,
+        block		= block
 	).request()
 
 	if dataframe:

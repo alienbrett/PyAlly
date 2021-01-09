@@ -5,6 +5,6 @@ Option
 
 
 .. autoclass:: ally.Ally
-   :members: strikes, expirations, search
+   :members: strikes, expirations, search, optionSearchQuery
 
 
