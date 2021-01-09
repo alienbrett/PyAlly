@@ -124,10 +124,8 @@ class History ( AccountEndpoint ):
 		response = response.json()['response']
 		history = response['transactions']['transaction']
 
-		# print(response.status)
-		
+
 		return [ History._process ( x ) for x in history ]
-		# return history
 
 
 
@@ -158,6 +156,7 @@ class History ( AccountEndpoint ):
 			pd.to_numeric,
 			errors='ignore'
 		)
+		df['date'] = pd.to_datetime(df['date'])
 		return df
 
 
@@ -178,7 +177,8 @@ def history ( self, dataframe: bool = True, block: bool = True ):
 		block: Specify whether to block thread if request exceeds rate limit
 
 	Returns:
-		Pandas dataframe by default, otherwise a flat list of dictionaries.
+		Default: Pandas dataframe
+		Otherwise: flat list of dictionaries
 
 	Raises:
 		RateLimitException: If block=False, rate limit problems will be raised

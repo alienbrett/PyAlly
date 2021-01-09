@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Option &mdash; PyAlly 1.1.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+        <script src="static/jquery.js"></script>
+        <script src="static/underscore.js"></script>
+        <script src="static/doctools.js"></script>
+    
+    <script type="text/javascript" src="static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="News Searching" href="news.html" />
+    <link rel="prev" title="Quotes" href="quote.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> PyAlly
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ally.html">Ally Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Option</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News Searching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintaining.html">Maintaining</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyAlly</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Option</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/option.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="option">
+<h1>Option<a class="headerlink" href="#option" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="ally.Ally">
+<em class="property">class </em><code class="sig-prename descclassname">ally.</code><code class="sig-name descname">Ally</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="ally.Ally.expirations">
+<code class="sig-name descname">expirations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span></em>, <em class="sig-param"><span class="n">useDatetime</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.expirations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets list of available expiration dates for a symbol.</p>
+<p>Calls the ‘market/options/expirations.json’ endpoint to get list of all
+exp_dates available for some given equity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>symbol</strong> – Specify the stock symbol against which to query</p></li>
+<li><p><strong>useDatetime</strong> – Specify whether to return datetime objects, or strings</p></li>
+<li><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of dates (datetime obj, or string)</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">expirations</span><span class="p">(</span><span class="s1">&#39;spy&#39;</span><span class="p">)</span>
+<span class="c1"># [ datetime.datetime(2022, 3, 18, 0, 0), ... ]</span>
+
+<span class="n">a</span><span class="o">.</span><span class="n">expirations</span><span class="p">(</span><span class="s1">&#39;spy&#39;</span><span class="p">,</span> <span class="n">useDatetime</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="c1"># [ &#39;2022-03-18&#39;, ... ]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Ally.search">
+<code class="sig-name descname">search</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span></em>, <em class="sig-param"><span class="n">query</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">fields</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches for all option quotes on a symbol that satisfy some set of criteria</p>
+<blockquote>
+<div><p>Calls the ‘market/options/search.json’ endpoint, querying against certain parameters
+provided. Specify a single value or a list of values to expand the size of the search.</p>
+<dl class="simple">
+<dt>Option queries are composed of three elements:</dt><dd><ol class="arabic simple">
+<li><p>a condition,</p></li>
+<li><p>an operator</p></li>
+<li><p>a value</p></li>
+</ol>
+</dd>
+</dl>
+<p>in the format field-operator:value (i.e., xyear-eq:2012)</p>
+<dl>
+<dt>Queryable Fields:</dt><dd><p>strikeprice: possible values: 5 or 7.50, integers or decimals</p>
+<p>xdate: YYYYMMDD</p>
+<p>xmonth: MM</p>
+<p>xyear: YYYY</p>
+<p>put_call: possible values: put, call</p>
+<p>unique: possible values: strikeprice, xdate</p>
+</dd>
+<dt>Operators:</dt><dd><p>lt: less than</p>
+<p>gt: greater than</p>
+<p>gte: greater than or equal to</p>
+<p>lte: less than or equal to</p>
+<p>eq: equal to</p>
+</dd>
+</dl>
+<p>Visit <a class="reference external" href="https://pypi.org/project/pyally/">the ally website</a> to see the full API behavior.</p>
+<dl>
+<dt>Args:</dt><dd><p>symbol: Specify the stock symbol against which to query</p>
+<p>fields: (Optional) List of attributes requested for each option contract found. If not specified, will return all applicable fields</p>
+<p>dataframe: (Optional) Return quotes in pandas dataframe</p>
+<p>block: Specify whether to block thread if request exceeds rate limit</p>
+</dd>
+<dt>Returns:</dt><dd><p>Default: Pandas dataframe</p>
+<p>Otherwise: flat list of dictionaries</p>
+</dd>
+<dt>Raises:</dt><dd><p>RateLimitException: If block=False, rate limit problems will be raised</p>
+</dd>
+<dt>Example:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+             <span class="s1">&#39;spy&#39;</span><span class="p">,</span>
+             <span class="n">query</span><span class="o">=</span><span class="p">[</span>
+                     <span class="s1">&#39;xdate-eq:20200814&#39;</span><span class="p">,</span>    <span class="c1"># Only consider contracts expiring on 2020-08-14</span>
+                     <span class="s1">&#39;put_call-eq:put&#39;</span><span class="p">,</span>              <span class="c1"># Only conside puts</span>
+                     <span class="s1">&#39;strikeprice-lte:350&#39;</span><span class="p">,</span>  <span class="c1"># Only consider strikes &lt;= $350</span>
+                     <span class="s1">&#39;strikeprice-gte:315&#39;</span>   <span class="c1"># Only consider strikes &gt;= $315</span>
+             <span class="p">]</span>
+     <span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ally.Ally.strikes">
+<code class="sig-name descname">strikes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.strikes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets list of available strike prices for a symbol.</p>
+<p>Calls the ‘market/options/strikes.json’ endpoint to get list of all
+strikes available for some given equity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>symbol</strong> – Specify the stock symbol against which to query</p></li>
+<li><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of strikes (float)</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">strikes</span><span class="p">(</span><span class="s1">&#39;spy&#39;</span><span class="p">)</span>
+<span class="c1"># [ 5.0, 10.0, ... ]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="news.html" class="btn btn-neutral float-right" title="News Searching" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quote.html" class="btn btn-neutral float-left" title="Quotes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Brett Graves
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

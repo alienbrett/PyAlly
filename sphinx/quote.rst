@@ -2,4 +2,4 @@ Quotes
 ======
 
 .. autoclass:: ally.Ally
-   :members: quote, timesales, stream
+   :members: quote, timesales, stream, toplists

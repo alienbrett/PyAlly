@@ -42,12 +42,8 @@ class Quote ( AuthenticatedEndpoint ):
 		response = response.json()['response']
 		quotes = response['quotes']['quote']
 
-		if type(quotes) != type ([]):
+		if not isinstance(quotes,list):
 			quotes = [quotes]
-
-		# Zip symbols up with the response
-		for i,d in enumerate(quotes):
-			d['symbol'] = self._symbols[i]
 
 		# and return it to the world
 		return quotes
@@ -75,25 +71,16 @@ class Quote ( AuthenticatedEndpoint ):
 			fmt_symbols = ','.join(symbols)
 
 
+		if isinstance(fields,str):
+			# Fields must have been in format 'x,y,z,...'
+			fields = fields.split(',')
 
-		# Correctly format Fields, also store split up fields
-		if type(fields) == type(""):
-			# We were passed string
-			fmt_fields = fields
-			fields = fmt_fields.split(',')
-		else:
-			# We were passed list
-			fmt_fields = ','.join(fields)
+		if 'symbol' not in fields:
+			fields += ['symbol']
 
 
-		# Store symbols, so we can zip them back up with
-		#  the response object
-		symbols = [ s.upper() for s in symbols ]
-		self._symbols = symbols
+		fmt_fields = ','.join(fields)
 
-
-		# For aesthetics...
-		fmt_symbols = fmt_symbols.upper()
 
 		# Create request paramters according to how we need them
 		params = { 'symbols':fmt_symbols }

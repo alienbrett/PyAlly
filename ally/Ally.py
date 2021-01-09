@@ -55,13 +55,16 @@ class Ally:
 	from .Account	import (
 		holdings,
 		balances,
-		history
+		history,
+		accounts
 	)
 	from .Info		import clock, status
 	from .News 		import newssearch, article
 	from .Option 	import search, OptionSearchQuery
 	from .Order		import submit, orders
-	from .Quote		import quote, stream, timesales
+	from .Quote		import quote, stream, timesales, toplists
+	from .Option	import strikes, expirations, search
+	from .News		import searchNews, lookupNews
 
 
 

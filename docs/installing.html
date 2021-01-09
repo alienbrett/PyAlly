@@ -1,15 +1,18 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installing &mdash; PyAlly 1.0.6 documentation</title>
+  <title>Installing &mdash; PyAlly 1.1.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
 
   
   
@@ -17,22 +20,19 @@
   
 
   
-  <script type="text/javascript" src="static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
         <script src="static/jquery.js"></script>
         <script src="static/underscore.js"></script>
         <script src="static/doctools.js"></script>
-        <script src="static/language_data.js"></script>
     
     <script type="text/javascript" src="static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Ally Object" href="ally.html" />
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> PyAlly
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> PyAlly
           
 
           
@@ -73,6 +73,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -94,6 +95,8 @@
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quote.html">Quotes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News Searching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
@@ -104,6 +107,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -142,7 +146,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Installing</li>
     
@@ -216,10 +220,10 @@ instantiation is easy:</p>
 this is about as secure as the environment variable method.
 Place the API keys into a JSON file (this looks very similar to a python dict):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s1">&#39;ALLY_RESOURCE_OWNER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_RESOURCE_OWNER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_CLIENT_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_CLIENT_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CONSUMER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CONSUMER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_OAUTH_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_OAUTH_TOKEN&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
     <span class="s1">&#39;ALLY_ACCOUNT_NBR&#39;</span><span class="p">:</span><span class="n">XXXX</span>
 <span class="p">}</span>
 </pre></div>
@@ -235,10 +239,10 @@ Place the API keys into a JSON file (this looks very similar to a python dict):<
 Keep in mind that this is much less secure for distributable applications, since anyone with these keys
 will have access to the account with which they’re associated.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;ALLY_RESOURCE_OWNER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_RESOURCE_OWNER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_CLIENT_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
-    <span class="s1">&#39;ALLY_CLIENT_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CONSUMER_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_CONSUMER_KEY&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_OAUTH_SECRET&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
+    <span class="s1">&#39;ALLY_OAUTH_TOKEN&#39;</span><span class="p">:</span><span class="n">XXXX</span><span class="p">,</span>
     <span class="s1">&#39;ALLY_ACCOUNT_NBR&#39;</span><span class="p">:</span><span class="n">XXXX</span>
 <span class="p">}</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">ally</span><span class="o">.</span><span class="n">Ally</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
@@ -268,11 +272,19 @@ will have access to the account with which they’re associated.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Brett Graves
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -283,7 +295,6 @@ will have access to the account with which they’re associated.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

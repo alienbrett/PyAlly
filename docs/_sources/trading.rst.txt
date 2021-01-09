@@ -61,6 +61,50 @@ Order information can be passed to the class on instantiation. Notice that any o
    :members: __init__
 
 
+Viewing Open Orders
+---------------------
+
+View recent orders (open or executed)
+
+.. code-block:: python
+
+	>>> os = a.orders()
+
+	# View a summary of each order
+	>>> [ str(o) for o in os ]
+	['(OType.Order) Side.BuyCover 10 units of "GLD" TimeInForce.GTC, Limit $1.000']
+
+	# View the order status of one of the orders
+	>>> os[0].status
+	{
+		'Stat': '8',
+		'RejRsn': '',
+		'LeavesQty': '10.0',
+		'TrdDt': '2020-01-01T01:01:00.000-04:00',
+		'TxnTm': '2020-01-01T01:01:00.000-04:00',
+		'Txt': 'The limit price you have entered is significantly away from the current market price.',
+		'OrdQty': {},
+		'Comm': {'Comm': '0.0'}
+	}
+
+Order objects have a few attributes, most important among them are
+
+* account
+* buysell
+* instrument
+* orderid
+* otype
+* pricing
+* quantity
+* status
+* time
+
+The full class documentation:
+
+.. autoclass:: ally.Order.Order
+   :members:
+
+
 Dealing With Options
 --------------------
 

@@ -20,5 +20,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .search import newssearch
-from .article import article
+from .Search	import searchNews
+from .Lookup	import lookupNews

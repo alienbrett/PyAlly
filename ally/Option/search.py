@@ -20,14 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api		import AuthenticatedEndpoint, RequestType
 from typing import List
 
+from ..Api import AuthenticatedEndpoint, RequestType
 
 
-
-class OptionSearchQuery:
-
+class optionSearchQuery:
 	_queryable_fields = [
 		'strikeprice',
 		'xdate',
@@ -44,71 +42,57 @@ class OptionSearchQuery:
 		'eq'
 	]
 
-	_condition:str = ''
-	_operator:str = ''
+	_condition: str = ''
+	_operator: str = ''
 	_value = None
 
-	def __init__(self, **kwargs ):
+	def __init__(self, **kwargs):
 		if 'condition' not in kwargs.keys():
 			raise KeyError('Please specify a condition as a string')
 		if 'operator' not in kwargs.keys():
 			raise KeyError('Please specify an operator as a string')
 		if 'value' not in kwargs.keys():
 			raise KeyError('Please specify a value as a string')
-		self._condition = kwargs.get('condition',[])
-		self._operator = kwargs.get('operator',[])
-		self._value = kwargs.get('value',[])
-
+		self._condition = kwargs.get('condition', [])
+		self._operator = kwargs.get('operator', [])
+		self._value = kwargs.get('value', [])
 
 	def is_query_valid(self):
 		return (self._condition in self._queryable_fields) and (self._operator in self._query_operators)
 
 	def get_formatted_query_str(self):
-		if(self.is_query_valid()):
-			if(self._condition and self._operator and self._value):
+		if (self.is_query_valid()):
+			if (self._condition and self._operator and self._value):
 				return f'{self._condition}-{self._operator}:{self._value}'
 		return ''
 
+	def __str__(self):
+		return self.get_formatted_query_str()
 
 
+class Search(AuthenticatedEndpoint):
+	_type = RequestType.Info
+	_resource = 'market/options/search.json'
+	_method = 'POST'
+	_symbol: str = ''
+	_queries: List = []
 
-class Search ( AuthenticatedEndpoint ):
-	_type		= RequestType.Info
-	_resource	= 'market/options/search.json'
-	_method		= 'POST'
-	_symbol:str	= ''
-	_queries:List[OptionSearchQuery] = []
-
-
-
-
-
-	def extract ( self, response ):
-		"""Extract certain fields from response
-		"""
-		response = response.json()['response']
-		quotes = response['quotes']['quote']
-
-		if type(quotes) != type ([]):
-			quotes = [quotes]
-
-		# and return it to the world
-		return quotes
-
-
-
-
-	def req_body ( self, **kwargs ):
+	def req_body(self, **kwargs):
 		"""Return get params together with post body data
 		"""
 
 		if 'symbol' not in kwargs.keys():
 			raise KeyError('Please specify a symbol as a string')
-		symbol	= kwargs.get('symbol',[])
-		fields	= kwargs.get('fields',[])
-		queries= kwargs.get('queries',[])
 
-		# print(kwargs)
+		# For aesthetics...
+		self._symbol = kwargs.get('symbol').upper()
+
+		params = {
+			'symbol': self._symbol
+		}
+
+		fields = kwargs.get('fields', [])
+		queries = kwargs.get('queries', [])
 
 		# Correctly format Fields, also store split up fields
 		if type(fields) == type(""):
@@ -119,89 +103,140 @@ class Search ( AuthenticatedEndpoint ):
 			# We were passed list
 			fmt_fields = ','.join(fields)
 
-
-		# For aesthetics...
-		self._symbol = symbol.upper()
-
-		# Create request paramters according to how we need them
-		params = { 'symbol': self._symbol}
-
 		if fields != []:
 			params['fids'] = fmt_fields
 
 		if queries != []:
-			params['query']=" AND ".join([x.get_formatted_query_str() for x in queries])
+			params['query'] = " AND ".join([str(x) for x in queries])
+
+		return params, None
+
+	def extract(self, response):
+		"""Extract certain fields from response
+		"""
+		k = response.json().get('response')['quotes']['quote']
+
+		return k
+
+	@staticmethod
+	def DataFrame(raw):
+		import pandas as pd
+
+		# Create dataframe from our dataset
+		df = pd.DataFrame(raw).replace({'na': None}).apply(
+			# And also cast relevent fields to numeric values
+			pd.to_numeric,
+			errors='ignore'
+		).set_index('symbol').drop(columns='basis')
+
+		return df
 
 
-		# print(params)
-		data = None
-		# return params, data
-		return data, params
 
 
 
-def search (self, symbol: str='', queries:List[OptionSearchQuery] = [], fields: list =[], block: bool = True):
-	"""Gets the most current market data on the price of a symbol.
+
+
+
+def search(self, symbol, query: List = [], fields=[], dataframe=True, block: bool = True):
+	"""Searches for all option quotes on a symbol that satisfy some set of criteria
+
+	Calls the 'market/options/search.json' endpoint, querying against certain parameters
+	provided. Specify a single value or a list of values to expand the size of the search.
+
+	Option queries are composed of three elements:
+		1) a condition,
+		2) an operator
+		3) a value
+	in the format field-operator:value (i.e., xyear-eq:2012)
+
+	Queryable Fields:
+		strikeprice: possible values: 5 or 7.50, integers or decimals
+
+		xdate: YYYYMMDD
+
+		xmonth: MM
+
+		xyear: YYYY
+
+		put_call: possible values: put, call
+
+		unique: possible values: strikeprice, xdate
+
+	Operators:
+		lt: less than
+
+		gt: greater than
+
+		gte: greater than or equal to
+
+		lte: less than or equal to
+
+		eq: equal to
+
+	Visit `the ally website`_ to see the full API behavior.
 
 	Args:
-		symbols:
+		symbol: Specify the stock symbol against which to query
 
-			string or list of strings, each string a symbol to be queried.
-			Notice symbols=['spy'], symbols='spy both work
+		fields: (Optional) List of attributes requested for each option contract found. If not specified, will return all applicable fields
 
-		fields:
+		dataframe: (Optional) Return quotes in pandas dataframe
 
-			string or list of strings, each string a field to be grabbed.
-			By default, get all fields
-
-
-		block:
-			Specify whether to block thread if request exceeds rate limit
+		block: Specify whether to block thread if request exceeds rate limit
 
 	Returns:
-		Depends on dataframe flag. Will return pandas dataframe, or possibly
-		list of dictionaries, each one a single quote.
+		Default: Pandas dataframe
+
+		Otherwise: flat list of dictionaries
 
 	Raises:
 		RateLimitException: If block=False, rate limit problems will be raised
 
-	Examples:
+	Example:
+		.. code-block:: python
 
-.. code-block:: python
+			a.search(
+				'spy',
+				query=[
+					optionSearchQuery(condition='xdate', operator='eq', value='20200814),    # Only consider contracts expiring on 2020-08-14
+					optionSearchQuery(condition='put_call', operator='eq', value='put),      # Only conside puts
+					optionSearchQuery(condition='strikeprice', operator='lte', value='350),  # Only consider strikes <= $350
+					optionSearchQuery(condition='strikeprice', operator='gte', value='315)   # Only consider strikes <= $315
+				]
+			)
 
-	# Get the quotes in dataframe format
-	#  Each row will only have elements bid, ask, and last
-	quotes = a.quote(
-		symbols=['spy','gLD','F','Ibm'], # not case sensitive
-		fields=['bid','ask,'last'],
-	)
-	# Access a specific symbol by the dataframe
-	print(quotes.loc['SPY'])
+		Alternatively, the queries can be specified as Strings, but it is recommended to use the `optionSearchQuery` class for validation of the query
+		 .. code-block:: python
+
+			a.search(
+				'spy',
+				query=[
+					'xdate-eq:20200814'     # Only consider contracts expiring on 2020-08-14
+					'put_call-eq:put',		# Only conside puts
+					'strikeprice-lte:350',	# Only consider strikes <= $350
+					'strikeprice-gte:315'	# Only consider strikes >= $315
+				]
+			)
 
 
 
-.. code-block:: python
-
-	# Get the quotes in dataframe format
-	quotes = a.quote(
-		'AAPL',
-		dataframe=False
-	)
-	# Access a specific symbol in the dict
-	print(quotes['AAPL'])
-
+.. _`the ally website`: https://pypi.org/project/pyally/
 	"""
-
 	result = Search(
-		auth		= self.auth,
-		account_nbr	= self.account_nbr,
-		symbol		= symbol,
-		fields		= fields,
-		queries		= queries,
-		block		= block
+		auth=self.auth,
+		account_nbr=self.account_nbr,
+		symbol=symbol,
+		fields=fields,
+		query=query,
+		block=block
 	).request()
 
-
+	if dataframe:
+		try:
+			result = Search.DataFrame(result)
+		except:
+			raise
 
 
 	return result

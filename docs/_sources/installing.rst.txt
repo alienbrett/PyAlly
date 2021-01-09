@@ -14,7 +14,7 @@ Get the Library
 ---------------
 
 To install the library, just use pip
-   
+
 .. code-block:: console
 
    $ pip install pyally
@@ -87,10 +87,10 @@ Place the API keys into a JSON file (this looks very similar to a python dict):
 .. code-block:: python
 
    {
-       'ALLY_RESOURCE_OWNER_SECRET':XXXX,
-       'ALLY_RESOURCE_OWNER_KEY':XXXX,
-       'ALLY_CLIENT_SECRET':XXXX,
-       'ALLY_CLIENT_KEY':XXXX,
+       'ALLY_CONSUMER_SECRET':XXXX,
+       'ALLY_CONSUMER_KEY':XXXX,
+       'ALLY_OAUTH_SECRET':XXXX,
+       'ALLY_OAUTH_TOKEN':XXXX,
        'ALLY_ACCOUNT_NBR':XXXX
    }
 
@@ -99,7 +99,7 @@ Place the API keys into a JSON file (this looks very similar to a python dict):
 Then the object can be instantiated like:
 
 .. code-block:: python
-   
+
    a = ally.Ally('/path/to/params.json')
 
 
@@ -116,10 +116,10 @@ will have access to the account with which they're associated.
 .. code-block:: python
 
    params = {
-       'ALLY_RESOURCE_OWNER_SECRET':XXXX,
-       'ALLY_RESOURCE_OWNER_KEY':XXXX,
-       'ALLY_CLIENT_SECRET':XXXX,
-       'ALLY_CLIENT_KEY':XXXX,
+       'ALLY_CONSUMER_SECRET':XXXX,
+       'ALLY_CONSUMER_KEY':XXXX,
+       'ALLY_OAUTH_SECRET':XXXX,
+       'ALLY_OAUTH_TOKEN':XXXX,
        'ALLY_ACCOUNT_NBR':XXXX
    }
    a = ally.Ally(params)

@@ -1,15 +1,18 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quotes &mdash; PyAlly 1.0.6 documentation</title>
+  <title>Quotes &mdash; PyAlly 1.1.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
 
   
   
@@ -17,25 +20,22 @@
   
 
   
-  <script type="text/javascript" src="static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
         <script src="static/jquery.js"></script>
         <script src="static/underscore.js"></script>
         <script src="static/doctools.js"></script>
-        <script src="static/language_data.js"></script>
     
     <script type="text/javascript" src="static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Rate Limiting" href="ratelimit.html" />
+    <link rel="next" title="Option" href="option.html" />
     <link rel="prev" title="Trading" href="trading.html" /> 
 </head>
 
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> PyAlly
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> PyAlly
           
 
           
@@ -73,6 +73,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -86,6 +87,8 @@
 <li class="toctree-l1"><a class="reference internal" href="account.html">Account</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trading.html">Trading</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quotes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="option.html">Option</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News Searching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ratelimit.html">Rate Limiting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="watchlist.html">Watchlists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="info.html">Info</a></li>
@@ -96,6 +99,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -134,7 +138,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Quotes</li>
     
@@ -291,6 +295,54 @@ list of dictionaries, each one a single quote.</p>
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt id="ally.Ally.toplists">
+<code class="sig-name descname">toplists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">whichList</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">exchange</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Q'</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.toplists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the most recent toplists for a given exchange.</p>
+<blockquote>
+<div><p>Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>whichList:</dt><dd><p>Must be one of {‘toplosers’, ‘toppctlosers’, ‘topvolume’, ‘topactive’, ‘topgainers’, ‘toppctgainers’}</p>
+</dd>
+<dt>exchange:</dt><dd><p>string, one of
+‘A’ (American Stock Exchange)
+‘N’ (NYSE)
+‘Q’ (NASDAQ)
+‘U’ (NASDAQ Bulletin Board)
+‘V’ (NASDAQ OTC Other)</p>
+</dd>
+<dt>dataframe:</dt><dd><p>flag, specifies whether to return data in pandas dataframe
+or flat list of dictionaries.</p>
+</dd>
+<dt>block:</dt><dd><p>Specify whether to block thread if request exceeds rate limit</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Depends on dataframe flag. Will return pandas dataframe, or possibly
+list of dictionaries, each one a single quote.</p>
+</dd>
+</dl>
+<p>Raises:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>RateLimitException:</dt><dd><p>If block=False, rate limit problems will be raised</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Example:</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">toplists</span><span class="p">(</span><span class="s1">&#39;tpopctgainers&#39;</span><span class="p">)</span>
+
+                     <span class="n">chg</span>  <span class="n">chg_sign</span>       <span class="n">last</span>                            <span class="n">name</span>    <span class="n">pchg</span>       <span class="n">pcls</span>  <span class="n">rank</span>        <span class="n">vl</span>
+<span class="n">symbol</span>
+<span class="n">BFRA</span>     <span class="mf">21.3700</span>     <span class="n">u</span>        <span class="mf">41.6900</span>                  <span class="n">BIOFRONTERA</span> <span class="n">AG</span>  <span class="mf">105.17</span>    <span class="mf">20.3200</span>     <span class="mi">1</span>    <span class="mi">279216</span>
+<span class="n">CBMG</span>      <span class="mf">5.0100</span>     <span class="n">u</span>        <span class="mf">19.2800</span>  <span class="n">CELLULAR</span> <span class="n">BIOMEDICINE</span> <span class="n">GROUP</span> <span class="n">INC</span>   <span class="mf">35.11</span>    <span class="mf">14.2700</span>     <span class="mi">2</span>    <span class="mi">793186</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -303,7 +355,7 @@ list of dictionaries, each one a single quote.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ratelimit.html" class="btn btn-neutral float-right" title="Rate Limiting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="option.html" class="btn btn-neutral float-right" title="Option" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="trading.html" class="btn btn-neutral float-left" title="Trading" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -315,11 +367,19 @@ list of dictionaries, each one a single quote.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Brett Graves
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -330,7 +390,6 @@ list of dictionaries, each one a single quote.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

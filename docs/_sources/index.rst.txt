@@ -22,6 +22,8 @@ Contents
    account
    trading
    quote
+   option
+   news
    ratelimit
    watchlist
    info
@@ -29,7 +31,7 @@ Contents
    maintaining
 
 
-Version 1.0.6
+Version 1.1.2
 ----------------
 
 The lastest redesign preserves many features of the old interface, and incorporates a few new ones.
@@ -42,15 +44,17 @@ Please note that this version breaks compatibility with all V0.X.X.
 * Simplified account operation methods
 * Intelligent rate limiting
 * Many new order operations. Orders can now be modified or cancelled in an intuitive way
-
-
-Planned Features
---------------------
-
 * Option searching
 * Toplists
 * News
 
+Note that parts of the news searching is broken. Ally's contractor who supplies information for news
+articles has had trouble suppling some information.
+
+Planned Features
+-----------------
+
+* Multi-leg orders
 
 
 
@@ -62,6 +66,7 @@ Contributors
 * `Julian Traversa`_
 * `Tianyu`_
 * `Salient`_
+* `Matt Margolin`_
 
 
 Message me on Github or `send me an email`_ if you enjoyed the project or thought it could be improved.
@@ -85,6 +90,8 @@ If you're dying to buy me a beer, I accept venmo at @alienbrett. That said, feel
 .. _`Salient`: https://github.com/Salient
 
 .. _`Tianyu`: https://github.com/Tianyu00
+
+.. _`Matt Margolin`: https://github.com/mm0
 
 .. _`send me an email`: mailto:alienbrett648@gmail.com
 
