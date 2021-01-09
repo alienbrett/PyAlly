@@ -92,7 +92,7 @@ class Search(AuthenticatedEndpoint):
 		}
 
 		fields = kwargs.get('fields', [])
-		queries = kwargs.get('queries', [])
+		queries = kwargs.get('query', [])
 
 		# Correctly format Fields, also store split up fields
 		if type(fields) == type(""):
