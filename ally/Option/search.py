@@ -212,7 +212,7 @@ def search(self, symbol, query: List = [], fields=[], dataframe=True, block: boo
 			a.search(
 				'spy',
 				query=[
-					'xdate-eq:20200814'     # Only consider contracts expiring on 2020-08-14
+					'xdate-eq:20200814',	# Only consider contracts expiring on 2020-08-14
 					'put_call-eq:put',		# Only conside puts
 					'strikeprice-lte:350',	# Only consider strikes <= $350
 					'strikeprice-gte:315'	# Only consider strikes >= $315
