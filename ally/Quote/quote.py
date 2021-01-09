@@ -75,7 +75,7 @@ class Quote ( AuthenticatedEndpoint ):
 			# Fields must have been in format 'x,y,z,...'
 			fields = fields.split(',')
 
-		if 'symbol' not in fields:
+		if 'symbol' not in fields and len(fields):
 			fields += ['symbol']
 
 
