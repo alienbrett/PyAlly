@@ -36,7 +36,29 @@ articles has had trouble suppling some information.
 * Multi-leg orders
 
 
+## Dev Environment Setup
 
+To setup your dev environment, simply run:
+
+```bash
+make venv # run once
+source venv/bin/activate # run for every new terminal
+```
+
+This will install the library requirements for debugging as well as some useful tools to lint, test, build, document, and deploy. See the `Makefile` for a list of useful targets.
+
+### Dev Environment Teardown
+
+To exit the dev environment, simply run:
+
+```bash
+deactivate
+```
+or `exit` / `logout` your terminal.
+
+### Fixing Your Dev Environment
+
+If your dev environment gets hosed, exit it, remove the `venv` directory, and run the setup above again.
 
 ## Contributors
 * [Brett Graves](https://github.com/alienbrett)
