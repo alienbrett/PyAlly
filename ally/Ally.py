@@ -26,13 +26,13 @@ Controls the Ally() account class, the bread and butter of the library.
 """
 
 
-from os import environ
 from json import load
+from os import environ
+
+from .Api import setTimeout
 from .Auth import Auth
 from .exception import ApiKeyException
-from .Api import setTimeout
 from .Watchlist import Watchlist
-
 
 _all_params = (
     "ALLY_OAUTH_SECRET",
@@ -48,12 +48,12 @@ class Ally:
     # No docstring
     ""
 
-    from .Account import holdings, balances, history, accounts
+    from .Account import accounts, balances, history, holdings
     from .Info import clock, status
-    from .Order import submit, orders
+    from .News import lookupNews, searchNews
+    from .Option import expirations, search, strikes
+    from .Order import orders, submit
     from .Quote import quote, stream, timesales, toplists
-    from .Option import strikes, expirations, search
-    from .News import searchNews, lookupNews
 
     auth = None
     account_nbr = None

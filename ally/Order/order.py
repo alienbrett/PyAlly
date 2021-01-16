@@ -21,15 +21,11 @@
 # SOFTWARE.
 
 from enum import Enum
-from ..utils import (
-    option_format,
-    option_symbol,
-    option_strike,
-    option_maturity,
-    option_callput,
-)
+
+from ..utils import (option_callput, option_format, option_maturity,
+                     option_strike, option_symbol)
 from .classes import *
-from .utils import transposeTree, parseTree
+from .utils import parseTree, transposeTree
 
 
 class Order:

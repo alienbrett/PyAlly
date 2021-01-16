@@ -20,8 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import xml.etree.ElementTree as ET
 import unittest
+import xml.etree.ElementTree as ET
+
 from ..classes import *
 from ..order import Order
 

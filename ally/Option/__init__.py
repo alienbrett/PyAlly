@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .expirations import expirations
-from .strikes import strikes
-from .search import search
 from .classes import *
+from .expirations import expirations
+from .search import search
+from .strikes import strikes

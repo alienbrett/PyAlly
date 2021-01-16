@@ -22,7 +22,9 @@
 
 import datetime
 import math
+
 from .utils import *
+
 
 ############################################################################
 def option_format(symbol="", exp_date="1970-01-01", strike=0, direction=""):

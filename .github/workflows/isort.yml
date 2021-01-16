@@ -1,11 +1,13 @@
-name: Lint (black)
+name: Lint (isort)
 
 on: [push, pull_request]
 
 jobs:
-  black:
+  isort:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-      - uses: psf/black@stable
+        with:
+          python-version: 3.8
+      - uses: jamescurtin/isort-action@master

@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api import Endpoint, AuthenticatedEndpoint, RequestType
+from ..Api import AuthenticatedEndpoint, Endpoint, RequestType
 
 
 class WatchlistEndpoint(AuthenticatedEndpoint):

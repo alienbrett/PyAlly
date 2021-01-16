@@ -32,14 +32,15 @@
 	* should be object method
 
 """
-from requests import Request, Session
-from requests.exceptions import HTTPError, Timeout
-from . import RateLimit
-from .classes import RequestType
-from .utils import pretty_print_POST, JSONStreamParser
 import datetime
 import json
 
+from requests import Request, Session
+from requests.exceptions import HTTPError, Timeout
+
+from . import RateLimit
+from .classes import RequestType
+from .utils import JSONStreamParser, pretty_print_POST
 
 # Global timeout variable
 _timeout = 1.0

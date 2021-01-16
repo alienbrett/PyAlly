@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 from ..Api import AccountEndpoint, RequestType
-from ..exception import OrderException, ExecutionException
+from ..exception import ExecutionException, OrderException
 from .order import Order
 
 

@@ -23,9 +23,10 @@
 
 """
 
-from requests_oauthlib import OAuth1
 from datetime import datetime, timedelta
+
 from requests import Session
+from requests_oauthlib import OAuth1
 
 
 class Auth:

@@ -1,7 +1,8 @@
-import ally
+import concurrent.futures
 import json
 import time
-import concurrent.futures
+
+import ally
 
 a = ally.Ally()
 

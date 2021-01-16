@@ -31,6 +31,6 @@ After setting up API keys, PyAlly can provide the basic/essential Ally brokerage
 
 Make sure to read the docss at https://alienbrett.github.io/PyAlly
 """
+from . import Account, Info, Order, RateLimit, exception, utils
 from .Ally import Ally
-from . import utils, Info, exception, Order, Account, RateLimit
 from .classes import RequestType

@@ -20,8 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api import StreamEndpoint, RequestType
 import json
+
+from ..Api import RequestType, StreamEndpoint
 
 
 class Stream(StreamEndpoint):

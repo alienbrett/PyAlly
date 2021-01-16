@@ -27,11 +27,13 @@
 	* 180 per minute, user info like balance, summary, etc
 
 """
-from .classes import RequestType
-from datetime import datetime, timezone, timedelta
 import json
 import time
+from datetime import datetime, timedelta, timezone
+
 import pytz
+
+from .classes import RequestType
 
 __all__ = ["query"]
 
