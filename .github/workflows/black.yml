@@ -1,11 +1,14 @@
 name: Lint (black)
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   black:
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
       - uses: psf/black@stable
