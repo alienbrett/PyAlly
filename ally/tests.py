@@ -26,5 +26,5 @@ from ally.Order.tests import *
 from ally.utils.tests import *
 
 
-if __name__ == '__main__':
-	unittest.main()
+if __name__ == "__main__":
+    unittest.main()

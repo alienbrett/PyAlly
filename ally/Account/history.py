@@ -20,181 +20,129 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api		import AccountEndpoint, RequestType
-from .utils		import _dot_flatten
+from ..Api import AccountEndpoint, RequestType
+from .utils import _dot_flatten
 
 
+class History(AccountEndpoint):
+    _type = RequestType.Info
+    _resource = "accounts/{0}/history.json"
 
+    @staticmethod
+    def _process(entry):
+        """Process a single transaction, into
+        the format that's most useful
+        """
 
+        t = entry["transaction"]
 
+        # Get the consistent trading symbol
+        x = {}
+        x["sectyp"] = t["security"]["sectyp"]
 
-class History ( AccountEndpoint ):
-	_type		= RequestType.Info
-	_resource	= 'accounts/{0}/history.json'
+        if x["sectyp"] == "OPT":
+            # Process this option
+            x["symbol"] = t["security"]["id"]
 
+        elif x["sectyp"] == "CS":
+            # Process stock
+            x["symbol"] = t["security"]["sym"]
 
-	@staticmethod
-	def _process ( entry ):
-		"""Process a single transaction, into
-		the format that's most useful
-		"""
+        else:
+            # Something else, cash transfer or dividend likely
+            x["symbol"] = None
 
-		t = entry['transaction']
+        x["cusip"] = t["security"]["cusip"]
 
+        # Register the human-readable transaction type
+        #  buy, sell, short or cover
+        side = t["side"]
+        accttyp = t["accounttype"]
 
+        if entry["activity"] == "Trade":
+            if side == "1":
+                if accttyp == "5":
+                    x["transactiontype"] = "buy"
+                else:
+                    x["transactiontype"] = "buy to cover"
 
-		# Get the consistent trading symbol
-		x = { }
-		x['sectyp'] = t['security']['sectyp']
+            elif side == "2":
+                x["transactiontype"] = "sell"
 
-		if x['sectyp'] == 'OPT':
-			# Process this option
-			x['symbol'] = t['security']['id']
+            elif side == "5":
+                x["transactiontype"] = "short sell"
 
+        # Modify the trade date to something actually useful
+        entry["date"] = entry["date"][:10]
 
-		elif x['sectyp'] == 'CS':
-			# Process stock
-			x['symbol'] = t['security']['sym']
+        # Pull some of these values out of transaction
+        for i in ("source", "settlementdate", "transactionid", "security", "tradedate"):
+            entry["transaction"].pop(i)
 
+        # Now plop them down into the root
+        entry = {**entry, **entry["transaction"]}
 
-		else:
-			# Something else, cash transfer or dividend likely
-			x['symbol'] = None
+        # Now delete transaction
+        entry.pop("transaction")
 
+        # Now combine our values with entry's values
+        return {**entry, **x}
 
-		x['cusip'] = t['security']['cusip']
+    def extract(self, response):
+        """Extract certain fields from response"""
+        response = response.json()["response"]
+        history = response["transactions"]["transaction"]
 
+        return [History._process(x) for x in history]
 
-		# Register the human-readable transaction type
-		#  buy, sell, short or cover
-		side	= t['side']
-		accttyp	= t['accounttype']
+    def req_body(self, **kwargs):
+        """Return get params together with post body data"""
+        params = {"range": kwargs.get("range_"), "transactions": kwargs.get("type_")}
+        data = None
+        return params, data
 
-		if entry['activity'] == 'Trade':
-			if side == '1':
-				if accttyp == '5':
-					x['transactiontype']	= 'buy'
-				else:
-					x['transactiontype']	= 'buy to cover'
+    @staticmethod
+    def DataFrame(raw):
+        import pandas as pd
 
-			elif side == '2':
-				x['transactiontype']		= 'sell'
+        # Create dataframe from our dataset
+        df = pd.DataFrame(raw).apply(
+            # And also cast relevent fields to numeric values
+            pd.to_numeric,
+            errors="ignore",
+        )
+        df["date"] = pd.to_datetime(df["date"])
+        return df
 
-			elif side == '5':
-				x['transactiontype']		 = 'short sell'
 
+def history(self, dataframe: bool = True, block: bool = True):
+    """Gets the transaction history for the account.
 
-
-		# Modify the trade date to something actually useful
-		entry['date'] = entry['date'][:10]
-
-
-		# Pull some of these values out of transaction
-		for i in (
-			'source','settlementdate',
-			'transactionid','security',
-			'tradedate'
-		):
-			entry['transaction'].pop( i )
-
-
-		# Now plop them down into the root
-		entry = { ** entry, ** entry['transaction'] }
-
-
-		# Now delete transaction
-		entry.pop('transaction')
-
-
-		# Now combine our values with entry's values
-		return { **entry, **x }
-
-
-
-
-
-
-
-
-
-
-	def extract ( self, response ):
-		"""Extract certain fields from response
-		"""
-		response = response.json()['response']
-		history = response['transactions']['transaction']
-
-
-		return [ History._process ( x ) for x in history ]
-
-
-
-
-	def req_body ( self, **kwargs ):
-		"""Return get params together with post body data
-		"""
-		params = {
-			'range': kwargs.get('range_'),
-			'transactions':kwargs.get('type_')
-		}
-		data = None
-		return params, data
-
-
-
-
-
-
-
-	@staticmethod
-	def DataFrame ( raw ):
-		import pandas as pd
-
-		# Create dataframe from our dataset
-		df = pd.DataFrame( raw ).apply(
-			# And also cast relevent fields to numeric values
-			pd.to_numeric,
-			errors='ignore'
-		)
-		df['date'] = pd.to_datetime(df['date'])
-		return df
-
-
-
-
-
-
-def history ( self, dataframe: bool = True, block: bool = True ):
-	"""Gets the transaction history for the account.
-
-	Calls the 'accounts/./history.json' endpoint to get list of all trade
-	and cash  movement history for an account. This includes dividends, cash
-	deposits and withdrawals, and all trades, including pricing information about
-	each trade.
-
-	Args:
-		dataframe: Specify an output format
-		block: Specify whether to block thread if request exceeds rate limit
-
-	Returns:
-		Default: Pandas dataframe
-		Otherwise: flat list of dictionaries
-
-	Raises:
-		RateLimitException: If block=False, rate limit problems will be raised
-
-	"""
-	result = History(
-		auth		= self.auth,
-		account_nbr	= self.account_nbr,
-		block		= block
-	).request()
-
-
-	if dataframe:
-		try:
-			result = History.DataFrame ( result )
-		except:
-			pass
-
-	return result
+    Calls the 'accounts/./history.json' endpoint to get list of all trade
+    and cash  movement history for an account. This includes dividends, cash
+    deposits and withdrawals, and all trades, including pricing information about
+    each trade.
+
+    Args:
+            dataframe: Specify an output format
+            block: Specify whether to block thread if request exceeds rate limit
+
+    Returns:
+            Default: Pandas dataframe
+            Otherwise: flat list of dictionaries
+
+    Raises:
+            RateLimitException: If block=False, rate limit problems will be raised
+
+    """
+    result = History(
+        auth=self.auth, account_nbr=self.account_nbr, block=block
+    ).request()
+
+    if dataframe:
+        try:
+            result = History.DataFrame(result)
+        except:
+            pass
+
+    return result

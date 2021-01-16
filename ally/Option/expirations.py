@@ -20,95 +20,72 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api		import AuthenticatedEndpoint, RequestType
+from ..Api import AuthenticatedEndpoint, RequestType
 
 
+class Expirations(AuthenticatedEndpoint):
+    _type = RequestType.Info
+    _resource = "market/options/expirations.json"
+
+    def req_body(self, **kwargs):
+        """Return get params together with post body data"""
+        params = {"symbol": kwargs.get("symbol")}
+        return params, None
+
+    def extract(self, response):
+        """Extract certain fields from response"""
+        k = response.json().get("response")["expirationdates"]["date"]
+
+        # Make sure we have a valid object, not None
+        if k is None:
+            k = []
+
+        if self.useDatetime:
+
+            from datetime import datetime
+
+            f = lambda x: datetime.strptime(x, "%Y-%m-%d")
+
+        else:
+            f = str
+
+        return list(map(f, k))
 
 
+def expirations(self, symbol, useDatetime=True, block: bool = True):
+    """Gets list of available expiration dates for a symbol.
 
+    Calls the 'market/options/expirations.json' endpoint to get list of all
+    exp_dates available for some given equity.
 
-class Expirations ( AuthenticatedEndpoint ):
-	_type		= RequestType.Info
-	_resource	= 'market/options/expirations.json'
+    Args:
+            symbol: Specify the stock symbol against which to query
+            useDatetime: Specify whether to return datetime objects, or strings
+            block: Specify whether to block thread if request exceeds rate limit
 
+    Returns:
+            List of dates (datetime obj, or string)
 
+    Raises:
+            RateLimitException: If block=False, rate limit problems will be raised
 
-	def req_body ( self, **kwargs ):
-		"""Return get params together with post body data
-		"""
-		params = {
-			"symbol":kwargs.get('symbol')
-		}
-		return params, None
+    Example:
+            .. code-block:: python
 
+               a.expirations('spy')
+               # [ datetime.datetime(2022, 3, 18, 0, 0), ... ]
 
+               a.expirations('spy', useDatetime = False)
+               # [ '2022-03-18', ... ]
 
+    """
+    # Create request
+    req = Expirations(
+        auth=self.auth, account_nbr=self.account_nbr, block=block, symbol=symbol
+    )
+    # Add in the extra information
+    req.useDatetime = useDatetime
+    # result
+    result = req.request()
 
-	def extract ( self, response ):
-		"""Extract certain fields from response
-		"""
-		k = response.json().get('response')['expirationdates']['date']
-
-		# Make sure we have a valid object, not None
-		if k is None:
-			k = []
-
-		if self.useDatetime:
-
-			from datetime import datetime
-			f = lambda x: datetime.strptime( x, '%Y-%m-%d' )
-
-		else:
-			f = str
-
-		return list(map( f, k ))
-
-
-
-
-
-
-
-
-
-
-def expirations ( self, symbol, useDatetime = True, block: bool = True ):
-	"""Gets list of available expiration dates for a symbol.
-
-	Calls the 'market/options/expirations.json' endpoint to get list of all
-	exp_dates available for some given equity.
-
-	Args:
-		symbol: Specify the stock symbol against which to query
-		useDatetime: Specify whether to return datetime objects, or strings
-		block: Specify whether to block thread if request exceeds rate limit
-
-	Returns:
-		List of dates (datetime obj, or string)
-
-	Raises:
-		RateLimitException: If block=False, rate limit problems will be raised
-
-	Example:
-		.. code-block:: python
-
-		   a.expirations('spy')
-		   # [ datetime.datetime(2022, 3, 18, 0, 0), ... ]
-
-		   a.expirations('spy', useDatetime = False)
-		   # [ '2022-03-18', ... ]
-
-	"""
-	# Create request
-	req = Expirations(
-		auth		= self.auth,
-		account_nbr	= self.account_nbr,
-		block		= block,
-		symbol		= symbol
-	)
-	# Add in the extra information
-	req.useDatetime = useDatetime
-	# result
-	result = req.request()
-
-	return result
+    return result

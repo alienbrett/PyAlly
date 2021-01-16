@@ -26,78 +26,75 @@ from .utils import *
 
 ############################################################################
 def option_format(symbol="", exp_date="1970-01-01", strike=0, direction=""):
-	"""Returns the OCC standardized option name.
+    """Returns the OCC standardized option name.
 
-	Args:
+    Args:
 
-		symbol: the underlying symbol, case insensitive
-		exp_date: date of expiration, in string-form.
-		strike: strike price of the option
-		direction: 'C' or 'call' or the like, for call, otherwise 'p' or 'Put' for put
+            symbol: the underlying symbol, case insensitive
+            exp_date: date of expiration, in string-form.
+            strike: strike price of the option
+            direction: 'C' or 'call' or the like, for call, otherwise 'p' or 'Put' for put
 
-	Returns:
+    Returns:
 
-		OCC string, like 'IBM201231C00301000'
-
-
-	.. code-block:: python
-
-		# Construct the option's OCC symbol
-		>>> ibm_call = ally.utils.option_format(
-			exp_date = '2020-12-31',
-			symbol = 'IBM', # case insensitive
-			direction = 'call',
-			strike = 301
-		)
-
-		>>> ibm_call
-		'IBM201231C00301000'
+            OCC string, like 'IBM201231C00301000'
 
 
-	"""
-	if not (check(symbol) and check(exp_date) and check(str(strike)) and check(direction)):
-		return ""
+    .. code-block:: python
 
-	# direction into C or P
-	direction = 'C' if 'C' in direction.upper() else'P'
+            # Construct the option's OCC symbol
+            >>> ibm_call = ally.utils.option_format(
+                    exp_date = '2020-12-31',
+                    symbol = 'IBM', # case insensitive
+                    direction = 'call',
+                    strike = 301
+            )
 
-	# Pad strike with zeros
-	def format_strike (strike):
-		x	= str(math.floor(float(strike)*1000))
-		return "0" * (8-len(x)) + x
-	# Assemble
-	return str(symbol).upper() +\
-		datetime.datetime.strptime(exp_date,"%Y-%m-%d").strftime("%y%m%d") +\
-		direction + format_strike(strike)
+            >>> ibm_call
+            'IBM201231C00301000'
 
 
+    """
+    if not (
+        check(symbol) and check(exp_date) and check(str(strike)) and check(direction)
+    ):
+        return ""
+
+    # direction into C or P
+    direction = "C" if "C" in direction.upper() else "P"
+
+    # Pad strike with zeros
+    def format_strike(strike):
+        x = str(math.floor(float(strike) * 1000))
+        return "0" * (8 - len(x)) + x
+
+    # Assemble
+    return (
+        str(symbol).upper()
+        + datetime.datetime.strptime(exp_date, "%Y-%m-%d").strftime("%y%m%d")
+        + direction
+        + format_strike(strike)
+    )
 
 
 def option_strike(name):
-	"""Pull apart an OCC standardized option name and
-	retreive the strike price, in integer form"""
-	return int(name[-8:])/1000.0
-
+    """Pull apart an OCC standardized option name and
+    retreive the strike price, in integer form"""
+    return int(name[-8:]) / 1000.0
 
 
 def option_maturity(name):
-	"""Given OCC standardized option name,
-	return the date of maturity"""
-	return datetime.datetime.strptime(name[-15:-9],"%y%m%d").strftime("%Y-%m-%d")
-
+    """Given OCC standardized option name,
+    return the date of maturity"""
+    return datetime.datetime.strptime(name[-15:-9], "%y%m%d").strftime("%Y-%m-%d")
 
 
 def option_callput(name):
-	"""Given OCC standardized option name,
-	return whether its a call or a put"""
-	return 'call' if name.upper()[-9] == 'C' else 'put'
-
+    """Given OCC standardized option name,
+    return whether its a call or a put"""
+    return "call" if name.upper()[-9] == "C" else "put"
 
 
 def option_symbol(name):
-	"""Given OCC standardized option name, return option ticker"""
-	return name[:-15]
-
-
-
-
+    """Given OCC standardized option name, return option ticker"""
+    return name[:-15]

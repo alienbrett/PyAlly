@@ -20,243 +20,215 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from enum		import Enum
-from ..utils		import (
-	option_format,
-	option_symbol,
-	option_strike,
-	option_maturity,
-	option_callput,
+from enum import Enum
+from ..utils import (
+    option_format,
+    option_symbol,
+    option_strike,
+    option_maturity,
+    option_callput,
 )
 
 
-
 class OType(Enum):
-	Order	= 1
-	Modify	= 2
-	Cancel	= 3
+    Order = 1
+    Modify = 2
+    Cancel = 3
 
 
 class Side(Enum):
-	Buy			= 1
-	Sell		= 2
-	BuyCover	= 3
-	SellShort	= 4
+    Buy = 1
+    Sell = 2
+    BuyCover = 3
+    SellShort = 4
 
 
 class SubmitStatus(Enum):
-	NotSubmitted	= 1
-	Submitted		= 2
-	Pending			= 3
-	Open			= 4
-	Paritial		= 5
-	Filled			= 6
-
-
+    NotSubmitted = 1
+    Submitted = 2
+    Pending = 3
+    Open = 4
+    Paritial = 5
+    Filled = 6
 
 
 class TimeInForce(Enum):
-	Day		= 0
-	GTC		= 1
-	OnClose	= 7
-
+    Day = 0
+    GTC = 1
+    OnClose = 7
 
 
 class Instrument:
-	"""Handle all the bullshit around an instrument
-	"""
-	def __str__(self):
-		return self.symbol
+    """Handle all the bullshit around an instrument"""
 
-
-
-
+    def __str__(self):
+        return self.symbol
 
 
 ### Pricing information
 
+
 class PriceType(Enum):
-	Market			= 1
-	Limit			= 2
-	Stop			= 3
-	StopLimit		= 4
-	StopLoss		= 5
-	TrailingStop	= 6
+    Market = 1
+    Limit = 2
+    Stop = 3
+    StopLimit = 4
+    StopLoss = 5
+    TrailingStop = 6
 
 
 class Pricing:
+    def __init__(self):
+        self._tag = {}
 
-	def __init__(self):
-		self._tag = {}
+    @property
+    def attributes(self):
+        return self._data
 
-	@property
-	def attributes(self):
-		return self._data
+    @property
+    def fixml(self):
+        return self._tag
 
-
-	@property
-	def fixml(self):
-		return self._tag
-
-	def __eq__(self, other):
-		if isinstance(other, Pricing):
-			return \
-			(other.type_ == self.type_) and \
-			(other._data == self._data) and \
-			(other._tag == self._tag)
-		return False
-
-
+    def __eq__(self, other):
+        if isinstance(other, Pricing):
+            return (
+                (other.type_ == self.type_)
+                and (other._data == self._data)
+                and (other._tag == self._tag)
+            )
+        return False
 
 
 class Market(Pricing):
-	def __init__(self):
-		super().__init__()
-		self.type_	= PriceType.Market
-		self._data	= { 'Typ': '1' }
+    def __init__(self):
+        super().__init__()
+        self.type_ = PriceType.Market
+        self._data = {"Typ": "1"}
 
-	def __str__(self):
-		"""Creates market price object.
-
-		"""
-		return 'Market'
-
+    def __str__(self):
+        """Creates market price object."""
+        return "Market"
 
 
 class Limit(Pricing):
-	def __init__ ( self, limpx ):
-		"""Creates a limit price object.
+    def __init__(self, limpx):
+        """Creates a limit price object.
 
-		Args:
+        Args:
 
-			limpx: the stop price
+                limpx: the stop price
 
-		"""
-		super().__init__()
-		self.px = round(float(limpx),2)
-		self.type_	= PriceType.Limit
-		self._data	= {
-			'Typ': '2',
-			'Px': str(self.px)
-		}
+        """
+        super().__init__()
+        self.px = round(float(limpx), 2)
+        self.type_ = PriceType.Limit
+        self._data = {"Typ": "2", "Px": str(self.px)}
 
-	def __str__(self):
-		return 'Limit ${:.3f}'.format(self.px)
-
+    def __str__(self):
+        return "Limit ${:.3f}".format(self.px)
 
 
 class Stop(Pricing):
+    def __init__(self, stoppx):
+        """Creates a stop price object.
 
-	def __init__ ( self, stoppx ):
-		"""Creates a stop price object.
+        Args:
 
-		Args:
+                stoppx: the stop price
 
-			stoppx: the stop price
+        """
+        super().__init__()
+        self.stoppx = round(float(stoppx), 2)
+        self.type_ = PriceType.Stop
+        self._data = {"Typ": "3", "StopPx": str(self.stoppx)}
 
-		"""
-		super().__init__()
-		self.stoppx = round(float(stoppx),2)
-		self.type_	= PriceType.Stop
-		self._data	= {
-			'Typ': '3',
-			'StopPx': str(self.stoppx)
-		}
-	def __str__(self):
-		return 'Stop ${:.3f}'.format(self.stoppx)
-
+    def __str__(self):
+        return "Stop ${:.3f}".format(self.stoppx)
 
 
 class StopLimit(Pricing):
-	def __init__ ( self, limpx, stoppx ):
-		"""Stop-limit price object.
+    def __init__(self, limpx, stoppx):
+        """Stop-limit price object.
 
-		Args:
+        Args:
 
-			limpx: limit price, to be used once stop price was reached
-			stoppx: stop price, to trigger limit price
-		"""
-		super().__init__()
-		self.px		= round(float(limpx),2)
-		self.stoppx	= round(float(stoppx),2)
-		self.type	= PriceType.StopLimit
-		self._data	= {
-			'Typ': '4',
-			'StopPx': str(self.stoppx),
-			'Px': str(self.px)
-		}
+                limpx: limit price, to be used once stop price was reached
+                stoppx: stop price, to trigger limit price
+        """
+        super().__init__()
+        self.px = round(float(limpx), 2)
+        self.stoppx = round(float(stoppx), 2)
+        self.type = PriceType.StopLimit
+        self._data = {"Typ": "4", "StopPx": str(self.stoppx), "Px": str(self.px)}
 
-	def __str__ ( self ):
-		return 'StopLimit (Stop ${0:.3f}, Limit ${1:.3f})'.format(self.px,self.stoppx)
-
+    def __str__(self):
+        return "StopLimit (Stop ${0:.3f}, Limit ${1:.3f})".format(self.px, self.stoppx)
 
 
 class TrailingStop(Pricing):
+    def __init__(self, use_pct, offset):
+        """Trailing stop price object.
 
-	def __init__ ( self, use_pct, offset ):
-		"""Trailing stop price object.
+        Args:
 
-		Args:
+                use_pct: if true, treat offset as percent. Otherwise, treat it as a dollar quantity
+                offset: the trailing stop offset
 
-			use_pct: if true, treat offset as percent. Otherwise, treat it as a dollar quantity
-			offset: the trailing stop offset
+        """
+        self.use_pct = use_pct
+        self.offset = offset
+        self._tag = {
+            "PegInstr": {
+                "OfstTyp": 1 if self.use_pct else 0,
+                "PegPxTyp": 1,
+                "OfstVal": self.offset,
+            }
+        }
+        self.type_ = PriceType.TrailingStop
+        self._data = {"Typ": "P"}
 
-		"""
-		self.use_pct 	= use_pct
-		self.offset		= offset
-		self._tag = {'PegInstr': {
-			'OfstTyp': 1 if self.use_pct else 0,
-			'PegPxTyp': 1,
-			'OfstVal': self.offset
-		}}
-		self.type_	= PriceType.TrailingStop
-		self._data	= { 'Typ': 'P' }
-
-	def __str__ ( self ):
-		return 'Trailing Stop {0}{1}{2}'.format(
-			'$' if not self.use_pct else '',
-			('{:.1f}' if self.use_pct else '{:.3f}').format(self.offset),
-			'%' if self.use_pct else '',
-		)
-
-
-
-
+    def __str__(self):
+        return "Trailing Stop {0}{1}{2}".format(
+            "$" if not self.use_pct else "",
+            ("{:.1f}" if self.use_pct else "{:.3f}").format(self.offset),
+            "%" if self.use_pct else "",
+        )
 
 
 class Option(Instrument):
-	def __init__(self, underlying, exp_date, strike, direction ):
-		self.type		='OPTION'
-		self.underlying = underlying.upper()
-		self.exp_date	= exp_date
-		self.strike		= strike
-		self.direction	= 'CALL' if 'c' in direction.lower() else 'PUT'
+    def __init__(self, underlying, exp_date, strike, direction):
+        self.type = "OPTION"
+        self.underlying = underlying.upper()
+        self.exp_date = exp_date
+        self.strike = strike
+        self.direction = "CALL" if "c" in direction.lower() else "PUT"
 
-		# Also get the option
-		self.symbol		= option_format (
-			symbol		= self.underlying,
-			exp_date	= self.exp_date,
-			strike		= self.strike,
-			direction	= self.direction
-		)
+        # Also get the option
+        self.symbol = option_format(
+            symbol=self.underlying,
+            exp_date=self.exp_date,
+            strike=self.strike,
+            direction=self.direction,
+        )
 
-	@property
-	def fixml ( self ):
-		return {
-			'Instrmt': {
-				'CFI'	: 'O' + self.direction[0],
-				'SecTyp': 'OPT',
-				'MatDt'	: self.exp_date + "T00:00:00.000-05:00",
-				'StrkPx': self.strike,
-				'Sym'	: self.underlying
-			}
-		}
+    @property
+    def fixml(self):
+        return {
+            "Instrmt": {
+                "CFI": "O" + self.direction[0],
+                "SecTyp": "OPT",
+                "MatDt": self.exp_date + "T00:00:00.000-05:00",
+                "StrkPx": self.strike,
+                "Sym": self.underlying,
+            }
+        }
+
 
 class Stock(Instrument):
-	def __init__(self,symbol):
-		self.type	='STOCK'
-		self.symbol = symbol.upper()
+    def __init__(self, symbol):
+        self.type = "STOCK"
+        self.symbol = symbol.upper()
 
-	@property
-	def fixml ( self ):
-		return {'Instrmt': { 'SecTyp': 'CS', 'Sym': self.symbol}}
+    @property
+    def fixml(self):
+        return {"Instrmt": {"SecTyp": "CS", "Sym": self.symbol}}

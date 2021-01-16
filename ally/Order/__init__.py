@@ -26,7 +26,7 @@ More stuff goes here
 
 """
 
-from .Outstanding	import orders
-from .Submit		import submit
-from .order			import Order
-from .classes		import *
+from .Outstanding import orders
+from .Submit import submit
+from .order import Order
+from .classes import *

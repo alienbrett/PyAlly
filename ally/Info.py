@@ -28,91 +28,84 @@
 from .Api import Endpoint, RequestType
 
 
-
-class Clock ( Endpoint ):
-	_type		= RequestType.Info
-	_resource	= 'market/clock.json'
-
+class Clock(Endpoint):
+    _type = RequestType.Info
+    _resource = "market/clock.json"
 
 
-class Status ( Endpoint ):
-	_type		= RequestType.Info
-	_resource	= 'utility/status.json'
+class Status(Endpoint):
+    _type = RequestType.Info
+    _resource = "utility/status.json"
 
 
+def clock(block: bool = True):
+    """Return the current market clock.
+
+            Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
+            including the next time that the market clock changes status.
+
+            Args:
+                    block:
+                            Specify whether to block thread if request exceeds rate limit
 
 
+            Returns:
+                    A dictionary with timestamp, current market status, and any error information.
+
+            Raises:
+                    RateLimitException: If block=False, rate limit problems will be raised
+
+            Example:
+
+    .. code-block:: python
 
 
+            # Equivalent to the static function
+            #   ally.Info.clock()
+            a.clock()
 
-def clock ( block: bool = True):
-	"""Return the current market clock.
+            # => {
+                    'date': '2020-06-14 18:03:58.0-04:00',
+                    'unixtime': '1592172240.069',
+                    'status': {
+                            'current': 'close',
+                            'next': 'pre',
+                            'change_at': '08:00:00'
+                    },
+                    'error': 'Success',
+            }
 
-	Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
-	including the next time that the market clock changes status.
-
-	Args:
-		block:
-			Specify whether to block thread if request exceeds rate limit
-
-
-	Returns:
-		A dictionary with timestamp, current market status, and any error information.
-
-	Raises:
-		RateLimitException: If block=False, rate limit problems will be raised
-
-	Example:
-
-.. code-block:: python
+    """
+    return Clock().request(block=block)
 
 
-	# Equivalent to the static function
-	#   ally.Info.clock()
-	a.clock()
+def status(block: bool = True):
+    """Return the status of the API service.
 
-	# => {
-		'date': '2020-06-14 18:03:58.0-04:00',
-		'unixtime': '1592172240.069',
-		'status': {
-			'current': 'close',
-			'next': 'pre',
-			'change_at': '08:00:00'
-		},
-		'error': 'Success',
-	}
+            Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.
 
-	"""
-	return Clock().request(block=block)
+            Args:
+                    block:
+                            Specify whether to block thread if request exceeds rate limit
 
-def status ( block: bool = True ):
-	"""Return the status of the API service.
+            Returns:
+                    A dictionary with current time, and the status of the API service.
 
-	Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.
+            Raises:
+                    RateLimitException: If block=False, rate limit problems will be raised
 
-	Args:
-		block:
-			Specify whether to block thread if request exceeds rate limit
+            Example:
 
-	Returns:
-		A dictionary with current time, and the status of the API service.
+    .. code-block:: python
 
-	Raises:
-		RateLimitException: If block=False, rate limit problems will be raised
+            # Equivalent to the static function
+            #   ally.Info.status()
+            a.status()
 
-	Example:
+            # => {
+                    'time': 'Sun, 14, Jun 2020 18:17:06 GMT',
+                    'error': 'Success'
+            }
 
-.. code-block:: python
-
-	# Equivalent to the static function
-	#   ally.Info.status()
-	a.status()
-
-	# => {
-		'time': 'Sun, 14, Jun 2020 18:17:06 GMT',
-		'error': 'Success'
-	}
-
-	"""
-	return Status().request(block=block)
-
+    """
+    return Status().request(block=block)

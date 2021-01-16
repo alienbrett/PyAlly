@@ -22,102 +22,84 @@
 
 import xml.etree.ElementTree as ET
 import unittest
-from ..classes		import *
-from .classes		import *
-from ..order		import Order
+from ..classes import *
+from .classes import *
+from ..order import Order
 
 
 class TestOrderConstruction(XMLTestCase):
+    def test_market_stock_buy_day(self):
+        o = Order(
+            buysell="buy",
+            time="day",
+            symbol="f",
+            qty=1,
+            price=Market(),
+            account="12345678",
+        )
 
+        self.assertEqualXML(
+            o.fixml,
+            '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><Order TmInForce="0" Typ="1" Side="1" Acct="12345678"><Instrmt SecTyp="CS" Sym="F"/><OrdQty Qty="1"/></Order></FIXML>',
+            "Straight from the ally website",
+        )
 
-	def test_market_stock_buy_day(self):
-		o = Order (
-			buysell = 'buy',
-			time	= 'day',
-			symbol	= 'f',
-			qty		= 1,
-			price	= Market(),
-			account	= '12345678'
-		)
+    def test_market_stock_sell_day(self):
+        o = Order(buysell="sell", time="day", symbol="ibm", qty=1, price=Market())
+        o.set_account(12345678)
 
-		self.assertEqualXML(
-			o.fixml,
-			'<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><Order TmInForce="0" Typ="1" Side="1" Acct="12345678"><Instrmt SecTyp="CS" Sym="F"/><OrdQty Qty="1"/></Order></FIXML>',
-			"Straight from the ally website"
-		)
-	
+        self.assertEqualXML(
+            o.fixml,
+            '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><Order Acct="12345678" TmInForce="0" Typ="1" Side="2"><Instrmt SecTyp="CS" Sym="IBM"/><OrdQty Qty="1"/></Order></FIXML>',
+            "Straight from the ally website",
+        )
 
-	def test_market_stock_sell_day(self):
-		o = Order (
-			buysell = 'sell',
-			time	= 'day',
-			symbol	= 'ibm',
-			qty		= 1,
-			price	= Market()
-		)
-		o.set_account(12345678)
+    def test_market_stock_short_day(self):
+        o = Order(
+            buysell="sellshort",
+            time="day",
+            symbol="f",
+            qty=1,
+            price=Limit(22),
+            account="12345678",
+        )
 
-		self.assertEqualXML(
-			o.fixml,
-			'<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><Order Acct="12345678" TmInForce="0" Typ="1" Side="2"><Instrmt SecTyp="CS" Sym="IBM"/><OrdQty Qty="1"/></Order></FIXML>',
-			"Straight from the ally website"
-		)
+        self.assertEqualXML(
+            o.fixml,
+            '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><Order TmInForce="0" Typ="2" Side="5" Px="22.0" Acct="12345678"><Instrmt SecTyp="CS" Sym="F"/><OrdQty Qty="1"/></Order></FIXML>',
+            "Straight from the ally website",
+        )
 
+    def test_market_stock_cover_day(self):
+        o = Order(
+            buysell="buycover",
+            time="day",
+            symbol="f",
+            qty=1,
+            price=Limit(13),
+            account="12345678",
+        )
 
+        self.assertEqualXML(
+            o.fixml,
+            '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><Order TmInForce="0" Typ="2" Side="1" AcctTyp="5" Px="13.0" Acct="12345678"><Instrmt SecTyp="CS" Sym="F"/><OrdQty Qty="1"/></Order></FIXML>',
+            "Straight from the ally website",
+        )
 
+    def test_modify_market_stock_buy_day(self):
+        o = Order(
+            type_=OType.Modify,
+            buysell="buy",
+            time="day",
+            symbol="f",
+            qty=1,
+            price=Limit(15),
+            account="12345678",
+            orderid="SVI-12345678",
+        )
 
-	def test_market_stock_short_day(self):
-		o = Order (
-			buysell = 'sellshort',
-			time	= 'day',
-			symbol	= 'f',
-			qty		= 1,
-			price	= Limit(22),
-			account	= '12345678'
-		)
-
-		self.assertEqualXML(
-			o.fixml,
-			'<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><Order TmInForce="0" Typ="2" Side="5" Px="22.0" Acct="12345678"><Instrmt SecTyp="CS" Sym="F"/><OrdQty Qty="1"/></Order></FIXML>',
-			"Straight from the ally website"
-		)
-
-
-
-	def test_market_stock_cover_day(self):
-		o = Order (
-			buysell = 'buycover',
-			time	= 'day',
-			symbol	= 'f',
-			qty		= 1,
-			price	= Limit(13),
-			account	= '12345678'
-		)
-
-		self.assertEqualXML(
-			o.fixml,
-			'<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><Order TmInForce="0" Typ="2" Side="1" AcctTyp="5" Px="13.0" Acct="12345678"><Instrmt SecTyp="CS" Sym="F"/><OrdQty Qty="1"/></Order></FIXML>',
-			"Straight from the ally website"
-		)
-
-
-
-
-	def test_modify_market_stock_buy_day(self):
-		o = Order (
-			type_	= OType.Modify,
-			buysell = 'buy',
-			time	= 'day',
-			symbol	= 'f',
-			qty		= 1,
-			price	= Limit(15),
-			account	= '12345678',
-			orderid	= 'SVI-12345678'
-		)
-
-		self.assertEqualXML(
-			o.fixml,
-			'<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><OrdCxlRplcReq TmInForce="0" Typ="2" Side="1" Px="15.0" Acct="12345678" OrigID="SVI-12345678"><Instrmt SecTyp="CS" Sym="F"/><OrdQty Qty="1"/></OrdCxlRplcReq></FIXML>',
-			"Straight from the ally website"
-		)
-
+        self.assertEqualXML(
+            o.fixml,
+            '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2"><OrdCxlRplcReq TmInForce="0" Typ="2" Side="1" Px="15.0" Acct="12345678" OrigID="SVI-12345678"><Instrmt SecTyp="CS" Sym="F"/><OrdQty Qty="1"/></OrdCxlRplcReq></FIXML>',
+            "Straight from the ally website",
+        )

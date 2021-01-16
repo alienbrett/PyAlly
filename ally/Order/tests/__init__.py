@@ -24,9 +24,9 @@
 
 """
 
-from .OrderManual				import *
-from .InstrumentConstruction	import *
-from .PricingConstruction		import *
-from .OrderConstruction			import *
-from .OrderParse				import *
-from .OrderSubmition			import *
+from .OrderManual import *
+from .InstrumentConstruction import *
+from .PricingConstruction import *
+from .OrderConstruction import *
+from .OrderParse import *
+from .OrderSubmition import *

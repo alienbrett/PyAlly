@@ -20,77 +20,53 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api		import AuthenticatedEndpoint, RequestType
+from ..Api import AuthenticatedEndpoint, RequestType
 
 
+class Strikes(AuthenticatedEndpoint):
+    _type = RequestType.Info
+    _resource = "market/options/strikes.json"
+
+    def req_body(self, **kwargs):
+        """Return get params together with post body data"""
+        params = {"symbol": kwargs.get("symbol")}
+        return params, None
+
+    def extract(self, response):
+        """Extract certain fields from response"""
+        k = response.json().get("response")["prices"]["price"]
+
+        if k is None:
+            k = []
+
+        return list(map(float, k))
 
 
+def strikes(self, symbol, block: bool = True):
+    """Gets list of available strike prices for a symbol.
 
+    Calls the 'market/options/strikes.json' endpoint to get list of all
+    strikes available for some given equity.
 
-class Strikes ( AuthenticatedEndpoint ):
-	_type		= RequestType.Info
-	_resource	= 'market/options/strikes.json'
+    Args:
+            symbol: Specify the stock symbol against which to query
+            block: Specify whether to block thread if request exceeds rate limit
 
+    Returns:
+            List of strikes (float)
 
+    Raises:
+            RateLimitException: If block=False, rate limit problems will be raised
 
-	def req_body ( self, **kwargs ):
-		"""Return get params together with post body data
-		"""
-		params = {
-			"symbol":kwargs.get('symbol')
-		}
-		return params, None
+    Example:
+            .. code-block:: python
 
+               a.strikes('spy')
+               # [ 5.0, 10.0, ... ]
 
+    """
+    result = Strikes(
+        auth=self.auth, account_nbr=self.account_nbr, block=block, symbol=symbol
+    ).request()
 
-
-	def extract ( self, response ):
-		"""Extract certain fields from response
-		"""
-		k = response.json().get('response')['prices']['price']
-
-		if k is None:
-			k = []
-
-		return list(map( float, k ))
-
-
-
-
-
-
-
-
-
-
-def strikes ( self, symbol, block: bool = True ):
-	"""Gets list of available strike prices for a symbol.
-
-	Calls the 'market/options/strikes.json' endpoint to get list of all 
-	strikes available for some given equity.
-
-	Args:
-		symbol: Specify the stock symbol against which to query
-		block: Specify whether to block thread if request exceeds rate limit
-
-	Returns:
-		List of strikes (float)
-
-	Raises:
-		RateLimitException: If block=False, rate limit problems will be raised
-
-	Example:
-		.. code-block:: python
-
-		   a.strikes('spy')
-		   # [ 5.0, 10.0, ... ]
-
-	"""
-	result = Strikes(
-		auth		= self.auth,
-		account_nbr	= self.account_nbr,
-		block		= block,
-		symbol		= symbol
-	).request()
-
-	return result
+    return result

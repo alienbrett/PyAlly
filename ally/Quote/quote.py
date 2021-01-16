@@ -20,171 +20,153 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api		import AuthenticatedEndpoint, RequestType
+from ..Api import AuthenticatedEndpoint, RequestType
 
 
+class Quote(AuthenticatedEndpoint):
+    _type = RequestType.Quote
+    _resource = "market/ext/quotes.json"
+    _method = "POST"
+    _symbols = []
 
+    def extract(self, response):
+        """Extract certain fields from response"""
+        response = response.json()["response"]
+        quotes = response["quotes"]["quote"]
 
+        if not isinstance(quotes, list):
+            quotes = [quotes]
 
-class Quote ( AuthenticatedEndpoint ):
-	_type		= RequestType.Quote
-	_resource	= 'market/ext/quotes.json'
-	_method		= 'POST'
-	_symbols	= []
+        # and return it to the world
+        return quotes
 
+    def req_body(self, **kwargs):
+        """Return get params together with post body data"""
 
+        if "symbols" not in kwargs.keys():
+            raise KeyError(
+                "Please specify symbols, and pass in list of symbols (or string)"
+            )
+        symbols = kwargs.get("symbols", [])
+        fields = kwargs.get("fields", [])
 
+        # Correctly format Symbols, also store split up symbols
+        if type(symbols) == type(""):
+            # We were passed string
+            fmt_symbols = symbols
+            symbols = symbols.split(",")
+        else:
+            # We were passed list
+            fmt_symbols = ",".join(symbols)
 
+        if isinstance(fields, str):
+            # Fields must have been in format 'x,y,z,...'
+            fields = fields.split(",")
 
-	def extract ( self, response ):
-		"""Extract certain fields from response
-		"""
-		response = response.json()['response']
-		quotes = response['quotes']['quote']
+        if "symbol" not in fields:
+            fields += ["symbol"]
 
-		if not isinstance(quotes,list):
-			quotes = [quotes]
+        fmt_fields = ",".join(fields)
 
-		# and return it to the world
-		return quotes
+        # Create request paramters according to how we need them
+        params = {"symbols": fmt_symbols}
 
+        if fields != []:
+            params["fids"] = fmt_fields
 
+        data = None
+        # return params, data
+        return data, params
 
+    @staticmethod
+    def DataFrame(raw):
+        import pandas as pd
 
-	def req_body ( self, **kwargs ):
-		"""Return get params together with post body data
-		"""
+        # Create dataframe from our dataset
+        df = (
+            pd.DataFrame(raw)
+            .replace({"na": None})
+            .apply(
+                # And also cast relevent fields to numeric values
+                pd.to_numeric,
+                errors="ignore",
+            )
+            .set_index("symbol")
+        )
 
-		if 'symbols' not in kwargs.keys():
-			raise KeyError('Please specify symbols, and pass in list of symbols (or string)')
-		symbols	= kwargs.get('symbols',[])
-		fields	= kwargs.get('fields',[])
+        return df
 
 
-		# Correctly format Symbols, also store split up symbols
-		if type(symbols) == type(""):
-			# We were passed string
-			fmt_symbols = symbols
-			symbols = symbols.split(',')
-		else:
-			# We were passed list
-			fmt_symbols = ','.join(symbols)
+def quote(
+    self, symbols: list = [], fields: list = [], dataframe=True, block: bool = True
+):
+    """Gets the most current market data on the price of a symbol.
 
+            Args:
+                    symbols:
 
-		if isinstance(fields,str):
-			# Fields must have been in format 'x,y,z,...'
-			fields = fields.split(',')
+                            string or list of strings, each string a symbol to be queried.
+                            Notice symbols=['spy'], symbols='spy both work
 
-		if 'symbol' not in fields:
-			fields += ['symbol']
+                    fields:
 
+                            string or list of strings, each string a field to be grabbed.
+                            By default, get all fields
 
-		fmt_fields = ','.join(fields)
+                    dataframe:
 
+                            flag, specifies whether to return data in pandas dataframe
+                            or flat list of dictionaries.
 
-		# Create request paramters according to how we need them
-		params = { 'symbols':fmt_symbols }
+                    block:
+                            Specify whether to block thread if request exceeds rate limit
 
-		if fields != []:
-			params['fids'] = fmt_fields
+            Returns:
+                    Depends on dataframe flag. Will return pandas dataframe, or possibly
+                    list of dictionaries, each one a single quote.
 
+            Raises:
+                    RateLimitException: If block=False, rate limit problems will be raised
 
+            Examples:
 
-		data = None
-		# return params, data
-		return data, params
+    .. code-block:: python
 
+            # Get the quotes in dataframe format
+            #  Each row will only have elements bid, ask, and last
+            quotes = a.quote(
+                    symbols=['spy','gLD','F','Ibm'], # not case sensitive
+                    fields=['bid','ask,'last'],
+            )
+            # Access a specific symbol by the dataframe
+            print(quotes.loc['SPY'])
 
 
 
+    .. code-block:: python
 
-	@staticmethod
-	def DataFrame ( raw ):
-		import pandas as pd
+            # Get the quotes in dataframe format
+            quotes = a.quote(
+                    'AAPL',
+                    dataframe=False
+            )
+            # Access a specific symbol in the dict
+            print(quotes['AAPL'])
 
-		# Create dataframe from our dataset
-		df = pd.DataFrame( raw ).replace({'na':None}).apply(
-			# And also cast relevent fields to numeric values
-			pd.to_numeric,
-			errors='ignore'
-		).set_index('symbol')
+    """
 
-		return df
+    result = Quote(
+        auth=self.auth,
+        account_nbr=self.account_nbr,
+        symbols=symbols,
+        fields=fields,
+        block=block,
+    ).request()
 
+    if dataframe:
+        try:
+            result = Quote.DataFrame(result)
+        except:
+            raise
 
-
-
-
-def quote ( self, symbols: list =[], fields: list =[], dataframe=True, block: bool = True ):
-	"""Gets the most current market data on the price of a symbol.
-
-	Args:
-		symbols:
-
-			string or list of strings, each string a symbol to be queried.
-			Notice symbols=['spy'], symbols='spy both work
-
-		fields:
-
-			string or list of strings, each string a field to be grabbed.
-			By default, get all fields
-
-		dataframe:
-
-			flag, specifies whether to return data in pandas dataframe
-			or flat list of dictionaries.
-
-		block:
-			Specify whether to block thread if request exceeds rate limit
-
-	Returns:
-		Depends on dataframe flag. Will return pandas dataframe, or possibly
-		list of dictionaries, each one a single quote.
-
-	Raises:
-		RateLimitException: If block=False, rate limit problems will be raised
-
-	Examples:
-
-.. code-block:: python
-
-	# Get the quotes in dataframe format
-	#  Each row will only have elements bid, ask, and last
-	quotes = a.quote(
-		symbols=['spy','gLD','F','Ibm'], # not case sensitive
-		fields=['bid','ask,'last'],
-	)
-	# Access a specific symbol by the dataframe
-	print(quotes.loc['SPY'])
-
-
-
-.. code-block:: python
-
-	# Get the quotes in dataframe format
-	quotes = a.quote(
-		'AAPL',
-		dataframe=False
-	)
-	# Access a specific symbol in the dict
-	print(quotes['AAPL'])
-
-	"""
-
-	result = Quote(
-		auth		= self.auth,
-		account_nbr	= self.account_nbr,
-		symbols		= symbols,
-		fields		= fields,
-		block		= block
-	).request()
-
-
-	if dataframe:
-		try:
-			result = Quote.DataFrame ( result )
-		except:
-			raise
-
-
-	return result
+    return result

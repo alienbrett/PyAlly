@@ -22,24 +22,25 @@
 
 ############################################################################
 def pretty_print_POST(req):
-	"""Not my code,
-	I stole this function off Stackexchange or something. Thanks Anon!
-	"""
-	return '{}\n{}\n{}\n\n{}'.format(
-		'-----------START-----------',
-		req.method + ' ' + req.url,
-		'\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
-		req.body,
-	)
+    """Not my code,
+    I stole this function off Stackexchange or something. Thanks Anon!
+    """
+    return "{}\n{}\n{}\n\n{}".format(
+        "-----------START-----------",
+        req.method + " " + req.url,
+        "\n".join("{}: {}".format(k, v) for k, v in req.headers.items()),
+        req.body,
+    )
+
+
 ############################################################################
 # string typecheck
 def check(s):
-	return type(s) == type("") and len(s) > 0
+    return type(s) == type("") and len(s) > 0
 
 
-def sanitize_input ( s ):
-	"""Given an arbitrary string,
-	escape '/' characters
-	"""
-	return s.replace('/',r"%2F")
-
+def sanitize_input(s):
+    """Given an arbitrary string,
+    escape '/' characters
+    """
+    return s.replace("/", r"%2F")

@@ -20,45 +20,44 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+
 class DateRelation:
+    def __init__(self):
+        self._rel = None
 
+    def __gt__(self, date):
 
-	def __init__ (self):
-		self._rel = None
+        import datetime
 
-	def __gt__ ( self, date ):
+        if isinstance(date, datetime.datetime):
+            date = date.strftime("%Y-%m-%d")
 
-		import datetime
-		if isinstance ( date, datetime.datetime ):
-			date = date.strftime('%Y-%m-%d')
+        self._rel = (">", date)
+        return self
 
-		self._rel = ('>', date)
-		return self
+    def __lt__(self, date):
 
-	def __lt__ ( self, date ):
+        import datetime
 
-		import datetime
-		if isinstance ( date, datetime.datetime ):
-			date = date.strftime('%Y-%m-%d')
+        if isinstance(date, datetime.datetime):
+            date = date.strftime("%Y-%m-%d")
 
-		self._rel = ('<', date)
-		return self
+        self._rel = ("<", date)
+        return self
 
-	def __str__ ( self ):
-		return str(self._rel)
-
-
+    def __str__(self):
+        return str(self._rel)
 
 
 class DateAgg:
-	def __init__( self ):
+    def __init__(self):
 
-		self._dates = []
+        self._dates = []
 
-	def __add__ (self, relation):
+    def __add__(self, relation):
 
-		self._dates.append ( relation )
-		return self
+        self._dates.append(relation)
+        return self
 
-	def __str__ ( self ):
-		return str(self._dates)
+    def __str__(self):
+        return str(self._dates)

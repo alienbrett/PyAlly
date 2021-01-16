@@ -20,182 +20,142 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from collections.abc	import MutableMapping, MutableSet
-from datetime			import datetime, timedelta
+from collections.abc import MutableMapping, MutableSet
+from datetime import datetime, timedelta
 import weakref
 
 from .methods import (
-	GetWatchlist,
-	GetWatchlists,
-	CreateWatchlist,
-	AppendWatchlist,
-	DeleteWatchlist,
-	DeleteFromWatchlist
+    GetWatchlist,
+    GetWatchlists,
+    CreateWatchlist,
+    AppendWatchlist,
+    DeleteWatchlist,
+    DeleteFromWatchlist,
 )
 
 
+class WatchlistWrapper(MutableSet):
+    _name = ""
+    _syms = set()
 
-class WatchlistWrapper ( MutableSet ):
-	_name = ""
-	_syms = set()
+    def __init__(self, parent, name, symbols):
+        self._name = name
+        self._syms = set(symbols)
+        self._auth = weakref.ref(parent._auth())
 
-	def __init__ ( self, parent, name, symbols ):
-		self._name = name
-		self._syms = set(symbols)
-		self._auth = weakref.ref(parent._auth())
+    def __str__(self):
+        return str(self._syms)
 
+    def __iter__(self):
+        return self._syms.__iter__()
 
-	def __str__( self ):
-		return str(self._syms)
+    def __contains__(self, x):
+        return self._syms.contains(x)
 
+    def __len__(self):
+        return self._syms.__len__()
 
-	def __iter__ ( self ):
-		return self._syms.__iter__()
+    def add(self, x):
+        if x not in self._syms:
+            result = AppendWatchlist(
+                auth=self._auth(), watchlist_name=self._name, watchlist_symbols=x
+            ).request()
 
+    def discard(self, x):
+        if x in self._syms:
+            result = DeleteFromWatchlist(
+                auth=self._auth(), watchlist_name=self._name, watchlist_symbol=x
+            ).request()
 
-	def __contains__ ( self, x ):
-		return self._syms.contains(x)
 
+class Watchlist(MutableMapping):
+    """Handle an accounts watchlists and symbols in a pythonic way.
 
-	def __len__ ( self ):
-		return self._syms.__len__()
+            The Watchlist account object wraps ally's watchlist
+            functionality and mimics python datatypes.
 
+            Examples:
 
-	def add ( self, x ):
-		if x not in self._syms:
-			result = AppendWatchlist(
-				auth			= self._auth(),
-				watchlist_name		= self._name,
-				watchlist_symbols	= x
-			).request()
+    .. code-block:: python
 
+            # See all of your watchlists
+            list(a.watchlists)
 
-	def discard ( self, x ):
-		if x in self._syms:
-			result = DeleteFromWatchlist(
-				auth				= self._auth(),
-				watchlist_name		= self._name,
-				watchlist_symbol	= x
-			).request()
+            # => ['w-list1', 'my-watchlist',...]
 
 
+    .. code-block:: python
 
+            # See all the symbols associated with a watchlist
+            list(a.watchlist['w-list1'])
 
+            # => ['aapl, 'googl',...]
 
+    .. code-block:: python
 
+            # Create a watchlist, and initialize with symbols
+            a.watchlist['new-watchlist'] = ['aapl,'googl',...]
 
-class Watchlist ( MutableMapping ):
-	"""Handle an accounts watchlists and symbols in a pythonic way.
+    .. code-block:: python
 
-	The Watchlist account object wraps ally's watchlist
-	functionality and mimics python datatypes.
+            # Remove a symbol from a watchlist
+            a.watchlist['new-watchlist'].pop('aapl')
 
-	Examples:
+    .. code-block:: python
 
-.. code-block:: python
+            # Delete a watchlist
+            a.watchlist.pop('new-watchlist')
 
-	# See all of your watchlists
-	list(a.watchlists)
 
-	# => ['w-list1', 'my-watchlist',...]
+    """
 
+    _auth = None
+    _expire = None
 
-.. code-block:: python
+    def __getitem__(self, name):
+        result = GetWatchlist(auth=self._auth(), watchlist_name=name).request()
 
-	# See all the symbols associated with a watchlist
-	list(a.watchlist['w-list1'])
+        return WatchlistWrapper(self, name, result)
 
-	# => ['aapl, 'googl',...]
+    def __setitem__(self, name, symbols):
+        if type(symbols) != type([]):
+            symbols = [str(symbols)]
 
-.. code-block:: python
+        CreateWatchlist(
+            auth=self._auth(), watchlist_name=name, watchlist_symbols=symbols
+        ).request()
 
-	# Create a watchlist, and initialize with symbols
-	a.watchlist['new-watchlist'] = ['aapl,'googl',...]
+    def __delitem__(self, name):
+        DeleteWatchlist(auth=self._auth(), watchlist_name=name).request()
 
-.. code-block:: python
+    @property
+    def _all(self):
+        """Reusable way to get all watchlists"""
+        t = datetime.now()
 
-	# Remove a symbol from a watchlist
-	a.watchlist['new-watchlist'].pop('aapl')
+        if self._expire is None or self._expire < t:
 
-.. code-block:: python
+            # Update cache
+            self._expire = t + timedelta(seconds=0.75)
 
-	# Delete a watchlist
-	a.watchlist.pop('new-watchlist')
+            self._lists = GetWatchlists(
+                auth=self._auth(),
+            ).request()
 
+        return self._lists
 
-	"""
-	_auth = None
-	_expire = None
+    def __str__(self):
+        return str(self._all)
 
+    def __iter__(self):
+        """Return list to run ove
+        Must be wrapped in some special iterator stuff
+        so that python3 will handle it how we want
+        """
+        return self._all.__iter__()
 
-	def __getitem__ ( self, name ):
-		result = GetWatchlist(
-			auth			= self._auth(),
-			watchlist_name	= name
-		).request()
+    def __len__(self):
+        return len(self._all)
 
-		return WatchlistWrapper( self, name, result )
-
-
-	def __setitem__ ( self, name, symbols ):
-		if type(symbols) != type([]):
-			symbols = [str(symbols)]
-
-		CreateWatchlist(
-			auth				= self._auth(),
-			watchlist_name		= name,
-			watchlist_symbols	= symbols
-		).request()
-
-
-
-	def __delitem__ ( self, name ):
-		DeleteWatchlist(
-			auth				= self._auth(),
-			watchlist_name		= name
-		).request()
-
-
-
-	@property
-	def _all ( self ):
-		"""Reusable way to get all watchlists
-		"""
-		t = datetime.now()
-
-		if self._expire is None or self._expire < t:
-
-			# Update cache
-			self._expire = t + timedelta( seconds=0.75 )
-
-			self._lists = GetWatchlists(
-				auth = self._auth(),
-			).request()
-
-		return self._lists
-
-
-
-	def __str__ ( self ):
-		return str(self._all)
-
-
-
-	def __iter__ ( self ):
-		"""Return list to run ove
-		Must be wrapped in some special iterator stuff
-		so that python3 will handle it how we want
-		"""
-		return self._all.__iter__()
-
-
-
-
-	def __len__ ( self ):
-		return len(self._all)
-
-
-
-
-	def __init__ ( self, parent ):
-		self._auth = weakref.ref(parent.auth)
+    def __init__(self, parent):
+        self._auth = weakref.ref(parent.auth)

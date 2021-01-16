@@ -25,15 +25,11 @@ import unittest
 
 
 class XMLTestCase(unittest.TestCase):
-	def assertEqualXML( self, s1, s2, msg, verbose=False ):
-		s1 = ET.tostring(ET.fromstring(s1))
-		s2 = ET.tostring(ET.fromstring(s2))
-		if verbose:
-			print()
-			print(s1)
-			print(s2)
-		self.assertEqual(
-			s1,
-			s2,
-			msg
-		)
+    def assertEqualXML(self, s1, s2, msg, verbose=False):
+        s1 = ET.tostring(ET.fromstring(s1))
+        s2 = ET.tostring(ET.fromstring(s2))
+        if verbose:
+            print()
+            print(s1)
+            print(s2)
+        self.assertEqual(s1, s2, msg)
