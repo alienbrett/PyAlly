@@ -24,8 +24,14 @@ import weakref
 from collections.abc import MutableMapping, MutableSet
 from datetime import datetime, timedelta
 
-from .methods import (AppendWatchlist, CreateWatchlist, DeleteFromWatchlist,
-                      DeleteWatchlist, GetWatchlist, GetWatchlists)
+from .methods import (
+    AppendWatchlist,
+    CreateWatchlist,
+    DeleteFromWatchlist,
+    DeleteWatchlist,
+    GetWatchlist,
+    GetWatchlists,
+)
 
 
 class WatchlistWrapper(MutableSet):
