@@ -21,6 +21,8 @@
 # SOFTWARE.
 
 import warnings
+import unittest
+
 
 from .classes import *
 from ..classes import *
@@ -40,7 +42,7 @@ class TestOrderSubmition(XMLTestCase):
 
         a = Ally()
 
-        o = Order(buysell="buy", time="gtc", symbol="gld", qty=10, price=Limit(1.0))
+        o = Order(buysell="buy", time="gtc", symbol="gld", qty=10, price=Limit(0.1))
 
         # Log the currently outstanding orders
         js = [str(j) for j in a.orders()]

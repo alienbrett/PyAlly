@@ -32,6 +32,7 @@ from .Auth import Auth
 from .Watchlist import Watchlist
 from .exception import ApiKeyException
 
+
 _all_params = (
     "ALLY_OAUTH_SECRET",
     "ALLY_OAUTH_TOKEN",
@@ -44,6 +45,13 @@ _all_params = (
 class Ally:
     # No docstring
     ""
+
+    from .Account import accounts, balances, history, holdings
+    from .Info import clock, status
+    from .News import lookupNews, searchNews
+    from .Option import expirations, optionSearchQuery, search, strikes
+    from .Order import orders, submit
+    from .Quote import quote, stream, timesales, toplists
 
     auth = None
     account_nbr = None
