@@ -1,0 +1,7 @@
+black
+isort
+mypy
+pylint
+twine
+sphinx
+sphinx-rtd-theme>=0.5.1,<1.0.0
