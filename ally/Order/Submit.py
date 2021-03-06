@@ -21,7 +21,8 @@
 # SOFTWARE.
 
 from ..Api import AccountEndpoint, RequestType
-from ..exception import ExecutionException
+from ..exception import ExecutionException, OrderException
+from .order import Order
 
 
 class Submission(AccountEndpoint):

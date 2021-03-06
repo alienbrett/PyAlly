@@ -28,6 +28,7 @@ Controls the Ally() account class, the bread and butter of the library.
 from json import load
 from os import environ
 
+from .Api import setTimeout
 from .Auth import Auth
 from .Watchlist import Watchlist
 from .exception import ApiKeyException

@@ -34,10 +34,12 @@
 """
 
 from requests import Request, Session
-
+from requests.exceptions import HTTPError, Timeout
 from . import RateLimit
-from .utils import JSONStreamParser
+from .utils import JSONStreamParser, pretty_print_POST
 from .classes import RequestType
+import datetime
+import json
 
 # Global timeout variable
 _timeout = 1.0
