@@ -22,61 +22,53 @@
 
 import json
 import re
-nonspace = re.compile(r'\S')
+
+nonspace = re.compile(r"\S")
 
 ############################################################################
 class JSONStreamParser:
-	"""Iteratively decode a JSON string into an object.
-	Adapted from solution on page:
-		https://stackoverflow.com/questions/21059466/python-json-parser
-	"""
+    """Iteratively decode a JSON string into an object.
+    Adapted from solution on page:
+            https://stackoverflow.com/questions/21059466/python-json-parser
+    """
 
-	s = ""
+    s = ""
 
-	def __init__ ( self, s="" ):
-		self.s = s
-		self.decoder = json.JSONDecoder()
-		self.pos = 0
+    def __init__(self, s=""):
+        self.s = s
+        self.decoder = json.JSONDecoder()
+        self.pos = 0
 
+    def stream_one(self):
+        """Parse one iteration of our currently-held string"""
+        # Search a bit
+        matched = nonspace.search(self.s, self.pos)
 
-	def stream_one ( self ):
-		"""Parse one iteration of our currently-held string
-		"""
-		# Search a bit
-		matched = nonspace.search(
-			self.s,
-			self.pos
-		)
+        # If we haven't encountered anything,
+        #  there's nothing to return
+        if not matched:
+            return None
 
-		# If we haven't encountered anything,
-		#  there's nothing to return
-		if not matched:
-			return None
+        # Otherwise, read through this little bit
+        self.pos = matched.start()
+        try:
+            decoded, self.pos = self.decoder.raw_decode(self.s, self.pos)
+        except:
+            return None
 
-		# Otherwise, read through this little bit
-		self.pos			= matched.start()
-		try:
-			decoded, self.pos	= self.decoder.raw_decode(
-				self.s,
-				self.pos
-			)
-		except:
-			return None
+        # Return what we were able to find
+        return decoded
 
-		# Return what we were able to find
-		return decoded
+    def stream(self, new_dat=""):
+        """Given a single piece of data,
+        Yield objects until there's nothing left to do
+        """
+        # Append this data into our string queue
+        self.s += new_dat
 
-
-	def stream ( self,  new_dat="" ):
-		"""Given a single piece of data,
-		Yield objects until there's nothing left to do
-		"""
-		# Append this data into our string queue
-		self.s += new_dat
-
-		while True:
-			x = self.stream_one()
-			if x is None:
-				raise StopIteration
-			else:
-				yield x
+        while True:
+            x = self.stream_one()
+            if x is None:
+                raise StopIteration
+            else:
+                yield x

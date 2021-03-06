@@ -23,83 +23,75 @@
 
 """
 
-from requests_oauthlib	import OAuth1
-from datetime			import datetime, timedelta
-from requests			import Session
+from datetime import datetime, timedelta
+
+from requests import Session
+from requests_oauthlib import OAuth1
 
 
 class Auth:
-	"""Auth object, caching and creating new sessions as needed
-	"""
+    """Auth object, caching and creating new sessions as needed"""
 
-	_session		= None
-	_auth			= None
+    _session = None
+    _auth = None
 
-	_auth_expire	= None
-	_valid_auth_dt	= None
+    _auth_expire = None
+    _valid_auth_dt = None
 
-	_params			= {}
+    _params = {}
 
+    @property
+    def sess(self):
+        if self._session is None:
+            self._session = Session()
+        return self._session
 
+    @property
+    def _get_auth(self):
+        # Compute the auth, without caching
+        return OAuth1(
+            self._params.get("ALLY_CONSUMER_KEY"),
+            self._params.get("ALLY_CONSUMER_SECRET"),
+            self._params.get("ALLY_OAUTH_TOKEN"),
+            self._params.get("ALLY_OAUTH_SECRET"),
+            signature_type="auth_header",
+        )
 
-	@property
-	def sess ( self ):
-		if self._session is None:
-			self._session = Session()
-		return self._session
+    @property
+    def auth(self):
 
+        # Precalculate current time
+        now = datetime.now()
 
-	@property
-	def _get_auth ( self ):
-		# Compute the auth, without caching
-		return OAuth1(
-			self._params.get('ALLY_CONSUMER_KEY'),
-			self._params.get('ALLY_CONSUMER_SECRET'),
-			self._params.get('ALLY_OAUTH_TOKEN'),
-			self._params.get('ALLY_OAUTH_SECRET'),
-			signature_type='auth_header'
-		)
+        # If outside time valid range, regenerate auth
+        if self._auth is None or self._auth_expire < now:
+            # Set the max auth valid range
+            self._auth_expire = now + self._valid_auth_dt
 
+            # Actually generate the auth request
+            self._auth = self._get_auth
+        return self._auth
 
-	@property
-	def auth ( self ):
+    def __init__(self, params, dt=None):
+        """Creates an auth object.
 
-		# Precalculate current time
-		now = datetime.now()
+        Args:
 
-		# If outside time valid range, regenerate auth
-		if self._auth is None or self._auth_expire < now:
-			# Set the max auth valid range
-			self._auth_expire = now + self._valid_auth_dt
+                params: set of keys given by Ally API
+                dt: time interval for caching. 10 seconds max
 
-			# Actually generate the auth request
-			self._auth = self._get_auth
-		return self._auth
+        """
 
+        # make sure DT is good
+        if dt is None:
+            dt = timedelta(seconds=9.7)
 
+        # Keep track of the cache invalidation time
+        self._valid_auth_dt = dt
 
+        # Store what we need
+        self._params = params
 
-
-	def __init__ ( self, params, dt = None ):
-		"""Creates an auth object.
-
-		Args:
-
-			params: set of keys given by Ally API
-			dt: time interval for caching. 10 seconds max
-
-		"""
-
-		# make sure DT is good
-		if dt is None:
-			dt = timedelta(seconds=9.7)
-
-		# Keep track of the cache invalidation time
-		self._valid_auth_dt = dt
-
-		# Store what we need
-		self._params = params
-
-		# Precompute some stuff
-		self.sess
-		self.auth
+        # Precompute some stuff
+        self.sess
+        self.auth

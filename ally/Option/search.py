@@ -26,120 +26,114 @@ from ..Api import AuthenticatedEndpoint, RequestType
 
 
 class optionSearchQuery:
-	_queryable_fields = [
-		'strikeprice',
-		'xdate',
-		'xmonth',
-		'xyear',
-		'put_call',
-		'unique'
-	]
-	_query_operators = [
-		'lt',
-		'gt',
-		'gte',
-		'lte',
-		'eq'
-	]
+    _queryable_fields = [
+        "strikeprice",
+        "xdate",
+        "xmonth",
+        "xyear",
+        "put_call",
+        "unique",
+    ]
+    _query_operators = ["lt", "gt", "gte", "lte", "eq"]
 
-	_condition: str = ''
-	_operator: str = ''
-	_value = None
+    _condition: str = ""
+    _operator: str = ""
+    _value = None
 
-	def __init__(self, **kwargs):
-		if 'condition' not in kwargs.keys():
-			raise KeyError('Please specify a condition as a string')
-		if 'operator' not in kwargs.keys():
-			raise KeyError('Please specify an operator as a string')
-		if 'value' not in kwargs.keys():
-			raise KeyError('Please specify a value as a string')
-		self._condition = kwargs.get('condition', [])
-		self._operator = kwargs.get('operator', [])
-		self._value = kwargs.get('value', [])
+    def __init__(self, **kwargs):
+        if "condition" not in kwargs.keys():
+            raise KeyError("Please specify a condition as a string")
+        if "operator" not in kwargs.keys():
+            raise KeyError("Please specify an operator as a string")
+        if "value" not in kwargs.keys():
+            raise KeyError("Please specify a value as a string")
+        self._condition = kwargs.get("condition", [])
+        self._operator = kwargs.get("operator", [])
+        self._value = kwargs.get("value", [])
 
-	def is_query_valid(self):
-		return (self._condition in self._queryable_fields) and (self._operator in self._query_operators)
+    def is_query_valid(self):
+        return (self._condition in self._queryable_fields) and (
+                self._operator in self._query_operators
+        )
 
-	def get_formatted_query_str(self):
-		if (self.is_query_valid()):
-			if (self._condition and self._operator and self._value):
-				return f'{self._condition}-{self._operator}:{self._value}'
-		return ''
+    def get_formatted_query_str(self):
+        if self.is_query_valid():
+            if self._condition and self._operator and self._value:
+                return f"{self._condition}-{self._operator}:{self._value}"
+        return ""
 
-	def __str__(self):
-		return self.get_formatted_query_str()
+    def __str__(self):
+        return self.get_formatted_query_str()
 
 
 class Search(AuthenticatedEndpoint):
-	_type = RequestType.Info
-	_resource = 'market/options/search.json'
-	_method = 'POST'
-	_symbol: str = ''
-	_queries: List = []
+    _type = RequestType.Info
+    _resource = "market/options/search.json"
+    _method = "POST"
+    _symbol: str = ""
+    _queries: List = []
 
-	def req_body(self, **kwargs):
-		"""Return get params together with post body data
-		"""
+    def req_body(self, **kwargs):
+        """Return get params together with post body data"""
 
-		if 'symbol' not in kwargs.keys():
-			raise KeyError('Please specify a symbol as a string')
+        if "symbol" not in kwargs.keys():
+            raise KeyError("Please specify a symbol as a string")
 
-		# For aesthetics...
-		self._symbol = kwargs.get('symbol').upper()
+        # For aesthetics...
+        self._symbol = kwargs.get("symbol").upper()
 
-		params = {
-			'symbol': self._symbol
-		}
+        params = {"symbol": self._symbol}
 
-		fields = kwargs.get('fields', [])
-		queries = kwargs.get('query', [])
+        fields = kwargs.get("fields", [])
+        queries = kwargs.get("query", [])
 
-		# Correctly format Fields, also store split up fields
-		if type(fields) == type(""):
-			# We were passed string
-			fmt_fields = fields
-			fields = fmt_fields.split(',')
-		else:
-			# We were passed list
-			fmt_fields = ','.join(fields)
+        # Correctly format Fields, also store split up fields
+        if type(fields) == type(""):
+            # We were passed string
+            fmt_fields = fields
+            fields = fmt_fields.split(",")
+        else:
+            # We were passed list
+            fmt_fields = ",".join(fields)
 
-		if fields != []:
-			params['fids'] = fmt_fields
+        if fields != []:
+            params["fids"] = fmt_fields
 
-		if queries != []:
-			params['query'] = " AND ".join([str(x) for x in queries])
+        if queries != []:
+            params["query"] = " AND ".join([str(x) for x in queries])
 
-		return params, None
+        return params, None
 
-	def extract(self, response):
-		"""Extract certain fields from response
-		"""
-		k = response.json().get('response')['quotes']['quote']
+    def extract(self, response):
+        """Extract certain fields from response"""
+        k = response.json().get("response")["quotes"]["quote"]
 
-		return k
+        return k
 
-	@staticmethod
-	def DataFrame(raw):
-		import pandas as pd
+    @staticmethod
+    def DataFrame(raw):
+        import pandas as pd
 
-		# Create dataframe from our dataset
-		df = pd.DataFrame(raw).replace({'na': None}).apply(
-			# And also cast relevent fields to numeric values
-			pd.to_numeric,
-			errors='ignore'
-		).set_index('symbol').drop(columns='basis')
+        # Create dataframe from our dataset
+        df = (
+            pd.DataFrame(raw)
+                .replace({"na": None})
+                .apply(
+                # And also cast relevent fields to numeric values
+                pd.to_numeric,
+                errors="ignore",
+            )
+                .set_index("symbol")
+                .drop(columns="basis")
+        )
 
-		return df
-
-
-
-
+        return df
 
 
-
-
-def search(self, symbol, query: List = [], fields=[], dataframe=True, block: bool = True):
-	"""Searches for all option quotes on a symbol that satisfy some set of criteria
+def search(
+        self, symbol, query: List = [], fields=[], dataframe=True, block: bool = True
+):
+    """Searches for all option quotes on a symbol that satisfy some set of criteria
 
 	Calls the 'market/options/search.json' endpoint, querying against certain parameters
 	provided. Specify a single value or a list of values to expand the size of the search.
@@ -223,20 +217,20 @@ def search(self, symbol, query: List = [], fields=[], dataframe=True, block: boo
 
 .. _`the ally website`: https://pypi.org/project/pyally/
 	"""
-	result = Search(
-		auth		= self.auth,
-		account_nbr	= self.account_nbr,
-		symbol		= symbol,
-		fields		= fields,
-		query		= query,
-		block		= block
-	).request()
 
-	if dataframe:
-		try:
-			result = Search.DataFrame(result)
-		except:
-			raise
+    result = Search(
+        auth=self.auth,
+        account_nbr=self.account_nbr,
+        symbol=symbol,
+        fields=fields,
+        query=query,
+        block=block,
+    ).request()
 
+    if dataframe:
+        try:
+            result = Search.DataFrame(result)
+        except:
+            raise
 
-	return result
+    return result

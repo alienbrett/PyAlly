@@ -20,78 +20,59 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api		import AccountEndpoint, RequestType
-from .utils		import _dot_flatten
+from .utils import _dot_flatten
+from ..Api import AccountEndpoint, RequestType
 
 
+class Accounts(AccountEndpoint):
+    _type = RequestType.Info
+    _resource = "accounts.json"
 
-class Accounts ( AccountEndpoint ):
-	_type		= RequestType.Info
-	_resource	= 'accounts.json'
+    def extract(self, response):
+        """Extract certain fields from response"""
+        response = response.json()["response"]
+        accounts = response["accounts"]
 
+        d = {k: v for k, v in _dot_flatten(accounts).items()}
+        return d
 
+    @staticmethod
+    def DataFrame(raw):
+        import pandas as pd
 
+        # Wrap these in lists so that they can be read by pandas
+        raw = {k: [v] for k, v in raw.items()}
 
-	def extract ( self, response ):
-		"""Extract certain fields from response
-		"""
-		response = response.json()['response']
-		accounts = response['accounts']
-
-		d = {
-			k: v
-			for k,v in _dot_flatten( accounts ).items()
-		}
-		return d
-
-
-	@staticmethod
-	def DataFrame ( raw ):
-		import pandas as pd
-
-		# Wrap these in lists so that they can be read by pandas
-		raw = { k: [v] for k,v in raw.items() }
-
-		return pd.DataFrame.from_dict ( raw )
+        return pd.DataFrame.from_dict(raw)
 
 
+def accounts(self, dataframe: bool = True, block: bool = True):
+    """Gets list of available accounts, and some basic metrics for each one.
+
+    Calls the 'accounts.json' endpoint to get the current list of accounts.
+    This includes account number, cash account balances, and P/L.
+
+    Args:
+
+            dataframe: Specify an output format
+            block: Specify whether to block thread if request exceeds rate limit
 
 
+    Returns:
 
+            A pandas dataframe by default,
+                    otherwise a flat dictionary.
 
+    Raises:
 
-def accounts ( self, dataframe: bool = True, block: bool = True ):
-	"""Gets list of available accounts, and some basic metrics for each one.
+            RateLimitException: If block=False, rate limit problems will be raised
+    """
+    result = Accounts(auth=self.auth, block=block).request()
 
-	Calls the 'accounts.json' endpoint to get the current list of accounts.
-	This includes account number, cash account balances, and P/L.
+    if dataframe:
+        try:
+            result = Accounts.DataFrame(result)
+        except:
+            pass
 
-	Args:
-
-		dataframe: Specify an output format
-		block: Specify whether to block thread if request exceeds rate limit
-
-
-	Returns:
-
-		A pandas dataframe by default,
-			otherwise a flat dictionary.
-
-	Raises:
-
-		RateLimitException: If block=False, rate limit problems will be raised
-	"""
-	result = Accounts(
-		auth = self.auth,
-		block = block
-	).request()
-
-
-	if dataframe:
-		try:
-			result = Accounts.DataFrame ( result )
-		except:
-			pass
-
-	return result
-
+    return result
