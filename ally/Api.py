@@ -37,6 +37,7 @@ from requests import Request, Session
 
 from . import RateLimit
 from .utils import JSONStreamParser
+from .classes import RequestType
 
 # Global timeout variable
 _timeout = 1.0
