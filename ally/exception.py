@@ -28,34 +28,35 @@
 
 
 class ApiKeyException(Exception):
-	"""Keys were not provided in the proper formatting.
-	"""
-	pass
+    """Keys were not provided in the proper formatting."""
+
+    pass
 
 
 class OrderException(Exception):
-	"""Something went wrong in the local order construction.
-	"""
-	pass
+    """Something went wrong in the local order construction."""
+
+    pass
+
 
 class ExecutionException(Exception):
-	"""Ally service encountered error while handling an order object.
-	"""
-	pass
+    """Ally service encountered error while handling an order object."""
 
+    pass
 
 
 class RateLimitException(Exception):
-	"""API service rate limit exhaustion.
-	"""
-	pass
+    """API service rate limit exhaustion."""
+
+    pass
 
 
 # Order formatting exceptions
 
+
 class TimeInForceException(Exception):
-	pass
+    pass
 
 
 class PriceException(Exception):
-	pass
+    pass

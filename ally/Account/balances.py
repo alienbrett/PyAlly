@@ -20,79 +20,61 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api		import AccountEndpoint, RequestType
-from .utils		import _dot_flatten
+from .utils import _dot_flatten
+from ..Api import AccountEndpoint, RequestType
 
 
+class Balances(AccountEndpoint):
+    _type = RequestType.Info
+    _resource = "accounts/{0}/balances.json"
 
-class Balances ( AccountEndpoint ):
-	_type		= RequestType.Info
-	_resource	= 'accounts/{0}/balances.json'
+    def extract(self, response):
+        """Extract certain fields from response"""
+        response = response.json()["response"]
+        balances = response["accountbalance"]
 
+        d = {k: v for k, v in _dot_flatten(balances).items()}
+        return d
 
+    @staticmethod
+    def DataFrame(raw):
+        import pandas as pd
 
+        # Wrap these in lists so that they can be read by pandas
+        raw = {k: [v] for k, v in raw.items()}
 
-	def extract ( self, response ):
-		"""Extract certain fields from response
-		"""
-		response = response.json()['response']
-		balances = response['accountbalance']
-
-		d = {
-			k: v
-			for k,v in _dot_flatten( balances ).items()
-		}
-		return d
-
-
-	@staticmethod
-	def DataFrame ( raw ):
-		import pandas as pd
-
-		# Wrap these in lists so that they can be read by pandas
-		raw = { k: [v] for k,v in raw.items() }
-
-		return pd.DataFrame.from_dict ( raw )
+        return pd.DataFrame.from_dict(raw)
 
 
+def balances(self, dataframe: bool = True, block: bool = True):
+    """Gets current cash and various account metrics.
+
+    Calls the 'accounts/./balances.json' endpoint to get the current list of balances.
+    This includes margin amounts, cash, etc.
+
+    Args:
+
+            dataframe: Specify an output format
+            block: Specify whether to block thread if request exceeds rate limit
 
 
+    Returns:
 
+            A pandas dataframe with 1 row by default,
+                    otherwise a flat dictionary.
 
+    Raises:
 
-def balances ( self, dataframe: bool = True, block: bool = True ):
-	"""Gets current cash and various account metrics.
+            RateLimitException: If block=False, rate limit problems will be raised
+    """
+    result = Balances(
+        auth=self.auth, account_nbr=self.account_nbr, block=block
+    ).request()
 
-	Calls the 'accounts/./balances.json' endpoint to get the current list of balances.
-	This includes margin amounts, cash, etc.
+    if dataframe:
+        try:
+            result = Balances.DataFrame(result)
+        except:
+            pass
 
-	Args:
-
-		dataframe: Specify an output format
-		block: Specify whether to block thread if request exceeds rate limit
-
-
-	Returns:
-
-		A pandas dataframe with 1 row by default,
-			otherwise a flat dictionary.
-
-	Raises:
-
-		RateLimitException: If block=False, rate limit problems will be raised
-	"""
-	result = Balances(
-		auth = self.auth,
-		account_nbr = self.account_nbr,
-		block = block
-	).request()
-
-
-	if dataframe:
-		try:
-			result = Balances.DataFrame ( result )
-		except:
-			pass
-
-	return result
-
+    return result

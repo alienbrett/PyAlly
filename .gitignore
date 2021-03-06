@@ -17,3 +17,4 @@ pyally.egg-info/
 pyally.egg-info/*
 venv/
 sphinx/_build/
+.mypy_cache

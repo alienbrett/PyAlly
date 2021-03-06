@@ -22,6 +22,5 @@
 
 from .classes import *
 from .expirations import expirations
-from .search import optionSearchQuery
-from .search import search
+from .search import optionSearchQuery, search
 from .strikes import strikes

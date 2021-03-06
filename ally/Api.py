@@ -32,224 +32,164 @@
 	* should be object method
 
 """
-from requests				import Request, Session
-from requests.exceptions	import HTTPError,Timeout
-from .						import RateLimit
-from .classes				import RequestType
-from .utils					import (
-	pretty_print_POST,
-	JSONStreamParser
-)
-import datetime
-import json
 
+from requests import Request, Session
 
-
-
+from . import RateLimit
+from .utils import JSONStreamParser
 
 # Global timeout variable
 _timeout = 1.0
 
-def setTimeout ( t ):
-	"""Sets the global request response timeout variable
-	"""
-	if t is not None:
-		_timeout = float(t)
 
-
-
-
-
-
+def setTimeout(t):
+    """Sets the global request response timeout variable"""
+    if t is not None:
+        _timeout = float(t)
 
 
 class Endpoint:
-	"""Base abstract module from which all other account endpoints inherit.
-	"""
+    """Base abstract module from which all other account endpoints inherit."""
 
-	# Host
-	_host = 'https://api.tradeking.com/v1/'
+    # Host
+    _host = "https://api.tradeking.com/v1/"
 
-	# One of RequestType
-	_type = None
+    # One of RequestType
+    _type = None
 
-	# Extension
-	_resource = ''
+    # Extension
+    _resource = ""
 
-	# GET, POST, etc.
-	_method	= 'GET'
+    # GET, POST, etc.
+    _method = "GET"
 
-	# results
-	_results = None
+    # results
+    _results = None
 
-	req = None
+    req = None
 
+    @classmethod
+    def url(cls):
+        return cls._host + cls._resource
 
+    @classmethod
+    def resolve(cls, **kwargs):
+        """Can insert account information into the url
+        This is just a placeholder
+        """
+        return cls.url()
 
+    def extract(self, response):
+        """Extract certain fields from response"""
+        return response.json().get("response")
 
+    def req_body(self, **kwargs):
+        """Return get params together with post body data"""
+        return None, None
 
-	@classmethod
-	def url ( cls ):
-		return cls._host + cls._resource
+    def request(self=None, block: bool = True):
+        """Gets data from API server.
 
+        Args:
 
+                block: specify whether to block on rate limit exhaustion or raise exception
 
+        Raises:
 
+                ally.exceptions.RateLimitException: if 429 or we expect 429 encountered
+        """
 
-	@classmethod
-	def resolve ( cls, **kwargs):
-		"""Can insert account information into the url
-		This is just a placeholder
-		"""
-		return cls.url()
+        # Let ratelimit handle raise or block
+        RateLimit.check(self._type, block=block)
 
+        # use current session instance to send prepared request
+        x = self.s.send(self.req)
 
+        # Did Ally just complain?
+        if x.status_code == 429:
+            RateLimit.force_update(self._type)
+        else:
 
+            # All errors, including as noted
+            x.raise_for_status()
 
+            # Give the rate manager the information we learned
+            RateLimit.normal_update(dict(x.headers), self._type)
 
+            return self.extract(x)
 
-	def extract ( self, response ):
-		"""Extract certain fields from response
-		"""
-		return response.json().get('response')
+    def __init__(self, auth=None, **kwargs):
+        """Create and send request
+        Return the processed result
+        """
 
+        # Get post and get data
+        send_params, send_data = self.req_body(**kwargs)
 
+        # Get the session
+        if auth is not None:
+            self.s = auth.sess
+        else:
+            self.s = Session()
 
+        req_auth = None if auth is None else auth.auth
 
+        # Create a prepped request
+        self.req = self.s.prepare_request(
+            Request(
+                self._method,
+                self.resolve(**kwargs),
+                auth=req_auth,
+                params=send_params,
+                data=send_data,
+            )
+        )
 
 
-	def req_body ( self, **kwargs ):
-		"""Return get params together with post body data
-		"""
-		return None, None
+class AuthenticatedEndpoint(Endpoint):
+    """Simple class, just require auth. Non-auth is non-optional"""
 
+    def __init__(self, auth, **kwargs):
+        """Create and send request
+        Return the processed result
+        """
+        super().__init__(auth, **kwargs)
 
 
+class AccountEndpoint(AuthenticatedEndpoint):
+    """Authenticated endpoint + account information"""
 
+    def resolve(self, **kwargs):
+        """Inject the account number into the call"""
+        return self.url().format(kwargs.get("account_nbr"))
 
-	def request ( self=None, block: bool =True ):
-		"""Gets data from API server.
 
-		Args:
+class StreamEndpoint(AuthenticatedEndpoint):
+    """Streams an endpoint."""
 
-			block: specify whether to block on rate limit exhaustion or raise exception
+    _host = "https://stream.tradeking.com/v1/"
 
-		Raises:
+    def request(self=None):
+        """Execute an entire loop, and aggregate results"""
 
-			ally.exceptions.RateLimitException: if 429 or we expect 429 encountered
-		"""
+        # use current session instance to send prepared request
+        x = self.s.send(self.req, stream=True)
 
-		# Let ratelimit handle raise or block
-		RateLimit.check ( self._type, block=block )
+        x.raise_for_status()
 
-		# use current session instance to send prepared request
-		x = self.s.send(self.req)
+        p = JSONStreamParser()
 
-		# Did Ally just complain?
-		if x.status_code == 429:
-			RateLimit.force_update ( self._type )
-		else:
-
-			# All errors, including as noted
-			x.raise_for_status()
-
-			# Give the rate manager the information we learned
-			RateLimit.normal_update ( dict(x.headers), self._type )
-
-			return self.extract ( x )
-
-
-
-
-
-	def __init__ ( self, auth = None, **kwargs ):
-		"""Create and send request
-		Return the processed result
-		"""
-
-		# Get post and get data
-		send_params, send_data = self.req_body (**kwargs)
-
-
-		# Get the session
-		if auth is not None:
-			self.s = auth.sess
-		else:
-			self.s = Session()
-
-
-		req_auth = None if auth is None else auth.auth
-
-		# Create a prepped request
-		self.req = self.s.prepare_request(
-			Request(
-				self._method,
-				self.resolve( **kwargs ),
-				auth	= req_auth,
-				params	= send_params,
-				data	= send_data
-			)
-		)
-
-
-
-
-
-
-class AuthenticatedEndpoint ( Endpoint ):
-	"""Simple class, just require auth. Non-auth is non-optional
-	"""
-	def __init__ ( self, auth, **kwargs ):
-		"""Create and send request
-		Return the processed result
-		"""
-		super().__init__(auth,**kwargs)
-
-
-
-
-
-
-
-class AccountEndpoint ( AuthenticatedEndpoint ):
-	"""Authenticated endpoint + account information
-	"""
-	def resolve ( self, **kwargs):
-		"""Inject the account number into the call
-		"""
-		return self.url().format(kwargs.get('account_nbr'))
-
-
-
-
-
-
-class StreamEndpoint ( AuthenticatedEndpoint ):
-	"""Streams an endpoint.
-	"""
-	_host		= 'https://stream.tradeking.com/v1/'
-	def request ( self=None ):
-		"""Execute an entire loop, and aggregate results
-		"""
-
-		# use current session instance to send prepared request
-		x = self.s.send(self.req,stream=True)
-
-		x.raise_for_status()
-
-		p = JSONStreamParser()
-
-		for chunk in x.iter_content( chunk_size=1 ):
-			it = p.stream(chunk.decode('utf-8'))
-			while True:
-				try:
-					row = next(it)
-				except StopIteration:
-					pass
-				else:
-					quote = row.get('quote')
-					if quote is not None:
-						yield quote
-				finally:
-					del it
-					break
+        for chunk in x.iter_content(chunk_size=1):
+            it = p.stream(chunk.decode("utf-8"))
+            while True:
+                try:
+                    row = next(it)
+                except StopIteration:
+                    pass
+                else:
+                    quote = row.get("quote")
+                    if quote is not None:
+                        yield quote
+                finally:
+                    del it
+                    break

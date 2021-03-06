@@ -20,11 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import unittest
-from ally.tests import *
-from ally.Order.tests import *
 from ally.utils.tests import *
 
-
-if __name__ == '__main__':
-	unittest.main()
+if __name__ == "__main__":
+    unittest.main()

@@ -20,20 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import xml.etree.ElementTree as ET
 import unittest
+import xml.etree.ElementTree as ET
 
 
 class XMLTestCase(unittest.TestCase):
-	def assertEqualXML( self, s1, s2, msg, verbose=False ):
-		s1 = ET.tostring(ET.fromstring(s1))
-		s2 = ET.tostring(ET.fromstring(s2))
-		if verbose:
-			print()
-			print(s1)
-			print(s2)
-		self.assertEqual(
-			s1,
-			s2,
-			msg
-		)
+    def assertEqualXML(self, s1, s2, msg, verbose=False):
+        s1 = ET.tostring(ET.fromstring(s1))
+        s2 = ET.tostring(ET.fromstring(s2))
+        if verbose:
+            print()
+            print(s1)
+            print(s2)
+        self.assertEqual(s1, s2, msg)
