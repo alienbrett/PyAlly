@@ -53,7 +53,7 @@ class optionSearchQuery:
 
     def is_query_valid(self):
         return (self._condition in self._queryable_fields) and (
-                self._operator in self._query_operators
+            self._operator in self._query_operators
         )
 
     def get_formatted_query_str(self):
@@ -117,106 +117,101 @@ class Search(AuthenticatedEndpoint):
         # Create dataframe from our dataset
         df = (
             pd.DataFrame(raw)
-                .replace({"na": None})
-                .apply(
+            .replace({"na": None})
+            .apply(
                 # And also cast relevent fields to numeric values
                 pd.to_numeric,
                 errors="ignore",
             )
-                .set_index("symbol")
-                .drop(columns="basis")
+            .set_index("symbol")
+            .drop(columns="basis")
         )
 
         return df
 
 
 def search(
-        self, symbol, query: List = [], fields=[], dataframe=True, block: bool = True
+    self, symbol, query: List = [], fields=[], dataframe=True, block: bool = True
 ):
     """Searches for all option quotes on a symbol that satisfy some set of criteria
 
-	Calls the 'market/options/search.json' endpoint, querying against certain parameters
-	provided. Specify a single value or a list of values to expand the size of the search.
+    Calls the 'market/options/search.json' endpoint, querying against certain parameters
+    provided. Specify a single value or a list of values to expand the size of the search.
 
-	Option queries are composed of three elements:
-		1) a condition,
-		2) an operator
-		3) a value
-	in the format field-operator:value (i.e., xyear-eq:2012)
+    Option queries are composed of three elements:
+        1) a condition,
+        2) an operator
+        3) a value
+    in the format field-operator:value (i.e., xyear-eq:2012)
 
-	Queryable Fields:
-		strikeprice: possible values: 5 or 7.50, integers or decimals
+    Queryable Fields:
+        strikeprice: possible values: 5 or 7.50, integers or decimals
 
-		xdate: YYYYMMDD
+        xdate: YYYYMMDD
 
-		xmonth: MM
+        xmonth: MM
 
-		xyear: YYYY
+        xyear: YYYY
 
-		put_call: possible values: put, call
+        put_call: possible values: put, call
 
-		unique: possible values: strikeprice, xdate
+        unique: possible values: strikeprice, xdate
 
-	Operators:
-		lt: less than
+    Operators:
+        lt: less than
 
-		gt: greater than
+        gt: greater than
 
-		gte: greater than or equal to
+        gte: greater than or equal to
 
-		lte: less than or equal to
+        lte: less than or equal to
 
-		eq: equal to
+        eq: equal to
 
-	Visit `the ally website`_ to see the full API behavior.
+    Visit `the ally website`_ to see the full API behavior.
 
-	Args:
-		symbol: Specify the stock symbol against which to query
+    Args:
+        symbol: Specify the stock symbol against which to query
 
-		fields: (Optional) List of attributes requested for each option contract found. If not specified, will return all applicable fields
+        fields: (Optional) List of attributes requested for each option contract found. If not specified, will return all applicable fields
 
-		dataframe: (Optional) Return quotes in pandas dataframe
+        dataframe: (Optional) Return quotes in pandas dataframe
 
-		block: Specify whether to block thread if request exceeds rate limit
+        block: Specify whether to block thread if request exceeds rate limit
 
-	Returns:
-		Default: Pandas dataframe
+    Returns:
+        Default: Pandas dataframe
 
-		Otherwise: flat list of dictionaries
+        Otherwise: flat list of dictionaries
 
-	Raises:
-		RateLimitException: If block=False, rate limit problems will be raised
+    Raises:
+        RateLimitException: If block=False, rate limit problems will be raised
 
-	Example:
-		.. code-block:: python
+    Example:
+        .. code-block:: python
 
-			a.search(
-				'spy',
-				query=[
-					optionSearchQuery(condition='xdate', operator='eq', value='20200814),    # Only consider contracts expiring on 2020-08-14
-					optionSearchQuery(condition='put_call', operator='eq', value='put),      # Only conside puts
-					optionSearchQuery(condition='strikeprice', operator='lte', value='350),  # Only consider strikes <= $350
-					optionSearchQuery(condition='strikeprice', operator='gte', value='315)   # Only consider strikes <= $315
-				]
-			)
+            a.search(
+                'spy',
+                query=[
+                    optionSearchQuery(condition='xdate', operator='eq', value='20200814'),    # Only consider contracts expiring on 2020-08-14
+                    optionSearchQuery(condition='put_call', operator='eq', value='put'),      # Only consider puts
+                    optionSearchQuery(condition='strikeprice', operator='lte', value='350'),  # Only consider strikes <= 350
+                    optionSearchQuery(condition='strikeprice', operator='gte', value='315')   # Only consider strikes <= 315
+                ]
+            )
 
-		Alternatively, the queries can be specified as Strings, but it is recommended to use the `optionSearchQuery` class for validation of the query
-		 .. code-block:: python
-
-			a.search(
-				'spy',
-				query=[
-					'xdate-eq:20200814',	# Only consider contracts expiring on 2020-08-14
-					'put_call-eq:put',		# Only conside puts
-					'strikeprice-lte:350',	# Only consider strikes <= $350
-					'strikeprice-gte:315'	# Only consider strikes >= $315
-				]
-			)
-
-
-
-.. _`the ally website`: https://pypi.org/project/pyally/
-	"""
+            # Alternatively, the queries can be specified as Strings, but it is recommended to use the `optionSearchQuery` class for validation of the query
+            a.search(
+                'spy',
+                query=[
+                    'xdate-eq:20200814',            # Only consider contracts expiring on 2020-08-14
+                    'put_call-eq:put',              # Only consider puts
+                    'strikeprice-lte:350',          # Only consider strikes <= 350
+                    'strikeprice-gte:315'           # Only consider strikes >= 315
+                ]
+            )
+        .. _`the ally website`: https://pypi.org/project/pyally/
+    """
 
     result = Search(
         auth=self.auth,

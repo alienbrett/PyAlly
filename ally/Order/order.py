@@ -22,8 +22,7 @@
 
 from .classes import *
 from .utils import parseTree, transposeTree
-from ..utils import (option_callput, option_maturity,
-                     option_strike, option_symbol)
+from ..utils import option_callput, option_maturity, option_strike, option_symbol
 
 
 class Order:
@@ -47,16 +46,16 @@ class Order:
     }
 
     def __init__(
-            self,
-            buysell: str = None,
-            symbol: str = None,
-            price=None,
-            qty: int = None,
-            time: int = None,
-            account=None,
-            type_=OType.Order,
-            orderid=None,
-            fixml=None,
+        self,
+        buysell: str = None,
+        symbol: str = None,
+        price=None,
+        qty: int = None,
+        time: int = None,
+        account=None,
+        type_=OType.Order,
+        orderid=None,
+        fixml=None,
     ):
         """Creates an order.
 
@@ -342,7 +341,7 @@ class Order:
         )
 
     def _from_str(self, fixml):
-        """Constructer 1)
+        """Constructor 1)
         Read FIXML string into this object
         """
         xml = parseTree(fixml)["FIXML"]
@@ -416,12 +415,13 @@ class Order:
         """Constructor 2) Read multiple inputs from user
 
         buysell:
-            Specify the postion desired.
+            Specify the position desired.
 
-            - 'buy' 		Buy to open a long position
-            - 'sell'		Sell to close a long position
-            - 'sellshort'	Sell to open a short position
-            - 'buycover'	Buy to close a short position
+            - 'buy'         Buy to open a long position
+            - 'sell'        Sell to close a long position
+            - 'sellshort'   Sell to open a short position
+            - 'buycover'    Buy to close a short position
+
 
 
         symbol:
@@ -429,39 +429,48 @@ class Order:
               You can use ally.utils.option_format(...)
                 to generate the OCC-standard option symbol
 
-            - 'spy'					Equivalent to 'SPY'
-            - 'SPY200529C00305000'	SPY 2020-05-29 Call @ $305.00
-
+            - 'spy'                 Equivalent to 'SPY'
+            - 'SPY200529C00305000'  SPY 2020-05-29 Call @ $305.00
 
         price:
             Specify the pricing options for execution.
 
-            - Market()					Market (whatever price the market gives you)
-            - Limit(123.45)				Limit (execute trade no less-favorably than value)
-            - Stop(123.45)				Stop (execute a market order once the price passes this value)
-            - StopLimit (				Stop Limit (Once the stop price is reached, submit a limit order)
-                limpx = 123.45,
-                stoppx = 120.00
-            )
-            - StopLoss (				Stop Loss order (same as trailing stop)
-                pct = True, [default]		specify whether to treat stop as percent or dollar value
-                stop=5.0
-            )
+            .. code-block:: python
+                # Market (whatever price the market gives you)
+                Market()
+
+                # Limit (execute trade no less-favorably than value)
+                Limit(123.45)
+
+                # Stop (execute a market order once the price passes this value)
+                Stop(123.45)
+
+                # Stop Limit (Once the stop price is reached, submit a limit order)
+                StopLimit(
+                    limpx = 123.45,
+                    stoppx = 120.00
+                )
+                # Stop Loss order (same as trailing stop)
+                StopLoss(
+                    # [default] specify whether to treat stop as percent or dollar value
+                    pct = True,
+                    stop=5.0
+                )
 
 
         qty:
             Specify the number of shares (or contracts, for options)
                 to be purchased.
 
-            - 10	Accepts integers, no fractions though
+            - 10    Accepts integers, no fractions though
 
 
         time:
             Specify the time-in-force of the order.
 
-            - 'day'				# Good-For-Day
-            - 'gtc'				# Good-'till-Cancelled
-            - 'marketonclose'	# Market-On-Close
+            - 'day'             # Good-For-Day
+            - 'gtc'             # Good-'till-Cancelled
+            - 'marketonclose'   # Market-On-Close
         """
 
         # BUYSELL INFO

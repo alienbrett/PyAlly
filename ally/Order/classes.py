@@ -22,7 +22,7 @@
 
 from enum import Enum
 
-from ..utils import (option_format)
+from ..utils import option_format
 
 
 class OType(Enum):
