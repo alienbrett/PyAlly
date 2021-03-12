@@ -116,7 +116,8 @@ def wait_until_ally_time(req_type):
         a_time = now + timedelta(seconds=60.5)
 
     # Block thread
-    time.sleep((a_time - now).total_seconds())
+    diff = min(1,a_time - now)
+    time.sleep(diff.total_seconds())
 
 
 def check(req_type: RequestType, block: bool):
@@ -139,7 +140,7 @@ def check(req_type: RequestType, block: bool):
         if block:
             wait_until_ally_time(req_type)
         else:
-            raise RateLimitException("Too many attemps.")
+            raise RateLimitException("Too many attempts.")
 
 
 def normal_update(headers_dict, req_type):
