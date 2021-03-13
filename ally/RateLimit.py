@@ -116,8 +116,10 @@ def wait_until_ally_time(req_type):
         a_time = now + timedelta(seconds=60.5)
 
     # Block thread
-    diff = min(1,a_time - now)
-    time.sleep(diff.total_seconds())
+    total_seconds = (a_time - now).total_seconds()
+    diff = max(1, total_seconds)
+    diff = timedelta(seconds=diff)
+    time.sleep(diff)
 
 
 def check(req_type: RequestType, block: bool):
