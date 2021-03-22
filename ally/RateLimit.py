@@ -29,17 +29,15 @@
 """
 import time
 from datetime import datetime, timedelta, timezone
-from .exception import RateLimitException
 
 import pytz
 
 from .classes import RequestType
+from .exception import RateLimitException
 
 __all__ = ["query"]
 
-
 centraltz = pytz.timezone("America/Chicago")
-
 
 _rl_exp_datetime = {
     RequestType.Order.value: None,
@@ -117,7 +115,7 @@ def wait_until_ally_time(req_type):
 
     # Block thread
     total_seconds = (a_time - now).total_seconds()
-    if total_seconds>0:
+    if total_seconds > 0:
         time.sleep(total_seconds)
 
 
