@@ -190,9 +190,8 @@ class StreamEndpoint(AuthenticatedEndpoint):
                 except StopIteration:
                     pass
                 else:
-                    quote = row.get("quote")
-                    if quote is not None:
-                        yield quote
+                    if row is not None:
+                        yield row
                 finally:
                     del it
                     break
