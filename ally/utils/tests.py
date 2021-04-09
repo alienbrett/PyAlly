@@ -57,7 +57,7 @@ class TestOptionFormat(unittest.TestCase):
             "Snagged from yahoo finance (God bless yahoo finance)",
         )
 
-    def test_option_format3(self):
+    def test_option_format4(self):
         sym = option_format(
             symbol="TSLA",
             exp_date="2022-09-16",

@@ -190,7 +190,7 @@ class StreamEndpoint(AuthenticatedEndpoint):
                 except StopIteration:
                     pass
                 else:
-                    if 'quote' in row or 'trade' in row:
+                    if "quote" in row or "trade" in row:
                         yield row
                 finally:
                     del it
