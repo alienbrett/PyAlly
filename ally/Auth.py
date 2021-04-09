@@ -21,6 +21,7 @@
 # SOFTWARE.
 """Controls the OAuth1 object used for account authentication
 
+Authentication classes.
 """
 
 from datetime import datetime, timedelta
@@ -39,6 +40,29 @@ class Auth:
     _valid_auth_dt = None
 
     _params = {}
+
+    def __init__(self, params, dt=None):
+        """Creates an auth object.
+
+        Args:
+            params: set of keys given by Ally API
+            dt: time interval for caching. 10 seconds max
+
+        """
+
+        # make sure DT is good
+        if dt is None:
+            dt = timedelta(seconds=9.7)
+
+        # Keep track of the cache invalidation time
+        self._valid_auth_dt = dt
+
+        # Store what we need
+        self._params = params
+
+        # Precompute some stuff
+        self.sess
+        self.auth
 
     @property
     def sess(self):
@@ -71,27 +95,3 @@ class Auth:
             # Actually generate the auth request
             self._auth = self._get_auth
         return self._auth
-
-    def __init__(self, params, dt=None):
-        """Creates an auth object.
-
-        Args:
-
-                params: set of keys given by Ally API
-                dt: time interval for caching. 10 seconds max
-
-        """
-
-        # make sure DT is good
-        if dt is None:
-            dt = timedelta(seconds=9.7)
-
-        # Keep track of the cache invalidation time
-        self._valid_auth_dt = dt
-
-        # Store what we need
-        self._params = params
-
-        # Precompute some stuff
-        self.sess
-        self.auth

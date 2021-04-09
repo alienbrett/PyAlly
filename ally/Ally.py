@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""ally.Ally module.
+"""The ally.Ally module/file.
 
 Controls the Ally() account class, the bread and butter of the library.
 """
@@ -45,7 +45,10 @@ _all_params = (
 
 class Ally:
     # No docstring
-    ""
+    """The ally.Ally.Ally class.
+
+    This is the main class for this library.
+    """
 
     from .Account import accounts, balances, history, holdings
     from .Info import clock, status
@@ -58,75 +61,60 @@ class Ally:
     account_nbr = None
 
     def _param_load_environ(self):
-        """Try to use environment params
-        Account number is now mandatory
-        """
+        """Try to use environment params.
+
+        Account number is now mandatory."""
         params = {}
         for t in _all_params:
             params[t] = environ.get(t, None)
         return params
 
     def _param_load_file(self, fname):
-        """Try to load params from a json file
-        Account number is now mandatory
-        """
+        """Try to load params from a json file.
+
+        Account number is now mandatory."""
         with open(fname, "r") as f:
             return load(f)
 
     def __init__(self, params=None, timeout: float = 1.0):
         """Manages all facets of your Ally Invest account.
 
-                Manage your account
-                        Track the current and past state of your account. Visit the Account_ page for full details.
+        Manage your account
+            Track the current and past state of your account. Visit the Account_ page for full details.
 
-                        * Balances (gets all current cash and margin balances)
+            * Balances (gets all current cash and margin balances)
+            * History (gets full history of all trades, dividends, and cash transfers of the account)
+            * Holdings (gets list of all currently-held non-cash positions, and profitability information)
 
-                        * History (gets full history of all trades, dividends, and cash transfers of the account)
+        Get quotes
+            Specified in-detail in Quotes_. Supports 3 types of quote-gathering:
 
-                        * Holdings (gets list of all currently-held non-cash positions, and profitability information)
+            * Real-time quotes
+            * Timesales (historical intraday prices over rolling 5 day window)
+            * Quote Streaming (get quotes for up to 256 symbols in real-time, as prices update)
 
-                Get quotes
-                        Specified in-detail in Quotes_. Supports 3 types of quote-gathering:
+        Place trades
+            Trades can be placed, modified (after being created locally, and even after submitting), or cancelled. Order objects described in Trading_ in detail.
 
-                        * Real-time quotes
+        Arguments:
+            timeout (float): number of seconds to wait before failing unresponsive api call
+            params: provide keys in the form of:
 
-                        * Timesales (historical intraday prices over rolling 5 day window)
+                #. A dictionary: { ALLY_OAUTH_SECRET: ...}
+                #. A string: (filename to json file containing api keys)
+                #. None (default): Grab the api keys from environment variables
 
-                        * Quote Streaming (get quotes for up to 256 symbols in real-time, as prices update)
+                For any of the mediums above, be sure to provide all of the keys:
 
-                Place trades
-                        Trades can be placed, modified (after being created locally, and even after submitting), or cancelled.
-                        Order objects described in Trading_ in detail.
+                .. code-block:: python
 
-
-                Arguments:
-                        ``timeout``: float, number of seconds to wait before failing unresponsive api call
-
-                        ``params``: provide keys in the form of:
-
-                                #. A dictionary: { ALLY_OAUTH_SECRET: ...}
-
-                                #. A string: (filename to json file containing api keys)
-
-                                #. None (default): Grab the api keys from environment variables
-
-                                For any of the mediums above, be sure to provide all of the keys:
-
-        .. code-block:: python
-
-                                params = {
-                                        'ALLY_OAUTH_SECRET': ...,
-                                        'ALLY_OAUTH_TOKEN': ...,
-                                        'ALLY_CONSUMER_SECRET': ...,
-                                        'ALLY_CONSUMER_KEY': ...,
-                                        'ALLY_ACCOUNT_NBR': ...
-                                }
-
-
-
-
-
-        .. py:module:: ally.Ally
+                    params = {
+                        'ALLY_OAUTH_SECRET': ...,
+                        'ALLY_OAUTH_TOKEN': ...,
+                        'ALLY_CONSUMER_SECRET': ...,
+                        'ALLY_CONSUMER_KEY': ...,
+                        'ALLY_ACCOUNT_NBR': ...
+                    }
 
         .. _Trading: trading.html
         .. _Quotes: quotes.html

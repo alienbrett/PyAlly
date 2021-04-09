@@ -21,7 +21,8 @@
 # SOFTWARE.
 """Controls the API rate limiting
 
-- Rate limits
+Rate limits
+
 	* 40 per minute, order submission (including submit, modify, cancel)
 	* 60 per minute, market quotes
 	* 180 per minute, user info like balance, summary, etc
@@ -68,16 +69,14 @@ def extract_ratelimit(headers_dict):
     }
 
 
-def absolute_ally_time(ally_time):
+def absolute_ally_time(ally_time: float):
     """Returns datetime instance of ally's reported time.
 
     Args:
-
-            ally_time: float timestamp, the time reported by ally
+        ally_time (float): timestamp, the time reported by ally
 
     Returns:
-
-            datetime object, timezone-aware
+        datetime: timezone-aware
     """
     texp = datetime.fromtimestamp(ally_time, tz=centraltz).replace(tzinfo=timezone.utc)
 
@@ -99,8 +98,8 @@ def wait_until_ally_time(req_type):
     """Blocks thread until certain type's reported expire time.
 
     Args:
-            req_type:
-                    RequestType
+        req_type:
+            RequestType
 
     """
     # Get our stuff in utc
@@ -123,15 +122,14 @@ def check(req_type: RequestType, block: bool):
     """Validates whether rate limit exceeded
 
     Args:
-            req_type:
-                    RequestType enum value
+        req_type:
+            RequestType enum value
 
-            block:
-                    Whether or not to block thread, or raise exception
+        block:
+            Whether or not to block thread, or raise exception
 
     Returns:
-
-            waittime: None, or datetime point in time when next call can occur
+        waittime: None, or datetime point in time when next call can occur
 
     """
 
@@ -146,11 +144,11 @@ def normal_update(headers_dict, req_type):
     """Updates internal rate limit state, so that calls to check() are informed
 
     Args:
-            headers_dict:
-                    raw headers for a specific request
+        headers_dict:
+            raw headers for a specific request
 
-            req_type:
-                    one of RequestType enum
+        req_type:
+            one of RequestType enum
 
     """
     rl = extract_ratelimit(headers_dict)
@@ -181,8 +179,8 @@ def force_update(req_type):
     This should be called on HTTP 429 error, so that we cool down for the rest of the period.
 
     Args:
-            req_type:
-                    RequestType value
+        req_type:
+            RequestType value
 
     """
     update_vals({"remain": 0, "used": 0}, req_type.value)
@@ -191,22 +189,24 @@ def force_update(req_type):
 def snapshot(req_type):
     """Returns all relevent rate limit information for a given request type.
 
-            Args:
-                    req_type:
-                            one of RequestType.{Order,Quote,Info}
+    Args:
+        req_type:
+            one of RequestType.{Order,Quote,Info}
 
-            Returns:
-                    dictionary, with keys ['used','remaining','expiration']
+    Returns:
+        dictionary, with keys ['used','remaining','expiration']
 
-            Example:
+    Example:
 
     .. code-block:: python
 
-            >>> ally.RateLimit.snapshot(ally.RequestType.Quote)
+        >>> ally.RateLimit.snapshot(ally.RequestType.Quote)
 
-            {'expiration': datetime.datetime(2020, 6, 22, 17, 5, 42, 55080, tzinfo=datetime.timezone.utc),
+        {
+            'expiration': datetime.datetime(2020, 6, 22, 17, 5, 42, 55080, tzinfo=datetime.timezone.utc),
             'remaining': 56,
-            'used': 4}
+            'used': 4
+        }
 
     """
 

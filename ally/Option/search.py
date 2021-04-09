@@ -135,13 +135,14 @@ def search(
 ):
     """Searches for all option quotes on a symbol that satisfy some set of criteria
 
-    Calls the 'market/options/search.json' endpoint, querying against certain parameters
-    provided. Specify a single value or a list of values to expand the size of the search.
+    Calls the 'market/options/search.json' endpoint, querying against certain parameters provided. Specify a single value or a list of values to expand the size of the search.
 
     Option queries are composed of three elements:
-        1) a condition,
+
+        1) a condition
         2) an operator
         3) a value
+
     in the format field-operator:value (i.e., xyear-eq:2012)
 
     Queryable Fields:
@@ -171,17 +172,13 @@ def search(
     Visit `the ally website`_ to see the full API behavior.
 
     Args:
-        symbol: Specify the stock symbol against which to query
-
+        symbol (str): Specify the stock symbol against which to query
         fields: (Optional) List of attributes requested for each option contract found. If not specified, will return all applicable fields
-
         dataframe: (Optional) Return quotes in pandas dataframe
-
-        block: Specify whether to block thread if request exceeds rate limit
+        block (bool): Specify whether to block thread if request exceeds rate limit
 
     Returns:
         Default: Pandas dataframe
-
         Otherwise: flat list of dictionaries
 
     Raises:
@@ -204,13 +201,15 @@ def search(
             a.search(
                 'spy',
                 query=[
-                    'xdate-eq:20200814',            # Only consider contracts expiring on 2020-08-14
-                    'put_call-eq:put',              # Only consider puts
-                    'strikeprice-lte:350',          # Only consider strikes <= 350
-                    'strikeprice-gte:315'           # Only consider strikes >= 315
+                    'xdate-eq:20200814',    # Only consider contracts expiring on 2020-08-14
+                    'put_call-eq:put',      # Only consider puts
+                    'strikeprice-lte:350',  # Only consider strikes <= 350
+                    'strikeprice-gte:315'   # Only consider strikes >= 315
                 ]
             )
+
         .. _`the ally website`: https://pypi.org/project/pyally/
+
     """
 
     result = Search(
