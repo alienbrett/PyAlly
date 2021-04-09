@@ -33,13 +33,15 @@
 
 """
 
-from requests import Request, Session
-from requests.exceptions import HTTPError, Timeout
-from . import RateLimit
-from .utils import JSONStreamParser, pretty_print_POST
-from .classes import RequestType
 import datetime
 import json
+
+from requests import Request, Session
+from requests.exceptions import HTTPError, Timeout
+
+from . import RateLimit
+from .classes import RequestType
+from .utils import JSONStreamParser, pretty_print_POST
 
 # Global timeout variable
 _timeout = 1.0
@@ -190,7 +192,7 @@ class StreamEndpoint(AuthenticatedEndpoint):
                 except StopIteration:
                     pass
                 else:
-                    if 'quote' in row or 'trade' in row:
+                    if "quote" in row or "trade" in row:
                         yield row
                 finally:
                     del it

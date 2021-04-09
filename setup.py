@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/alienbrett/PyAlly",
     packages=setuptools.find_packages(),
-    install_requires=["requests-oauthlib", "requests", "pytz"],
+    install_requires=["pandas", "pytz", "requests", "requests-oauthlib"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

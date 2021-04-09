@@ -20,14 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import warnings
 import unittest
+import warnings
 
-
-from .classes import *
+from ...Ally import Ally
 from ..classes import *
 from ..order import Order
-from ...Ally import Ally
+from .classes import *
 
 
 class TestOrderSubmition(XMLTestCase):

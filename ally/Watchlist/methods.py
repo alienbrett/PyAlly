@@ -20,7 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import logging
+
 from ..Api import AuthenticatedEndpoint, Endpoint, RequestType
+
+logger = logging.getLogger(__name__)
 
 
 class WatchlistEndpoint(AuthenticatedEndpoint):
@@ -89,7 +93,7 @@ class GetWatchlist(WatchlistEndpoint):
     def resolve(self, **kwargs):
         """Inject the account number into the call"""
         watchlist_name = kwargs.get("watchlist_name").replace("/", r"%2F")
-        # print(watchlist_name)
+        logger.debug(watchlist_name)
         return self.url().format(
             watchlist_name,
         )

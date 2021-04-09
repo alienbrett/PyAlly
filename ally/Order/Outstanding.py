@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .order import Order
 from ..Api import AccountEndpoint, RequestType
+from .order import Order
 
 
 class OutstandingOrders(AccountEndpoint):

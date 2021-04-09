@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .utils import _dot_flatten
 from ..Api import AccountEndpoint, RequestType
+from .utils import _dot_flatten
 
 
 class Balances(AccountEndpoint):

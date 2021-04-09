@@ -11,7 +11,6 @@ After setting up API keys, PyAlly can provide the basic/essential Ally brokerage
 
 Make sure to [read the docs](https://alienbrett.github.io/PyAlly)!
 
-
 ## Version 1.1.2
 
 The lastest redesign preserves many features of the old interface, and incorporates a few new ones.
@@ -68,6 +67,7 @@ If your dev environment gets hosed, exit it, remove the `venv` directory, and ru
 * [Tianyu](https://github.com/Tianyu00)
 * [Salient](https://github.com/Salient)
 * [Matt Margolin](https://github.com/mm0)
+* [Alex Kennedy](https://github.com/LaikaN57)
 
 Message me on Github or [send an email](mailto:alienbrett648@gmail.com) if you enjoyed the project or thought it could be improved. I do my best to code with quality but sometimes it is easier said than done. Anyone with an interest with an eye for detail is welcome to contribute.
 

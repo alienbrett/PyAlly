@@ -30,9 +30,8 @@ from os import environ
 
 from .Api import setTimeout
 from .Auth import Auth
-from .Watchlist import Watchlist
 from .exception import ApiKeyException
-
+from .Watchlist import Watchlist
 
 _all_params = (
     "ALLY_OAUTH_SECRET",
