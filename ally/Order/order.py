@@ -20,9 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from ..utils import option_callput, option_maturity, option_strike, option_symbol
 from .classes import *
 from .utils import parseTree, transposeTree
-from ..utils import option_callput, option_maturity, option_strike, option_symbol
 
 
 class Order:

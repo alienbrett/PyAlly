@@ -1,25 +1,24 @@
 import concurrent.futures
+import logging
 
 import ally
 
+logger = logging.getLogger(__name__)
+
 a = ally.Ally()
 
-# print(h)
+
 def job():
-    print("Submitting job")
+    logger.info("Submitting job")
     return a.timesales("spy", startdate="2020-06-19", enddate="2020-06-19", block=False)
 
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-
-    print("Submitting requests")
+    logger.info("Submitting requests")
     # Submit all our orders
     futures = {executor.submit(job): i for i in range(200)}
-    print("Submitted!")
+    logger.info("Submitted!")
 
-    print("Getting results...")
+    logger.info("Getting results...")
     for future in concurrent.futures.as_completed(futures):
-        try:
-            print(future.result(), "#{}".format(futures[future]))
-        except:
-            raise
+        logger.info("%s #%s", future.result(), futures[future])
