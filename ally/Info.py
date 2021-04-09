@@ -22,6 +22,7 @@
 
 """Gets information from the API service not directly tied to a particular account.
 
+Gets information about the clock and status.
 """
 
 
@@ -41,39 +42,38 @@ class Status(Endpoint):
 def clock(block: bool = True):
     """Return the current market clock.
 
-            Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
-            including the next time that the market clock changes status.
+    Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
+    including the next time that the market clock changes status.
 
-            Args:
-                    block:
-                            Specify whether to block thread if request exceeds rate limit
+    Args:
+        block:
+            Specify whether to block thread if request exceeds rate limit
 
 
-            Returns:
-                    A dictionary with timestamp, current market status, and any error information.
+    Returns:
+        A dictionary with timestamp, current market status, and any error information.
 
-            Raises:
-                    RateLimitException: If block=False, rate limit problems will be raised
+    Raises:
+        RateLimitException: If block=False, rate limit problems will be raised
 
-            Example:
+    Example:
 
     .. code-block:: python
 
+        # Equivalent to the static function
+        #   ally.Info.clock()
+        a.clock()
 
-            # Equivalent to the static function
-            #   ally.Info.clock()
-            a.clock()
-
-            # => {
-                    'date': '2020-06-14 18:03:58.0-04:00',
-                    'unixtime': '1592172240.069',
-                    'status': {
-                            'current': 'close',
-                            'next': 'pre',
-                            'change_at': '08:00:00'
-                    },
-                    'error': 'Success',
-            }
+        # => {
+            'date': '2020-06-14 18:03:58.0-04:00',
+            'unixtime': '1592172240.069',
+            'status': {
+                'current': 'close',
+                'next': 'pre',
+                'change_at': '08:00:00'
+            },
+            'error': 'Success',
+        }
 
     """
     return Clock().request(block=block)
@@ -82,30 +82,30 @@ def clock(block: bool = True):
 def status(block: bool = True):
     """Return the status of the API service.
 
-            Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.
+    Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.
 
-            Args:
-                    block:
-                            Specify whether to block thread if request exceeds rate limit
+    Args:
+        block:
+            Specify whether to block thread if request exceeds rate limit
 
-            Returns:
-                    A dictionary with current time, and the status of the API service.
+    Returns:
+        A dictionary with current time, and the status of the API service.
 
-            Raises:
-                    RateLimitException: If block=False, rate limit problems will be raised
+    Raises:
+        RateLimitException: If block=False, rate limit problems will be raised
 
-            Example:
+    Example:
 
     .. code-block:: python
 
-            # Equivalent to the static function
-            #   ally.Info.status()
-            a.status()
+        # Equivalent to the static function
+        #   ally.Info.status()
+        a.status()
 
-            # => {
-                    'time': 'Sun, 14, Jun 2020 18:17:06 GMT',
-                    'error': 'Success'
-            }
+        # => {
+            'time': 'Sun, 14, Jun 2020 18:17:06 GMT',
+            'error': 'Success'
+        }
 
     """
     return Status().request(block=block)

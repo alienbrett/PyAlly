@@ -27,8 +27,11 @@ build:
 	$(VENV_PYTHON_BIN) setup.py sdist bdist_wheel
 
 docs:
-	cd sphinx && \
-	make github
+	rm -rf docs
+	mkdir docs
+	cd sphinx && make clean && make html
+	cp -a sphinx/_build/html/ docs
+	touch docs/.nojekyll
 
 deploy:
 	$(TWINE_BIN) upload dist/*

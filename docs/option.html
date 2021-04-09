@@ -3,34 +3,37 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Option &mdash; PyAlly 1.1.1 documentation</title>
+  <title>Option &mdash; PyAlly 1.1.2 documentation</title>
   
 
   
-  <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 
   
   
+
   
+  
+
   
 
   
   <!--[if lt IE 9]>
-    <script src="static/js/html5shiv.min.js"></script>
+    <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
-        <script src="static/jquery.js"></script>
-        <script src="static/underscore.js"></script>
-        <script src="static/doctools.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
     
-    <script type="text/javascript" src="static/js/theme.js"></script>
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
@@ -50,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> PyAlly
+            <a href="index.html" class="icon icon-home"> PyAlly
           
 
           
@@ -134,6 +137,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -145,8 +150,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-            <a href="_sources/option.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -162,11 +165,13 @@
   <div class="section" id="option">
 <h1>Option<a class="headerlink" href="#option" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="ally.Ally">
-<em class="property">class </em><code class="sig-prename descclassname">ally.</code><code class="sig-name descname">Ally</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
-<dt id="ally.Ally.expirations">
-<code class="sig-name descname">expirations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span></em>, <em class="sig-param"><span class="n">useDatetime</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.expirations" title="Permalink to this definition">¶</a></dt>
+<dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.</span></code><code class="sig-name descname"><span class="pre">Ally</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>The ally.Ally.Ally class.</p>
+<p>This is the main class for this library.</p>
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">expirations</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">useDatetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Gets list of available expiration dates for a symbol.</p>
 <p>Calls the ‘market/options/expirations.json’ endpoint to get list of all
 exp_dates available for some given equity.</p>
@@ -196,20 +201,18 @@ exp_dates available for some given equity.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Ally.search">
-<code class="sig-name descname">search</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span></em>, <em class="sig-param"><span class="n">query</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">fields</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.search" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-name descname"><span class="pre">search</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Searches for all option quotes on a symbol that satisfy some set of criteria</p>
+<p>Calls the ‘market/options/search.json’ endpoint, querying against certain parameters provided. Specify a single value or a list of values to expand the size of the search.</p>
+<p>Option queries are composed of three elements:</p>
 <blockquote>
-<div><p>Calls the ‘market/options/search.json’ endpoint, querying against certain parameters
-provided. Specify a single value or a list of values to expand the size of the search.</p>
-<dl class="simple">
-<dt>Option queries are composed of three elements:</dt><dd><ol class="arabic simple">
-<li><p>a condition,</p></li>
+<div><ol class="arabic simple">
+<li><p>a condition</p></li>
 <li><p>an operator</p></li>
 <li><p>a value</p></li>
 </ol>
-</dd>
-</dl>
+</div></blockquote>
 <p>in the format field-operator:value (i.e., xyear-eq:2012)</p>
 <dl>
 <dt>Queryable Fields:</dt><dd><p>strikeprice: possible values: 5 or 7.50, integers or decimals</p>
@@ -227,36 +230,54 @@ provided. Specify a single value or a list of values to expand the size of the s
 </dd>
 </dl>
 <p>Visit <a class="reference external" href="https://pypi.org/project/pyally/">the ally website</a> to see the full API behavior.</p>
-<dl>
-<dt>Args:</dt><dd><p>symbol: Specify the stock symbol against which to query</p>
-<p>fields: (Optional) List of attributes requested for each option contract found. If not specified, will return all applicable fields</p>
-<p>dataframe: (Optional) Return quotes in pandas dataframe</p>
-<p>block: Specify whether to block thread if request exceeds rate limit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>symbol</strong> (<em>str</em>) – Specify the stock symbol against which to query</p></li>
+<li><p><strong>fields</strong> – (Optional) List of attributes requested for each option contract found. If not specified, will return all applicable fields</p></li>
+<li><p><strong>dataframe</strong> – (Optional) Return quotes in pandas dataframe</p></li>
+<li><p><strong>block</strong> (<em>bool</em>) – Specify whether to block thread if request exceeds rate limit</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>Default: Pandas dataframe</p>
-<p>Otherwise: flat list of dictionaries</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pandas dataframe
+Otherwise: flat list of dictionaries</p>
 </dd>
-<dt>Raises:</dt><dd><p>RateLimitException: If block=False, rate limit problems will be raised</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Default</p>
 </dd>
-<dt>Example:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-             <span class="s1">&#39;spy&#39;</span><span class="p">,</span>
-             <span class="n">query</span><span class="o">=</span><span class="p">[</span>
-                     <span class="s1">&#39;xdate-eq:20200814&#39;</span><span class="p">,</span>    <span class="c1"># Only consider contracts expiring on 2020-08-14</span>
-                     <span class="s1">&#39;put_call-eq:put&#39;</span><span class="p">,</span>              <span class="c1"># Only conside puts</span>
-                     <span class="s1">&#39;strikeprice-lte:350&#39;</span><span class="p">,</span>  <span class="c1"># Only consider strikes &lt;= $350</span>
-                     <span class="s1">&#39;strikeprice-gte:315&#39;</span>   <span class="c1"># Only consider strikes &gt;= $315</span>
-             <span class="p">]</span>
-     <span class="p">)</span>
-</pre></div>
-</div>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
-</div></blockquote>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="s1">&#39;spy&#39;</span><span class="p">,</span>
+    <span class="n">query</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">optionSearchQuery</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="s1">&#39;xdate&#39;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;eq&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;20200814&#39;</span><span class="p">),</span>    <span class="c1"># Only consider contracts expiring on 2020-08-14</span>
+        <span class="n">optionSearchQuery</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="s1">&#39;put_call&#39;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;eq&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;put&#39;</span><span class="p">),</span>      <span class="c1"># Only consider puts</span>
+        <span class="n">optionSearchQuery</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="s1">&#39;strikeprice&#39;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;lte&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;350&#39;</span><span class="p">),</span>  <span class="c1"># Only consider strikes &lt;= 350</span>
+        <span class="n">optionSearchQuery</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="s1">&#39;strikeprice&#39;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;gte&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;315&#39;</span><span class="p">)</span>   <span class="c1"># Only consider strikes &lt;= 315</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Alternatively, the queries can be specified as Strings, but it is recommended to use the `optionSearchQuery` class for validation of the query</span>
+<span class="n">a</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="s1">&#39;spy&#39;</span><span class="p">,</span>
+    <span class="n">query</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;xdate-eq:20200814&#39;</span><span class="p">,</span>    <span class="c1"># Only consider contracts expiring on 2020-08-14</span>
+        <span class="s1">&#39;put_call-eq:put&#39;</span><span class="p">,</span>      <span class="c1"># Only consider puts</span>
+        <span class="s1">&#39;strikeprice-lte:350&#39;</span><span class="p">,</span>  <span class="c1"># Only consider strikes &lt;= 350</span>
+        <span class="s1">&#39;strikeprice-gte:315&#39;</span>   <span class="c1"># Only consider strikes &gt;= 315</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Ally.strikes">
-<code class="sig-name descname">strikes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbol</span></em>, <em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Ally.strikes" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-name descname"><span class="pre">strikes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Gets list of available strike prices for a symbol.</p>
 <p>Calls the ‘market/options/strikes.json’ endpoint to get list of all
 strikes available for some given equity.</p>
@@ -290,37 +311,29 @@ strikes available for some given equity.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="news.html" class="btn btn-neutral float-right" title="News Searching" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="quote.html" class="btn btn-neutral float-left" title="Quotes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="news.html" class="btn btn-neutral float-right" title="News Searching" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="quote.html" class="btn btn-neutral float-left" title="Quotes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Brett Graves
+        &#169; Copyright 2020, Brett Graves.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

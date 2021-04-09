@@ -3,34 +3,37 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Info &mdash; PyAlly 1.1.1 documentation</title>
+  <title>Info &mdash; PyAlly 1.1.2 documentation</title>
   
 
   
-  <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 
   
   
+
   
+  
+
   
 
   
   <!--[if lt IE 9]>
-    <script src="static/js/html5shiv.min.js"></script>
+    <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
-        <script src="static/jquery.js"></script>
-        <script src="static/underscore.js"></script>
-        <script src="static/doctools.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
     
-    <script type="text/javascript" src="static/js/theme.js"></script>
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
@@ -50,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> PyAlly
+            <a href="index.html" class="icon icon-home"> PyAlly
           
 
           
@@ -134,6 +137,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -145,8 +150,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-            <a href="_sources/info.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -162,49 +165,48 @@
   <div class="section" id="module-ally.Info">
 <span id="info"></span><h1>Info<a class="headerlink" href="#module-ally.Info" title="Permalink to this headline">¶</a></h1>
 <p>Gets information from the API service not directly tied to a particular account.</p>
+<p>Gets information about the clock and status.</p>
 <dl class="py class">
 <dt id="ally.Info.Clock">
-<em class="property">class </em><code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">Clock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Clock" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Info.</span></code><code class="sig-name descname"><span class="pre">Clock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Clock" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
 <dt id="ally.Info.Status">
-<em class="property">class </em><code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">Status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">auth</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Status" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Info.</span></code><code class="sig-name descname"><span class="pre">Status</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Status" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ally.Info.clock">
-<code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">clock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.clock" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ally.Info.</span></code><code class="sig-name descname"><span class="pre">clock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.clock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the current market clock.</p>
-<blockquote>
-<div><p>Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
+<p>Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
 including the next time that the market clock changes status.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>block:</dt><dd><p>Specify whether to block thread if request exceeds rate limit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with timestamp, current market status, and any error information.</p>
 </dd>
-<dt>Returns:</dt><dd><p>A dictionary with timestamp, current market status, and any error information.</p>
-</dd>
-<dt>Raises:</dt><dd><p>RateLimitException: If block=False, rate limit problems will be raised</p>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
 <p>Example:</p>
-</div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Equivalent to the static function</span>
 <span class="c1">#   ally.Info.clock()</span>
 <span class="n">a</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>
 
 <span class="c1"># =&gt; {</span>
-        <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="s1">&#39;2020-06-14 18:03:58.0-04:00&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;unixtime&#39;</span><span class="p">:</span> <span class="s1">&#39;1592172240.069&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s1">&#39;current&#39;</span><span class="p">:</span> <span class="s1">&#39;close&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;next&#39;</span><span class="p">:</span> <span class="s1">&#39;pre&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;change_at&#39;</span><span class="p">:</span> <span class="s1">&#39;08:00:00&#39;</span>
-        <span class="p">},</span>
-        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Success&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="s1">&#39;2020-06-14 18:03:58.0-04:00&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;unixtime&#39;</span><span class="p">:</span> <span class="s1">&#39;1592172240.069&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;current&#39;</span><span class="p">:</span> <span class="s1">&#39;close&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;next&#39;</span><span class="p">:</span> <span class="s1">&#39;pre&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;change_at&#39;</span><span class="p">:</span> <span class="s1">&#39;08:00:00&#39;</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Success&#39;</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -212,30 +214,28 @@ including the next time that the market clock changes status.</p>
 
 <dl class="py function">
 <dt id="ally.Info.status">
-<code class="sig-prename descclassname">ally.Info.</code><code class="sig-name descname">status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">block</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ally.Info.</span></code><code class="sig-name descname"><span class="pre">status</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the status of the API service.</p>
-<blockquote>
-<div><p>Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>block:</dt><dd><p>Specify whether to block thread if request exceeds rate limit</p>
+<p>Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>block</strong> – Specify whether to block thread if request exceeds rate limit</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with current time, and the status of the API service.</p>
 </dd>
-<dt>Returns:</dt><dd><p>A dictionary with current time, and the status of the API service.</p>
-</dd>
-<dt>Raises:</dt><dd><p>RateLimitException: If block=False, rate limit problems will be raised</p>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RateLimitException</strong> – If block=False, rate limit problems will be raised</p>
 </dd>
 </dl>
 <p>Example:</p>
-</div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Equivalent to the static function</span>
 <span class="c1">#   ally.Info.status()</span>
 <span class="n">a</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
 
 <span class="c1"># =&gt; {</span>
-        <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;Sun, 14, Jun 2020 18:17:06 GMT&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Success&#39;</span>
+    <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;Sun, 14, Jun 2020 18:17:06 GMT&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Success&#39;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -248,37 +248,29 @@ including the next time that the market clock changes status.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="support.html" class="btn btn-neutral float-right" title="Support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="watchlist.html" class="btn btn-neutral float-left" title="Watchlists" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="support.html" class="btn btn-neutral float-right" title="Support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="watchlist.html" class="btn btn-neutral float-left" title="Watchlists" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Brett Graves
+        &#169; Copyright 2020, Brett Graves.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
