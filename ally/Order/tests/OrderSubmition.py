@@ -20,48 +20,39 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import xml.etree.ElementTree as ET
 import unittest
-from ..classes		import *
-from .classes		import *
-from ..order		import Order
-from ...Ally		import Ally
 import warnings
+
+from ...Ally import Ally
+from ..classes import *
+from ..order import Order
+from .classes import *
 
 
 class TestOrderSubmition(XMLTestCase):
+    def test_order_submit_cxl(self):
+        """Submit an order, then cancel that order.
 
-	def test_order_submit_cxl ( self ):
-		"""Submit an order, then cancel that order.
+        Ensure that the orders before and after are equivalent
+        """
+        warnings.filterwarnings(
+            action="ignore", message="unclosed", category=ResourceWarning
+        )
 
-		Ensure that the orders before and after are equivalent
-		"""
-		warnings.filterwarnings(
-			action="ignore",
-			message="unclosed",
-			category=ResourceWarning
-		)
+        a = Ally()
 
-		a = Ally()
+        o = Order(buysell="buy", time="gtc", symbol="gld", qty=10, price=Limit(0.1))
 
-		o = Order (
-			buysell = 'buy',
-			time = 'gtc',
-			symbol = 'gld',
-			qty = 10,
-			price = Limit(1.0)
-		)
+        # Log the currently outstanding orders
+        js = [str(j) for j in a.orders()]
 
-		# Log the currently outstanding orders
-		js = [ str(j) for j in a.orders() ]
+        # Create this new order
+        newid = a.submit(o, preview=False)
 
-		# Create this new order
-		newid = a.submit ( o, preview=False )
+        # Cancel this order
+        cancelinfo = a.submit(o, preview=False, type_=OType.Cancel)
 
-		# Cancel this order
-		cancelinfo = a.submit ( o, preview=False, type_ = OType.Cancel )
+        # Compare the new outstanding orders, sans the other one
+        ks = [str(k) for k in a.orders() if k.orderid != newid]
 
-		# Compare the new outstanding orders, sans the other one
-		ks = [ str(k) for k in a.orders() if k.orderid != newid ]
-
-		self.assertEqual(js, ks, 'orders excluding the new order should be equal')
+        self.assertEqual(js, ks, "orders excluding the new order should be equal")

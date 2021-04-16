@@ -2,7 +2,6 @@
 *.swp
 *.log
 *.json
-*.png
 *.ipynb
 *.ipynb_checkpoints
 *.ipynb_checkpoints/
@@ -17,3 +16,4 @@ pyally.egg-info/
 pyally.egg-info/*
 venv/
 sphinx/_build/
+.mypy_cache

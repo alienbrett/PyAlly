@@ -13,10 +13,7 @@ Each order object must have a few attributes:
 * Time
 * Symbol
 
-
-The parameters can be provided all at once on object instantiation, or any of the orders can be
-set or modifed before submitting.
-
+The parameters can be provided all at once on object instantiation, or any of the orders can be set or modifed before submitting.
 
 Submit a Stock Order
 --------------------------
@@ -54,12 +51,11 @@ Buy 8 shares of AAPL at market price, good for the day.
 	>>> o.orderid
 	'SVI-12345678'
 
-
 Order information can be passed to the class on instantiation. Notice that any or all fields can be None, and added later.
 
 .. autoclass:: ally.Order.Order
    :members: __init__
-
+   :noindex:
 
 Viewing Open Orders
 ---------------------
@@ -104,25 +100,18 @@ The full class documentation:
 .. autoclass:: ally.Order.Order
    :members:
 
-
 Dealing With Options
 --------------------
 
-The only difference between how stocks and options must be handled, is that the option contract
-must be changed into its standard OCC symbol first. Then the option can be treated like any other stock, in every other feature.
-The ``ally.utils.option_format`` function formats the options's unique OCC symbol from its parameters:
+The only difference between how stocks and options must be handled, is that the option contract must be changed into its standard OCC symbol first. Then the option can be treated like any other stock, in every other feature. The ``ally.utils.option_format`` function formats the options's unique OCC symbol from its parameters:
 
 .. autofunction:: ally.utils.option_format
 
-
 This symbol can now be traded, same as any other stock or option.
 
-
-Short sell 1 contract (with contract size 100 shares) of the IBM call specified above,
-limit at $18, good-til-cancelled.
+Short sell 1 contract (with contract size 100 shares) of the IBM call specified above, limit at $18, good-til-cancelled.
 
 .. code-block:: python
-
 
 	>>> o = ally.Order.Order(
 		buysell = 'sellshort',
@@ -132,11 +121,8 @@ limit at $18, good-til-cancelled.
 		qty = 1
 	)
 
-
-
 Changing Order Parameters
 -------------------------
-
 
 Modifying orders, outstanding or local orders, is easy as well.
 
@@ -157,22 +143,17 @@ Modifying orders, outstanding or local orders, is easy as well.
 	>>> o.buysell
 	<Side.SellShort: 4>
 
-
 Any of these functions can be used to modify the order's parameters:
 
 .. autoclass:: ally.Order.Order
-   :members: set_buysell, set_instrument, set_time, set_pricing, set_orderid
+   :members: set_buysell, set_time, set_pricing, set_orderid
    :noindex:
-
 
 And the order type (Order, Cancel or Modify) can be set as so:
 
 .. code-block:: python
 
 	o.otype = ally.Order.OType.{Order, Modify, Cancel}
-
-
-
 
 Modifying and Cancelling Outstanding Orders
 -----------------------------------------------
@@ -191,7 +172,6 @@ The function will do the rest for you.
 		type_ = ally.Order.OType.Cancel # Either OType.Cancel, or OType.Modify
 	)
 
-
 * Directly modify existing order
 
 .. code-block:: python
@@ -209,8 +189,6 @@ The function will do the rest for you.
 	)
 	>>> a.submit ( cxl, preview=False )
 
-
-
 Orders can be revised once submitted but before execution like so:
 
 .. code-block:: python
@@ -220,8 +198,6 @@ Orders can be revised once submitted but before execution like so:
 
 	# Submit to ally for revision
 	>>> a.submit ( o, preview=False, type_ = ally.Order.OType.Modify )
-
-
 
 Pricing Types
 ---------------
@@ -239,7 +215,6 @@ The Ally API supports 5 price types in total.
 
 .. autoclass:: ally.Order.StopLimit
    :members: __init__
-
 
 .. autoclass:: ally.Order.TrailingStop
    :members: __init__

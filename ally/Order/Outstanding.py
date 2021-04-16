@@ -20,59 +20,48 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..Api		import AccountEndpoint, RequestType
-from .order		import Order
+from ..Api import AccountEndpoint, RequestType
+from .order import Order
 
 
+class OutstandingOrders(AccountEndpoint):
+    """Send an order off"""
+
+    _type = RequestType.Order
+    _resource = "accounts/{0}/orders.json"
+    _method = "GET"
+
+    def extract(self, response):
+        """Extract certain fields from response"""
+        response = response.json()["response"]
+        raworders = response["orderstatus"]["order"]
+
+        if not isinstance(raworders, list):
+            raworders = [raworders]
+
+        orders = [Order(fixml=x["fixmlmessage"]) for x in raworders]
+
+        return orders
 
 
-class OutstandingOrders ( AccountEndpoint ):
-	"""Send an order off
-	"""
-	_type		= RequestType.Order
-	_resource	= 'accounts/{0}/orders.json'
-	_method		= 'GET'
+def orders(self, block: bool = True):
+    """View all recent orders in the last 24 hours.
 
+    Calls accounts/./orders.json from the Ally API.
 
+    Args:
+            block: Specify whether to block thread if request exceeds rate limit
 
+    Returns:
+            A list of Order objects. Attributes can be viewed in the
+            same way as orders created by the user.
 
-	def extract ( self, response ):
-		"""Extract certain fields from response
-		"""
-		response = response.json()['response']
-		raworders = response['orderstatus']['order']
+    Raises:
+            RateLimitException: If block=False, rate limit problems will be raised
 
-		if not isinstance(raworders, list):
-			raworders = [raworders]
+    """
+    result = OutstandingOrders(
+        auth=self.auth, account_nbr=self.account_nbr, block=block
+    ).request()
 
-		orders = [ Order(fixml=x['fixmlmessage']) for x in raworders]
-
-		return orders
-
-
-
-
-
-def orders ( self, block: bool = True ):
-	"""View all recent orders in the last 24 hours.
-
-	Calls accounts/./orders.json from the Ally API.
-
-	Args:
-		block: Specify whether to block thread if request exceeds rate limit
-
-	Returns:
-		A list of Order objects. Attributes can be viewed in the
-		same way as orders created by the user.
-
-	Raises:
-		RateLimitException: If block=False, rate limit problems will be raised
-
-	"""
-	result = OutstandingOrders(
-		auth		= self.auth,
-		account_nbr = self.account_nbr,
-		block		= block
-	).request()
-
-	return result
+    return result

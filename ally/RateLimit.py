@@ -21,215 +21,197 @@
 # SOFTWARE.
 """Controls the API rate limiting
 
-- Rate limits
+Rate limits
+
 	* 40 per minute, order submission (including submit, modify, cancel)
 	* 60 per minute, market quotes
 	* 180 per minute, user info like balance, summary, etc
 
 """
-from .classes	import RequestType
-from datetime	import datetime, timezone, timedelta
-import json
 import time
+from datetime import datetime, timedelta, timezone
+
 import pytz
 
-__all__ = ['query']
+from .classes import RequestType
+from .exception import RateLimitException
 
+__all__ = ["query"]
 
-centraltz = pytz.timezone('America/Chicago')
-
-
+centraltz = pytz.timezone("America/Chicago")
 
 _rl_exp_datetime = {
-	RequestType.Order.value: None,
-	RequestType.Quote.value: None,
-	RequestType.Info.value: None
+    RequestType.Order.value: None,
+    RequestType.Quote.value: None,
+    RequestType.Info.value: None,
 }
 _rl_remaining = {
-	RequestType.Order.value: -1,
-	RequestType.Quote.value: -1,
-	RequestType.Info.value: -1
+    RequestType.Order.value: -1,
+    RequestType.Quote.value: -1,
+    RequestType.Info.value: -1,
 }
 _rl_used = {
-	RequestType.Order.value: -1,
-	RequestType.Quote.value: -1,
-	RequestType.Info.value: -1
+    RequestType.Order.value: -1,
+    RequestType.Quote.value: -1,
+    RequestType.Info.value: -1,
 }
 
 ########### UTILS
 
-def extract_ratelimit ( headers_dict ):
-	"""Returns rate limit dict, extracted from full headers.
-	"""
-	return {
-		'used'		: int(headers_dict.get('X-RateLimit-Used',0)),
-		'expire'	: float(headers_dict.get('X-RateLimit-Expire',0)),
-		'limit'		: int(headers_dict.get('X-RateLimit-Limit', 0)),
-		'remain'	: int(headers_dict.get('X-RateLimit-Remaining',0))
-	}
 
-def absolute_ally_time ( ally_time):
-	"""Returns datetime instance of ally's reported time.
-
-	Args:
-
-		ally_time: float timestamp, the time reported by ally
-
-	Returns:
-
-		datetime object, timezone-aware
-	"""
-	texp = datetime.fromtimestamp(
-		ally_time,
-		tz=centraltz
-	).replace(tzinfo=timezone.utc)
-
-	# API clock is off by around 1 minute. This corrects
-	# TODO: let ally devs know that their api clock is wrong
-	return texp + timedelta( seconds=60.2 )
+def extract_ratelimit(headers_dict):
+    """Returns rate limit dict, extracted from full headers."""
+    return {
+        "used": int(headers_dict.get("X-RateLimit-Used", 0)),
+        "expire": float(headers_dict.get("X-RateLimit-Expire", 0)),
+        "limit": int(headers_dict.get("X-RateLimit-Limit", 0)),
+        "remain": int(headers_dict.get("X-RateLimit-Remaining", 0)),
+    }
 
 
+def absolute_ally_time(ally_time: float):
+    """Returns datetime instance of ally's reported time.
+
+    Args:
+        ally_time (float): timestamp, the time reported by ally
+
+    Returns:
+        datetime: timezone-aware
+    """
+    texp = datetime.fromtimestamp(ally_time, tz=centraltz).replace(tzinfo=timezone.utc)
+
+    # API clock is off by around 1 minute. This corrects
+    # TODO: let ally devs know that their api clock is wrong
+    return texp + timedelta(seconds=60.2)
 
 
-def update_vals ( r, req_type_val ):
-	"""Updates the correct records in the right spot.
-	"""
-	_rl_remaining[req_type_val]		= r['remain']
-	_rl_used[req_type_val]			= r['used']
-
+def update_vals(r, req_type_val):
+    """Updates the correct records in the right spot."""
+    _rl_remaining[req_type_val] = r["remain"]
+    _rl_used[req_type_val] = r["used"]
 
 
 ########### METHODS
 
 
-def wait_until_ally_time ( req_type ):
-	"""Blocks thread until certain type's reported expire time.
+def wait_until_ally_time(req_type):
+    """Blocks thread until certain type's reported expire time.
 
-	Args:
-		req_type:
-			RequestType
+    Args:
+        req_type:
+            RequestType
 
-	"""
-	# Get our stuff in utc
-	now = datetime.now( tz=timezone.utc )
+    """
+    # Get our stuff in utc
+    now = datetime.now(tz=timezone.utc)
 
-	# Get the time we have stored
-	a_time = _rl_exp_datetime[req_type.value]
+    # Get the time we have stored
+    a_time = _rl_exp_datetime[req_type.value]
 
-	# Make sure we have a valid time
-	if a_time is None:
-		a_time = now + timedelta(seconds=60.5)
+    # Make sure we have a valid time
+    if a_time is None:
+        a_time = now + timedelta(seconds=60.5)
 
-	# Block thread
-	time.sleep( (a_time - now).total_seconds() )
-
-
-
-
-def check ( req_type: RequestType, block: bool ):
-	"""Validates whether rate limit exceeded
-
-	Args:
-		req_type:
-			RequestType enum value
-
-		block:
-			Whether or not to block thread, or raise exception
-
-	Returns:
-
-		waittime: None, or datetime point in time when next call can occur
-
-	"""
-
-	if _rl_remaining.get(req_type.value) == 0:
-		if block:
-			wait_until_ally_time( req_type )
-		else:
-			raise RateLimitException ( "Too many attemps." )
+    # Block thread
+    total_seconds = (a_time - now).total_seconds()
+    if total_seconds > 0:
+        time.sleep(total_seconds)
 
 
+def check(req_type: RequestType, block: bool):
+    """Validates whether rate limit exceeded
 
-def normal_update ( headers_dict, req_type ):
-	"""Updates internal rate limit state, so that calls to check() are informed
+    Args:
+        req_type:
+            RequestType enum value
 
-	Args:
-		headers_dict:
-			raw headers for a specific request
+        block:
+            Whether or not to block thread, or raise exception
 
-		req_type:
-			one of RequestType enum
+    Returns:
+        waittime: None, or datetime point in time when next call can occur
 
-	"""
-	rl = extract_ratelimit (headers_dict)
+    """
 
-
-	# 1) Identify quote type
-	# 2) If new endtime is later than our stored endtime, overwrite
-	# 3) conditionally increment
-
-	now = datetime.now()
-	our_expire = _rl_exp_datetime[req_type.value]
-
-	a_time = absolute_ally_time (rl['expire'])
-
-	if our_expire is None or our_expire < a_time:
-
-		# Store the new date, and all new values
-		_rl_exp_datetime[req_type.value]	= a_time
-		update_vals ( rl, req_type.value )
-
-	# Only decrement
-	elif _rl_used[req_type.value] < rl['used']:
-		update_vals ( rl, req_type.value )
+    if _rl_remaining.get(req_type.value) == 0:
+        if block:
+            wait_until_ally_time(req_type)
+        else:
+            raise RateLimitException("Too many attempts.")
 
 
+def normal_update(headers_dict, req_type):
+    """Updates internal rate limit state, so that calls to check() are informed
+
+    Args:
+        headers_dict:
+            raw headers for a specific request
+
+        req_type:
+            one of RequestType enum
+
+    """
+    rl = extract_ratelimit(headers_dict)
+
+    # 1) Identify quote type
+    # 2) If new endtime is later than our stored endtime, overwrite
+    # 3) conditionally increment
+
+    now = datetime.now()
+    our_expire = _rl_exp_datetime[req_type.value]
+
+    a_time = absolute_ally_time(rl["expire"])
+
+    if our_expire is None or our_expire < a_time:
+
+        # Store the new date, and all new values
+        _rl_exp_datetime[req_type.value] = a_time
+        update_vals(rl, req_type.value)
+
+    # Only decrement
+    elif _rl_used[req_type.value] < rl["used"]:
+        update_vals(rl, req_type.value)
 
 
-def force_update ( req_type ):
-	"""Informs our information that we should halt all requests for the remainder of the period.
+def force_update(req_type):
+    """Informs our information that we should halt all requests for the remainder of the period.
 
-	This should be called on HTTP 429 error, so that we cool down for the rest of the period.
+    This should be called on HTTP 429 error, so that we cool down for the rest of the period.
 
-	Args:
-		req_type:
-			RequestType value
+    Args:
+        req_type:
+            RequestType value
 
-	"""
-	update_vals (
-		{
-			'remain': 0,
-			'used': 0
-		},
-		req_type.value
-	)
+    """
+    update_vals({"remain": 0, "used": 0}, req_type.value)
 
 
-def snapshot ( req_type ):
-	"""Returns all relevent rate limit information for a given request type.
+def snapshot(req_type):
+    """Returns all relevent rate limit information for a given request type.
 
-	Args:
-		req_type:
-			one of RequestType.{Order,Quote,Info}
+    Args:
+        req_type:
+            one of RequestType.{Order,Quote,Info}
 
-	Returns:
-		dictionary, with keys ['used','remaining','expiration']
+    Returns:
+        dictionary, with keys ['used','remaining','expiration']
 
-	Example:
+    Example:
 
-.. code-block:: python
+    .. code-block:: python
 
-	>>> ally.RateLimit.snapshot(ally.RequestType.Quote)
+        >>> ally.RateLimit.snapshot(ally.RequestType.Quote)
 
-	{'expiration': datetime.datetime(2020, 6, 22, 17, 5, 42, 55080, tzinfo=datetime.timezone.utc),
-	'remaining': 56,
-	'used': 4}
+        {
+            'expiration': datetime.datetime(2020, 6, 22, 17, 5, 42, 55080, tzinfo=datetime.timezone.utc),
+            'remaining': 56,
+            'used': 4
+        }
 
-	"""
+    """
 
-	return {
-		'expiration': _rl_exp_datetime.get(req_type.value),
-		'remaining': _rl_remaining.get(req_type.value),
-		'used': _rl_used.get(req_type.value)
-	}
-
+    return {
+        "expiration": _rl_exp_datetime.get(req_type.value),
+        "remaining": _rl_remaining.get(req_type.value),
+        "used": _rl_used.get(req_type.value),
+    }

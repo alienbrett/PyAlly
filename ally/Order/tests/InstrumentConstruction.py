@@ -20,66 +20,46 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import xml.etree.ElementTree as ET
-import unittest
-from ..classes		import *
-from .classes		import *
-from ..order		import Order
-
-
-
-
-
-
+from ..classes import *
+from .classes import *
 
 
 class TestInstrumentConstruction(unittest.TestCase):
+    def test_option_construction(self):
+        op = Option(direction="call", exp_date="2011-02-11", strike=16, underlying="f")
+        self.assertEqual(
+            op.fixml,
+            {
+                "Instrmt": {
+                    "CFI": "OC",
+                    "SecTyp": "OPT",
+                    "MatDt": "2011-02-11T00:00:00.000-05:00",
+                    "StrkPx": 16,
+                    "Sym": "F",
+                }
+            },
+            "From ally website",
+        )
 
-	def test_option_construction(self):
-		op = Option (
-			direction='call',
-			exp_date = '2011-02-11',
-			strike = 16,
-			underlying = 'f'
-		)
-		self.assertEqual(
-			op.fixml,
-			{
-				'Instrmt': {
-					'CFI':"OC",
-					'SecTyp':"OPT",
-					'MatDt':"2011-02-11T00:00:00.000-05:00",
-					'StrkPx': 16,
-					'Sym':"F"
-					}
-			},
-			'From ally website'
-		)
+        op = Option(
+            direction="PuT", exp_date="2014-01-18", strike=190, underlying="IbM"
+        )
+        self.assertEqual(
+            op.fixml,
+            {
+                "Instrmt": {
+                    "CFI": "OP",
+                    "SecTyp": "OPT",
+                    "MatDt": "2014-01-18T00:00:00.000-05:00",
+                    "StrkPx": 190,
+                    "Sym": "IBM",
+                }
+            },
+            "From ally website",
+        )
 
-		op = Option (
-			direction='PuT',
-			exp_date = '2014-01-18',
-			strike = 190,
-			underlying = 'IbM'
-		)
-		self.assertEqual(
-			op.fixml,
-			{
-				'Instrmt': {
-					'CFI':"OP",
-					'SecTyp':"OPT",
-					'MatDt':"2014-01-18T00:00:00.000-05:00",
-					'StrkPx': 190,
-					'Sym':"IBM"
-					}
-			},
-			'From ally website'
-		)
-	
-	def test_stock_construction(self):
-		s = Stock (symbol='f')
-		self.assertEqual(
-			s.fixml,
-			{ 'Instrmt': { 'SecTyp':'CS', 'Sym':'F' } },
-			"From ally website"
-		)
+    def test_stock_construction(self):
+        s = Stock(symbol="f")
+        self.assertEqual(
+            s.fixml, {"Instrmt": {"SecTyp": "CS", "Sym": "F"}}, "From ally website"
+        )

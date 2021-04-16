@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .quote			import quote
-from .stream		import stream
-from .timesales		import timesales
-from .toplists		import toplists
+from .quote import quote
+from .stream import stream
+from .timesales import timesales
+from .toplists import toplists

@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .option	import *
-from .utils		import *
-from .json		import *
-from .			import tests
+from . import tests
+from .json import *
+from .option import *
+from .utils import *
