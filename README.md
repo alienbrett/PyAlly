@@ -1,3 +1,5 @@
+![PyAlly](https://github.com/alienbrett/pyally/blob/master/img/PYALLY22-small.jpg?raw=true)
+
 # PyAlly Trading Library
 
 ![Website](https://img.shields.io/website?up_message=up&url=https%3A%2F%2Falienbrett.github.io%2FPyAlly%2F)![PyPI](https://img.shields.io/pypi/v/pyally)![PyPI - License](https://img.shields.io/pypi/l/pyally)![GitHub issues](https://img.shields.io/github/issues/alienbrett/PyAlly)[![Codacy Badge](https://app.codacy.com/project/badge/Grade/58a4d35357fc4c91b7da1ad723122b0b)](https://www.codacy.com/manual/alienbrett/PyAlly?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alienbrett/PyAlly&amp;utm_campaign=Badge_Grade)
