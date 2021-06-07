@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -151,6 +154,8 @@
       <li class="wy-breadcrumbs-aside">
         
           
+            <a href="_sources/info.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -167,18 +172,18 @@
 <p>Gets information from the API service not directly tied to a particular account.</p>
 <p>Gets information about the clock and status.</p>
 <dl class="py class">
-<dt id="ally.Info.Clock">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Info.</span></code><code class="sig-name descname"><span class="pre">Clock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Clock" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Info.Clock">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Info.</span></span><span class="sig-name descname"><span class="pre">Clock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Clock" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
-<dt id="ally.Info.Status">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Info.</span></code><code class="sig-name descname"><span class="pre">Status</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Status" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Info.Status">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Info.</span></span><span class="sig-name descname"><span class="pre">Status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.Status" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="ally.Info.clock">
-<code class="sig-prename descclassname"><span class="pre">ally.Info.</span></code><code class="sig-name descname"><span class="pre">clock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.clock" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Info.clock">
+<span class="sig-prename descclassname"><span class="pre">ally.Info.</span></span><span class="sig-name descname"><span class="pre">clock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.clock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the current market clock.</p>
 <p>Gets a simple dict with timestamp and the status of the market (pre-market, post-market, etc.),
 including the next time that the market clock changes status.</p>
@@ -213,8 +218,8 @@ including the next time that the market clock changes status.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="ally.Info.status">
-<code class="sig-prename descclassname"><span class="pre">ally.Info.</span></code><code class="sig-name descname"><span class="pre">status</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.status" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Info.status">
+<span class="sig-prename descclassname"><span class="pre">ally.Info.</span></span><span class="sig-name descname"><span class="pre">status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Info.status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the status of the API service.</p>
 <p>Gets a simple dict with timestamp and the current status (up, down, etc.) of the service.</p>
 <dl class="field-list simple">

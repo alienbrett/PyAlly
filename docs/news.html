@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -151,6 +154,8 @@
       <li class="wy-breadcrumbs-aside">
         
           
+            <a href="_sources/news.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -165,13 +170,13 @@
   <div class="section" id="news-searching">
 <h1>News Searching<a class="headerlink" href="#news-searching" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt>
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.</span></code><code class="sig-name descname"><span class="pre">Ally</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.</span></span><span class="sig-name descname"><span class="pre">Ally</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>The ally.Ally.Ally class.</p>
 <p>This is the main class for this library.</p>
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">lookupNews</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">articleId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">lookupNews</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">articleId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Looks up the news text for a given article.</p>
 <p>Calls the ‘market/news/{}.json’ endpoint to the news story with a given id.</p>
 <dl class="field-list simple">
@@ -196,8 +201,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">searchNews</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startdate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enddate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">searchNews</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startdate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enddate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Searches for news on a set of symbols.</p>
 <p>Calls the ‘market/news/search.json’ endpoint to search for
 news articles related to some set of symbols.</p>

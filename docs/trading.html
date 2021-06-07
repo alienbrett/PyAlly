@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -160,6 +163,8 @@
       <li class="wy-breadcrumbs-aside">
         
           
+            <a href="_sources/trading.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -221,11 +226,11 @@ Each order object must have a few attributes:</p>
 </div>
 <p>Order information can be passed to the class on instantiation. Notice that any or all fields can be None, and added later.</p>
 <dl class="py class">
-<dt>
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Order.</span></code><code class="sig-name descname"><span class="pre">Order</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">buysell:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">symbol:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">price=None</span></em>, <em class="sig-param"><span class="pre">qty:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">time:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">account=None</span></em>, <em class="sig-param"><span class="pre">type_=&lt;OType.Order:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">orderid=None</span></em>, <em class="sig-param"><span class="pre">fixml=None</span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Order.</span></span><span class="sig-name descname"><span class="pre">Order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">buysell:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">symbol:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">price=None</span></em>, <em class="sig-param"><span class="pre">qty:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">time:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">account=None</span></em>, <em class="sig-param"><span class="pre">type_=&lt;OType.Order:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">orderid=None</span></em>, <em class="sig-param"><span class="pre">fixml=None</span></em><span class="sig-paren">)</span></dt>
 <dd><dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">buysell:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">symbol:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">price=None</span></em>, <em class="sig-param"><span class="pre">qty:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">time:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">account=None</span></em>, <em class="sig-param"><span class="pre">type_=&lt;OType.Order:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">orderid=None</span></em>, <em class="sig-param"><span class="pre">fixml=None</span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">buysell:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">symbol:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">price=None</span></em>, <em class="sig-param"><span class="pre">qty:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">time:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">account=None</span></em>, <em class="sig-param"><span class="pre">type_=&lt;OType.Order:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">orderid=None</span></em>, <em class="sig-param"><span class="pre">fixml=None</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Creates an order.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -282,24 +287,24 @@ Accepts integers, not fractions.</p></li>
 </ul>
 <p>The full class documentation:</p>
 <dl class="py class">
-<dt id="ally.Order.Order">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Order.</span></code><code class="sig-name descname"><span class="pre">Order</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">buysell:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">symbol:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">price=None</span></em>, <em class="sig-param"><span class="pre">qty:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">time:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">account=None</span></em>, <em class="sig-param"><span class="pre">type_=&lt;OType.Order:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">orderid=None</span></em>, <em class="sig-param"><span class="pre">fixml=None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
-<dt id="ally.Order.Order.convert_buysell">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">convert_buysell</span></code><a class="headerlink" href="#ally.Order.Order.convert_buysell" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Order">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Order.</span></span><span class="sig-name descname"><span class="pre">Order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">buysell:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">symbol:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">price=None</span></em>, <em class="sig-param"><span class="pre">qty:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">time:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">account=None</span></em>, <em class="sig-param"><span class="pre">type_=&lt;OType.Order:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">orderid=None</span></em>, <em class="sig-param"><span class="pre">fixml=None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py property">
+<dt class="sig sig-object py" id="ally.Order.Order.convert_buysell">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">convert_buysell</span></span><a class="headerlink" href="#ally.Order.Order.convert_buysell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turns buysell type into string.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="ally.Order.Order.fixml">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">fixml</span></code><a class="headerlink" href="#ally.Order.Order.fixml" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="ally.Order.Order.fixml">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">fixml</span></span><a class="headerlink" href="#ally.Order.Order.fixml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compiles the object into FIXML string.</p>
 <p>Does not affect internal state of object</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Order.Order.set_account">
-<code class="sig-name descname"><span class="pre">set_account</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_account" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Order.set_account">
+<span class="sig-name descname"><span class="pre">set_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_account" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specifies the account used to execute an order.</p>
 <p>Users shouldn’t really need to use this under normal circumstances, this
 is handled by the ally object.</p>
@@ -307,8 +312,8 @@ is handled by the ally object.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Order.Order.set_buysell">
-<code class="sig-name descname"><span class="pre">set_buysell</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buysell</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_buysell" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Order.set_buysell">
+<span class="sig-name descname"><span class="pre">set_buysell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buysell</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_buysell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specify the side of this order.</p>
 <p>Can be viewed at obj.buysell</p>
 <dl class="field-list simple">
@@ -320,15 +325,15 @@ or the corresponding enum types.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Order.Order.set_orderid">
-<code class="sig-name descname"><span class="pre">set_orderid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orderid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_orderid" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Order.set_orderid">
+<span class="sig-name descname"><span class="pre">set_orderid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orderid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_orderid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specifies the order’s ID.</p>
 <p>Can be viewed at obj.orderid</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Order.Order.set_pricing">
-<code class="sig-name descname"><span class="pre">set_pricing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priceobj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_pricing" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Order.set_pricing">
+<span class="sig-name descname"><span class="pre">set_pricing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priceobj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_pricing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the pricing information of an order.</p>
 <p>Can be viewed at obj.pricing</p>
 <dl class="field-list simple">
@@ -344,22 +349,22 @@ ally.Order.TrailingStop(x,y)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Order.Order.set_quantity">
-<code class="sig-name descname"><span class="pre">set_quantity</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qty</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_quantity" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Order.set_quantity">
+<span class="sig-name descname"><span class="pre">set_quantity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qty</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_quantity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the order quantity.</p>
 <p>Can be viewed at obj.quantity</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Order.Order.set_symbol">
-<code class="sig-name descname"><span class="pre">set_symbol</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_symbol" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Order.set_symbol">
+<span class="sig-name descname"><span class="pre">set_symbol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_symbol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the order’s instrument.</p>
 <p>Can be viewed at obj.instrument</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ally.Order.Order.set_time">
-<code class="sig-name descname"><span class="pre">set_time</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_time" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Order.set_time">
+<span class="sig-name descname"><span class="pre">set_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Order.set_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the order’s time-in-force.</p>
 <p>Can be viewed at obj.time</p>
 <dl class="field-list simple">
@@ -369,9 +374,9 @@ ally.Order.TrailingStop(x,y)</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="ally.Order.Order.status">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">status</span></code><a class="headerlink" href="#ally.Order.Order.status" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="ally.Order.Order.status">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#ally.Order.Order.status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execution status of this order.</p>
 <p>None implies that this order hasn’t been submitted for execution yet.</p>
 </dd></dl>
@@ -383,8 +388,8 @@ ally.Order.TrailingStop(x,y)</p>
 <h2>Dealing With Options<a class="headerlink" href="#dealing-with-options" title="Permalink to this headline">¶</a></h2>
 <p>The only difference between how stocks and options must be handled, is that the option contract must be changed into its standard OCC symbol first. Then the option can be treated like any other stock, in every other feature. The <code class="docutils literal notranslate"><span class="pre">ally.utils.option_format</span></code> function formats the options’s unique OCC symbol from its parameters:</p>
 <dl class="py function">
-<dt id="ally.utils.option_format">
-<code class="sig-prename descclassname"><span class="pre">ally.utils.</span></code><code class="sig-name descname"><span class="pre">option_format</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1970-01-01'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strike</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.utils.option_format" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.utils.option_format">
+<span class="sig-prename descclassname"><span class="pre">ally.utils.</span></span><span class="sig-name descname"><span class="pre">option_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1970-01-01'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strike</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.utils.option_format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the OCC standardized option name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -446,11 +451,11 @@ ally.Order.TrailingStop(x,y)</p>
 </div>
 <p>Any of these functions can be used to modify the order’s parameters:</p>
 <dl class="py class">
-<dt>
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Order.</span></code><code class="sig-name descname"><span class="pre">Order</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">buysell:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">symbol:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">price=None</span></em>, <em class="sig-param"><span class="pre">qty:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">time:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">account=None</span></em>, <em class="sig-param"><span class="pre">type_=&lt;OType.Order:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">orderid=None</span></em>, <em class="sig-param"><span class="pre">fixml=None</span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Order.</span></span><span class="sig-name descname"><span class="pre">Order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">buysell:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">symbol:</span> <span class="pre">Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">price=None</span></em>, <em class="sig-param"><span class="pre">qty:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">time:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">account=None</span></em>, <em class="sig-param"><span class="pre">type_=&lt;OType.Order:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">orderid=None</span></em>, <em class="sig-param"><span class="pre">fixml=None</span></em><span class="sig-paren">)</span></dt>
 <dd><dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">set_buysell</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buysell</span></span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_buysell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buysell</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Specify the side of this order.</p>
 <p>Can be viewed at obj.buysell</p>
 <dl class="field-list simple">
@@ -462,15 +467,15 @@ or the corresponding enum types.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">set_orderid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orderid</span></span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_orderid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orderid</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Specifies the order’s ID.</p>
 <p>Can be viewed at obj.orderid</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">set_pricing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priceobj</span></span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_pricing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priceobj</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Sets the pricing information of an order.</p>
 <p>Can be viewed at obj.pricing</p>
 <dl class="field-list simple">
@@ -486,8 +491,8 @@ ally.Order.TrailingStop(x,y)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">set_time</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Sets the order’s time-in-force.</p>
 <p>Can be viewed at obj.time</p>
 <dl class="field-list simple">
@@ -548,22 +553,22 @@ ally.Order.TrailingStop(x,y)</p>
 <h2>Pricing Types<a class="headerlink" href="#pricing-types" title="Permalink to this headline">¶</a></h2>
 <p>The Ally API supports 5 price types in total.</p>
 <dl class="py class">
-<dt id="ally.Order.Market">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Order.</span></code><code class="sig-name descname"><span class="pre">Market</span></code><a class="headerlink" href="#ally.Order.Market" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Market">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Order.</span></span><span class="sig-name descname"><span class="pre">Market</span></span><a class="headerlink" href="#ally.Order.Market" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="ally.Order.Market.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Market.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Market.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Market.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="ally.Order.Limit">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Order.</span></code><code class="sig-name descname"><span class="pre">Limit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limpx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Limit" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Limit">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Order.</span></span><span class="sig-name descname"><span class="pre">Limit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limpx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Limit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="ally.Order.Limit.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limpx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Limit.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Limit.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limpx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Limit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a limit price object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -575,11 +580,11 @@ ally.Order.TrailingStop(x,y)</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="ally.Order.Stop">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Order.</span></code><code class="sig-name descname"><span class="pre">Stop</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stoppx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Stop" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Stop">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Order.</span></span><span class="sig-name descname"><span class="pre">Stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stoppx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Stop" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="ally.Order.Stop.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stoppx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Stop.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.Stop.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stoppx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.Stop.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a stop price object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -591,11 +596,11 @@ ally.Order.TrailingStop(x,y)</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="ally.Order.StopLimit">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Order.</span></code><code class="sig-name descname"><span class="pre">StopLimit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limpx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoppx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.StopLimit" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.StopLimit">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Order.</span></span><span class="sig-name descname"><span class="pre">StopLimit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limpx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoppx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.StopLimit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="ally.Order.StopLimit.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limpx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoppx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.StopLimit.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.StopLimit.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limpx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoppx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.StopLimit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop-limit price object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -610,11 +615,11 @@ ally.Order.TrailingStop(x,y)</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="ally.Order.TrailingStop">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ally.Order.</span></code><code class="sig-name descname"><span class="pre">TrailingStop</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_pct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.TrailingStop" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.TrailingStop">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ally.Order.</span></span><span class="sig-name descname"><span class="pre">TrailingStop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_pct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.TrailingStop" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="ally.Order.TrailingStop.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_pct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.TrailingStop.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ally.Order.TrailingStop.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_pct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ally.Order.TrailingStop.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trailing stop price object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

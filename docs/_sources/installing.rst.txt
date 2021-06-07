@@ -17,15 +17,15 @@ To install the library, just use pip
 
 Log into `Ally Invest`_, go to the specific account page, click Tools->API
 
-.. image:: https://github.com/mm0/PyAlly/blob/master/docs/_static/images/tools.png?raw=true
+.. image:: https://github.com/alienbrett/PyAlly/blob/master/docs/_static/images/tools.png?raw=true
 
 Fill out the API token application as a Personal Application
 
-.. image:: https://github.com/mm0/PyAlly/blob/master/docs/_static/images/new_application.png?raw=true
+.. image:: https://github.com/alienbrett/PyAlly/blob/master/docs/_static/images/new_application.png?raw=true
 
 It's **strongly recommended** to store the keys in environment variables.
 
-.. image:: https://github.com/mm0/PyAlly/blob/master/docs/_static/images/details.png?raw=true
+.. image:: https://github.com/alienbrett/PyAlly/blob/master/docs/_static/images/details.png?raw=true
 
 To do this, insert the following into ``~/.bashrc``:
 
