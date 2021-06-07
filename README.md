@@ -4,38 +4,29 @@
 
 ![Website](https://img.shields.io/website?up_message=up&url=https%3A%2F%2Falienbrett.github.io%2FPyAlly%2F)![PyPI](https://img.shields.io/pypi/v/pyally)![PyPI - License](https://img.shields.io/pypi/l/pyally)![GitHub issues](https://img.shields.io/github/issues/alienbrett/PyAlly)[![Codacy Badge](https://app.codacy.com/project/badge/Grade/58a4d35357fc4c91b7da1ad723122b0b)](https://www.codacy.com/manual/alienbrett/PyAlly?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alienbrett/PyAlly&amp;utm_campaign=Badge_Grade)
 
-Take control of your [Ally bank](https://www.ally.com/api/invest/documentation/getting-started/) finances through Python.
-Buy stocks and options in an instant, and stay up-to-date with your investments.
+Take control of your [Ally Invest](https://www.ally.com/api/invest/documentation/getting-started/) finances through Python. Buy stocks and options in an instant, and stay up-to-date with your investments.
 
-Ally Bank's investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.
+Ally Invest's investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.
 
 After setting up API keys, PyAlly can provide the basic/essential Ally brokerage transaction functions from a simple python request.
 
 Make sure to [read the docs](https://alienbrett.github.io/PyAlly)!
 
-## Version 1.1.2
+## Version 1.2.0
 
-The lastest redesign preserves many features of the old interface, and incorporates a few new ones.
-Version 1.0 has been designed around a simple interface which should make modifying orders easier, and many operations more pythonic.
-Please note that this version breaks compatibility with all V0.X.X.
+We have added more features in this latest minor release! There have also been numerous contribution and pipeline improvements not listed below. See the commit history for details.
 
-* Added pythonic methods for manipulating account watchlists
-* Added quote streaming support
-* Added rate limit functionality
-* Simplified account operation methods
-* Intelligent rate limiting
-* Many new order operations. Orders can now be modified or cancelled in an intuitive way
-* Option searching
-* Toplists
-* News
+* Added News and Options Searching
+  * https://github.com/alienbrett/PyAlly/commit/a12bf634dab79284e9f261df77598ac2d330d1fb
+* Added Trade Streaming
+  * https://github.com/alienbrett/PyAlly/commit/bb98583d26cc03980a8cd365309b60e5ac5a9272
+  * https://github.com/alienbrett/PyAlly/commit/1f301692bc0d28a8c94e7c80a53190360a534ecb
 
-Note that parts of the news searching is broken. Ally's contractor who supplies information for news
-articles has had trouble suppling some information.
+Note that parts of the news searching is broken. Ally's contractor who supplies information for news articles has had trouble suppling some information.
 
 ## Planned Features
 
 * Multi-leg orders
-
 
 ## Dev Environment Setup
 
@@ -62,6 +53,7 @@ or `exit` / `logout` your terminal.
 If your dev environment gets hosed, exit it, remove the `venv` directory, and run the setup above again.
 
 ## Contributors
+
 * [Brett Graves](https://github.com/alienbrett)
 * [Cole Fox](https://github.com/coalfocks)
 * [Rob Valadez](https://github.com/Rob-Valdez)
@@ -71,6 +63,6 @@ If your dev environment gets hosed, exit it, remove the `venv` directory, and ru
 * [Matt Margolin](https://github.com/mm0)
 * [Alex Kennedy](https://github.com/LaikaN57)
 
-Message me on Github or [send an email](mailto:alienbrett648@gmail.com) if you enjoyed the project or thought it could be improved. I do my best to code with quality but sometimes it is easier said than done. Anyone with an interest with an eye for detail is welcome to contribute.
+Message me on Github or [send an email](mailto:alienbrett648@gmail.com) if you enjoyed the project or thought it could be improved. Anyone with an interest, with an eye for detail, is welcome to contribute.
 
 If you're dying to buy me a beer, I accept venmo at @alienbrett. That said, feel no obligation; this is free software and it's here for you to use.
