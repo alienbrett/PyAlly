@@ -79,7 +79,7 @@ If you're dying to buy me a beer, I accept venmo at @alienbrett. That said, feel
 
 .. _`Tianyu`: https://github.com/Tianyu00
 
-.. _`Matt Margolin`: https://github.com/alienbrett
+.. _`Matt Margolin`: https://github.com/mm0
 
 .. _`Alex Kennedy`: https://github.com/LaikaN57
 
