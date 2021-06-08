@@ -19,11 +19,11 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "PyAlly"
-copyright = "2020, Brett Graves"
+copyright = "2021, Brett Graves"
 author = "Brett Graves"
 
 # The full version, including alpha/beta/rc tags
-release = "1.1.2"
+release = "1.2.0"
 
 
 # -- General configuration ---------------------------------------------------

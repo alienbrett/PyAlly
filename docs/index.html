@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>PyAlly Trading Library &mdash; PyAlly 1.1.2 documentation</title>
+  <title>PyAlly Trading Library &mdash; PyAlly 1.2.0 documentation</title>
   
 
   
@@ -168,8 +168,8 @@
             
   <div class="section" id="pyally-trading-library">
 <h1>PyAlly Trading Library<a class="headerlink" href="#pyally-trading-library" title="Permalink to this headline">¶</a></h1>
-<p>Take control of your <a class="reference external" href="https://www.ally.com/api/invest/documentation/getting-started/">Ally bank</a> finances through Python. Buy stocks and options in an instant, and stay up-to-date with your investments.</p>
-<p>Ally Bank’s investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.</p>
+<p>Take control of your <a href="#id1"><span class="problematic" id="id2">`Ally Invest`_</span></a> finances through Python. Buy stocks and options in an instant, and stay up-to-date with your investments.</p>
+<p>Ally Invest’s investment platform is perfect for smaller investors who value a mature web/mobile interface, and low brokerage fees. I made this wrapper so that I could more easily integrate the platform with Python, and reduce the need for human oversight on my account.</p>
 <p>After setting up API keys, PyAlly can provide the basic/essential Ally brokerage transaction functions from a simple python request.</p>
 <p>The project can be cloned from <a class="reference external" href="https://github.com/alienbrett/PyAlly">github</a> or installed through pip on <a class="reference external" href="https://pypi.org/project/pyally/">pypi</a>.</p>
 <div class="section" id="contents">
@@ -212,19 +212,15 @@
 </ul>
 </div>
 </div>
-<div class="section" id="version-1-1-2">
-<h2>Version 1.1.2<a class="headerlink" href="#version-1-1-2" title="Permalink to this headline">¶</a></h2>
-<p>The lastest redesign preserves many features of the old interface, and incorporates a few new ones. Version 1.0 has been designed around a simple interface which should make modifying orders easier, and many operations more pythonic. Please note that this version breaks compatibility with all V0.X.X.</p>
+<div class="section" id="version-1-2-0">
+<h2>Version 1.2.0<a class="headerlink" href="#version-1-2-0" title="Permalink to this headline">¶</a></h2>
+<p>We have added more features in this latest minor release! There have also been numerous contribution and pipeline improvements not listed below. See the commit history for details.</p>
 <ul class="simple">
-<li><p>Added pythonic methods for manipulating account watchlists</p></li>
-<li><p>Added quote streaming support</p></li>
-<li><p>Added rate limit functionality</p></li>
-<li><p>Simplified account operation methods</p></li>
-<li><p>Intelligent rate limiting</p></li>
-<li><p>Many new order operations. Orders can now be modified or cancelled in an intuitive way</p></li>
-<li><p>Option searching</p></li>
-<li><p>Toplists</p></li>
-<li><p>News</p></li>
+<li><p>Added News and Options Searching
+* <a class="reference external" href="https://github.com/alienbrett/PyAlly/commit/a12bf634dab79284e9f261df77598ac2d330d1fb">https://github.com/alienbrett/PyAlly/commit/a12bf634dab79284e9f261df77598ac2d330d1fb</a></p></li>
+<li><p>Added Trade Streaming
+* <a class="reference external" href="https://github.com/alienbrett/PyAlly/commit/bb98583d26cc03980a8cd365309b60e5ac5a9272">https://github.com/alienbrett/PyAlly/commit/bb98583d26cc03980a8cd365309b60e5ac5a9272</a>
+* <a class="reference external" href="https://github.com/alienbrett/PyAlly/commit/1f301692bc0d28a8c94e7c80a53190360a534ecb">https://github.com/alienbrett/PyAlly/commit/1f301692bc0d28a8c94e7c80a53190360a534ecb</a></p></li>
 </ul>
 <p>Note that parts of the news searching is broken. Ally’s contractor who supplies information for news articles has had trouble suppling some information.</p>
 </div>
@@ -246,7 +242,7 @@
 <li><p><a class="reference external" href="https://github.com/mm0">Matt Margolin</a></p></li>
 <li><p><a class="reference external" href="https://github.com/LaikaN57">Alex Kennedy</a></p></li>
 </ul>
-<p>Message me on Github or <a class="reference external" href="mailto:alienbrett648&#37;&#52;&#48;gmail&#46;com">send me an email</a> if you enjoyed the project or thought it could be improved. I do my best to code with quality but sometimes it is easier said than done. Anyone with an interest with an eye for detail is welcome to contribute.</p>
+<p>Message me on Github or <a class="reference external" href="mailto:alienbrett648&#37;&#52;&#48;gmail&#46;com">send me an email</a> if you enjoyed the project or thought it could be improved. Anyone with an interest, with an eye for detail, is welcome to contribute.</p>
 <p>If you’re dying to buy me a beer, I accept venmo at &#64;alienbrett. That said, feel no obligation; this is free software and it’s here for you to use.</p>
 </div>
 </div>
@@ -272,7 +268,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020, Brett Graves.
+        &#169; Copyright 2021, Brett Graves.
 
     </p>
   </div>
