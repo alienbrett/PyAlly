@@ -57,7 +57,7 @@ class Endpoint:
     """Base abstract module from which all other account endpoints inherit."""
 
     # Host
-    _host = "https://api.tradeking.com/v1/"
+    _host = "https://devapi.invest.ally.com/v1/"
 
     # One of RequestType
     _type = None
@@ -172,7 +172,7 @@ class AccountEndpoint(AuthenticatedEndpoint):
 class StreamEndpoint(AuthenticatedEndpoint):
     """Streams an endpoint."""
 
-    _host = "https://stream.tradeking.com/v1/"
+    _host = "https://devapi-stream.invest.ally.com/v1/"
 
     def request(self=None):
         """Execute an entire loop, and aggregate results"""
