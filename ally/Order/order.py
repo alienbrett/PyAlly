@@ -85,7 +85,7 @@ class Order:
 
         """
         self.otype = type_
-        self.account = None
+        self.account: str = None
         self.orderid = None
         self._status = None
 
@@ -222,7 +222,7 @@ class Order:
         """
         self.orderid = orderid
 
-    def set_account(self, account):
+    def set_account(self, account: str):
         """Specifies the account used to execute an order.
 
         Users shouldn't really need to use this under normal circumstances, this
@@ -231,7 +231,7 @@ class Order:
         Can be viewed at obj.account
 
         """
-        self.account = int(str(account)[:8])
+        self.account = str(account)[:8]
 
     def set_symbol(self, symbol: str):
         """Sets the order's instrument.
